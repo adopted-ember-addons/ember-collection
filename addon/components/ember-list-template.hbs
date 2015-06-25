@@ -1,0 +1,5 @@
+<div class="ember-list-content">
+  {{#each cells key="key" as |cell|}}
+    <div style={{{cell.style}}}>{{yield cell.item cell.index}}</div>
+  {{/each}}
+</div>
