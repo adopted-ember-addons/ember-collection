@@ -1,7 +1,7 @@
 <h3>Simple</h3>
 
 <div class="simple-list">
-  {{#ember-list items=model height=300 width=300 cell-layout=(fixed-grid-layout width=90 height=100) as |item index|}}
+  {{#ember-list items=model height=300 width=300 cell-layout=(fixed-grid-layout 90 100) as |item index|}}
     {{index}} {{item.name}}
   {{/ember-list}}
 </div>
