@@ -54,18 +54,36 @@ export default Ember.Component.extend({
     // content size
     this.initContentOffset();
     this.setupScroller();
+
+    var component = this;
+    var scrollTop = 0;
+    function callback() {
+      var element = component.element;
+      if (element) {
+        var offsetX = element.scrollLeft;
+        var offsetY = element.scrollTop;
+        if (offsetX !== component.offsetX || offsetY !== component.offsetY) {
+          component.offsetX = offsetX;
+          component.offsetY = offsetY;
+          Ember.run(component, 'rerender');
+        }
+      }
+      requestAnimationFrame(callback);
+    }
+    callback();
   },
   setupScroller() {
-    this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
+    //this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
     // TODO save for teardown
   },
-  updateOffset() {
-    if (this.element) {
-      this.offsetX = this.element.scrollLeft;
-      this.offsetY = this.element.scrollTop;
-      this.rerender();
-    }
-  },
+  // updateOffset() {
+  //   if (this.element) {
+  //     console.log('scroll');
+  //     this.offsetX = this.element.scrollLeft;
+  //     this.offsetY = this.element.scrollTop;
+  //     this.rerender();
+  //   }
+  // },
   willRender() {
     this.cellLayout.length = this.getAttr('items').length;
 
