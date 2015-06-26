@@ -14,6 +14,7 @@ class LayoutAttributes {
 class Cell {
   constructor(key, item, index, style) {
     this.key = key;
+    this.hidden = false;
     this.item = item;
     this.index = index;
     this.style = style;
@@ -108,8 +109,10 @@ export default Ember.Component.extend({
           Ember.set(cell, 'style', style);
           Ember.set(cell, 'index', itemIndex);
           Ember.set(cell, 'item', items[itemIndex]);
+          Ember.set(cell, 'hidden', false);
           cellMap[itemIndex] = cell;
         } else {
+          Ember.set(cell, 'hidden', true);
           Ember.set(cell, 'style', 'height: 0; display: none;');
         }
       }

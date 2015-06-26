@@ -1,5 +1,5 @@
-<div class="ember-list-content">
-  {{#each cells key="key" as |cell|}}
-    <div style={{{cell.style}}}>{{yield cell.item cell.index}}</div>
-  {{/each}}
+<div>
+  {{~#each cells key="key" as |cell|~}}
+    <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index}}{{/unless}}</div>
+  {{~/each~}}
 </div>
