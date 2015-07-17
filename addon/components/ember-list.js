@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import layout from './ember-list-template';
 
+var DecodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
+
 class LayoutAttributes {
   constructor(index, x, y, width, height) {
     this.index = index;
@@ -38,15 +40,20 @@ export default Ember.Component.extend({
     this.height = 0;
     this.contentElement = undefined;
   },
-  didReceiveAttrs() {
+  didInitAttrs() {
     this.buffer = this.attrs['buffer'] | 5;
     this.offsetX = this.attrs['offset-x'] | 0;
     this.offsetY = this.attrs['offset-y'] | 0;
     this.width = this.attrs['width'] | 0;
     this.height = this.attrs['height'] | 0;
-    // Reset cells when cell layout changes
+  },
+
+  didReceiveAttrs() {
+    // Reset cells when cell layout or items array changes
     var cellLayout = this.attrs['cell-layout'];
-    if (this.cellLayout !== cellLayout) {
+    var items = this.attrs['items'];
+    if (this.cellLayout !== cellLayout || this.items !== items) {
+      this.items = items;
       this.cellLayout = cellLayout;
       Ember.set(this, 'cells', []);
       this.cellMap = Object.create(null);
@@ -71,7 +78,7 @@ export default Ember.Component.extend({
         if (offsetX !== component.offsetX || offsetY !== component.offsetY) {
           component.offsetX = offsetX;
           component.offsetY = offsetY;
-          
+
           var index = component.cellLayout.indexAt(offsetX, offsetY, component.width, component.height);
           var count = component.cellLayout.count(offsetX, offsetY, component.width, component.height);
           if (index !== component.currentIndex || count !== component.currentCount) {
@@ -98,7 +105,6 @@ export default Ember.Component.extend({
   //   }
   // },
   willRender() {
-    console.log('willRender');
     this.cellLayout.length = this.getAttr('items').length;
 
     var priorMap = this.cellMap;
@@ -109,24 +115,23 @@ export default Ember.Component.extend({
     var items = this.getAttr('items');
     index = Math.max(index - this.buffer, 0);
     count = Math.min(count + this.buffer, Ember.get(items, 'length') - index);
-    var i, pos, width, height, style, itemIndex, cell;
+    var i, pos, width, height, style, itemIndex, itemKey, cell;
 
     var newItems = [];
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-
-      cell = priorMap[itemIndex];
-      if (priorMap[itemIndex]) {
-        // TODO don't assume item index is a stable key
-        // this is just quick and dirty code at the moment to see dom reuse
+      itemKey = DecodeEachKey(items[itemIndex], '@identity');
+      cell = priorMap[itemKey];
+      if (cell) {
         pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
         width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
         height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
         style = formatStyle(pos, width, height);
         Ember.set(cell, 'style', style);
         Ember.set(cell, 'hidden', false);
-        cellMap[itemIndex] = cell;
+        Ember.set(cell, 'key', itemKey);
+        cellMap[itemKey] = cell;
       } else {
         newItems.push(itemIndex);
       }
@@ -134,20 +139,21 @@ export default Ember.Component.extend({
 
     for (i=0; i<this.cells.length; i++) {
       cell = this.cells[i];
-      if (!cellMap[cell.index]) {
+      if (!cellMap[cell.key]) {
         if (newItems.length) {
           itemIndex = newItems.pop();
+          itemKey = DecodeEachKey(items[itemIndex], '@identity');
           pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
           width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
           height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
           style = formatStyle(pos, width, height);
           Ember.set(cell, 'style', style);
+          Ember.set(cell, 'key', itemKey);
           Ember.set(cell, 'index', itemIndex);
           Ember.set(cell, 'item', items[itemIndex]);
           Ember.set(cell, 'hidden', false);
-          cellMap[itemIndex] = cell;
+          cellMap[itemKey] = cell;
         } else {
-          console.log('hiding', cell);
           Ember.set(cell, 'hidden', true);
           Ember.set(cell, 'style', 'height: 0; display: none;');
         }
@@ -156,15 +162,15 @@ export default Ember.Component.extend({
 
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
+      itemKey = DecodeEachKey(items[itemIndex], '@identity');
       pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
       width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
       height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
       style = formatStyle(pos, width, height);
-      cell = new Cell(this.cells.length, items[itemIndex], itemIndex, style);
-      cellMap[itemIndex] = cell;
+      cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
+      cellMap[itemKey] = cell;
       this.cells.push(cell);
     }
-
     this.cellMap = cellMap;
   },
   initBounds() {
