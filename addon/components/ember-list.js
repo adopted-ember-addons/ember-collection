@@ -37,15 +37,20 @@ export default Ember.Component.extend({
     this.width = 0;
     this.height = 0;
     this.contentElement = undefined;
-    this.cells = [];
-    this.cellMap = Object.create(null);
   },
-  didInitAttrs() {
+  didReceiveAttrs() {
+    this.buffer = this.attrs['buffer'] | 5;
     this.offsetX = this.attrs['offset-x'] | 0;
     this.offsetY = this.attrs['offset-y'] | 0;
     this.width = this.attrs['width'] | 0;
     this.height = this.attrs['height'] | 0;
-    this.cellLayout = this.attrs['cell-layout'];
+    // Reset cells when cell layout changes
+    var cellLayout = this.attrs['cell-layout'];
+    if (this.cellLayout !== cellLayout) {
+      this.cellLayout = cellLayout;
+      Ember.set(this, 'cells', []);
+      this.cellMap = Object.create(null);
+    }
   },
   didInsertElement() {
     this.contentElement = this.element.firstElementChild;
@@ -62,10 +67,18 @@ export default Ember.Component.extend({
       if (element) {
         var offsetX = element.scrollLeft;
         var offsetY = element.scrollTop;
+
         if (offsetX !== component.offsetX || offsetY !== component.offsetY) {
           component.offsetX = offsetX;
           component.offsetY = offsetY;
-          Ember.run(component, 'rerender');
+          
+          var index = component.cellLayout.indexAt(offsetX, offsetY, component.width, component.height);
+          var count = component.cellLayout.count(offsetX, offsetY, component.width, component.height);
+          if (index !== component.currentIndex || count !== component.currentCount) {
+            component.currentIndex = index;
+            component.currentCount = count;
+            Ember.run(component, 'rerender');
+          }
         }
       }
       requestAnimationFrame(callback);
@@ -85,6 +98,7 @@ export default Ember.Component.extend({
   //   }
   // },
   willRender() {
+    console.log('willRender');
     this.cellLayout.length = this.getAttr('items').length;
 
     var priorMap = this.cellMap;
@@ -93,6 +107,8 @@ export default Ember.Component.extend({
     var index = this.cellLayout.indexAt(this.offsetX, this.offsetY, this.width, this.height);
     var count = this.cellLayout.count(this.offsetX, this.offsetY, this.width, this.height);
     var items = this.getAttr('items');
+    index = Math.max(index - this.buffer, 0);
+    count = Math.min(count + this.buffer, Ember.get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, cell;
 
     var newItems = [];
@@ -109,6 +125,7 @@ export default Ember.Component.extend({
         height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
         style = formatStyle(pos, width, height);
         Ember.set(cell, 'style', style);
+        Ember.set(cell, 'hidden', false);
         cellMap[itemIndex] = cell;
       } else {
         newItems.push(itemIndex);
@@ -130,6 +147,7 @@ export default Ember.Component.extend({
           Ember.set(cell, 'hidden', false);
           cellMap[itemIndex] = cell;
         } else {
+          console.log('hiding', cell);
           Ember.set(cell, 'hidden', true);
           Ember.set(cell, 'style', 'height: 0; display: none;');
         }

@@ -1,7 +1,18 @@
 <h3>Simple</h3>
+<button {{action 'makeSquare'}}>Square</button>
+<button {{action 'makeRow'}}>Row</button>
+<button {{action 'makeLongRect'}}>Long Rectangle</button>
+<button {{action 'makeTallRect'}}>Tall Rectable</button>
+<p>
+Item Height: {{itemHeight}}
+Item Width: {{itemWidth}}
+</p>
+<hr />
 
 <div class="simple-list">
-  {{#ember-list items=model height=300 width=300 cell-layout=(fixed-grid-layout 90 100) as |item index|}}
-    {{index}} {{item.name}}
+  {{#ember-list items=model height=600 width=300 buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index scrolling|}}
+    <div class="list-item">
+      {{item.name}}
+    </div>
   {{/ember-list}}
 </div>

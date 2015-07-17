@@ -23,7 +23,7 @@
   "homepage": "https://github.com/emberjs/list-view",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
-    "ember-cli": "0.2.7",
+    "ember-cli": "1.13.1",
     "ember-cli-app-version": "0.3.3",
     "ember-cli-dependency-checker": "^1.0.0",
     "ember-cli-ic-ajax": "0.1.1",
@@ -40,7 +40,8 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
-    "ember-cli-htmlbars": "0.7.6"
+    "ember-cli-htmlbars": "0.7.6",
+    "layout-bin-packer": "^1.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

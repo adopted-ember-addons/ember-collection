@@ -1,3 +1,4 @@
+/*global Bin*/
 export default class Grid
 {
   constructor(cellWidth, cellHeight) {

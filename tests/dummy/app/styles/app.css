@@ -180,3 +180,10 @@
 .virtual .ember-list-container {
   -webkit-transform: translate3d(0px, 0px, 0);
 }
+
+.list-item {
+  box-sizing: border-box;;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
