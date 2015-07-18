@@ -6,19 +6,19 @@ export default class Grid
     this.bin = new Bin.FixedGrid(this, cellWidth, cellHeight);
   }
 
-  contentWidth(width, height) {
+  contentWidth(width /*,height*/) {
     return width;
   }
 
-  contentHeight(width, height) {
+  contentHeight(width /*,height*/) {
     return this.bin.height(width);
   }
 
-  indexAt(offsetX, offsetY, width, height) {
+  indexAt(offsetX, offsetY, width /*,height*/) {
     return this.bin.visibleStartingIndex(offsetY, width);
   }
 
-  positionAt(index, width, height) {
+  positionAt(index, width /*,height*/) {
     return this.bin.position(index, width);
   }
 

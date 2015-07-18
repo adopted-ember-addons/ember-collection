@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import layout from './ember-list-template';
 
-var DecodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
+var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 
+/* Not sure what this is for?
 class LayoutAttributes {
   constructor(index, x, y, width, height) {
     this.index = index;
@@ -12,6 +13,7 @@ class LayoutAttributes {
     this.height = height;
   }
 }
+*/
 
 class Cell {
   constructor(key, item, index, style) {
@@ -44,31 +46,41 @@ export default Ember.Component.extend({
     this.buffer = this.attrs['buffer'] | 5;
     this.offsetX = this.attrs['offset-x'] | 0;
     this.offsetY = this.attrs['offset-y'] | 0;
-    this.width = this.attrs['width'] | 0;
-    this.height = this.attrs['height'] | 0;
+    this.width = this.getAttr('width') | 0;
+    this.height = this.getAttr('height') | 0;
   },
 
   didReceiveAttrs() {
     // Reset cells when cell layout or items array changes
     var cellLayout = this.attrs['cell-layout'];
     var items = this.attrs['items'];
+    var contentWidth = this.getAttr('width');
+    var contentHeight = this.getAttr('height');
+
     if (this.cellLayout !== cellLayout || this.items !== items) {
       this.items = items;
       this.cellLayout = cellLayout;
       Ember.set(this, 'cells', []);
       this.cellMap = Object.create(null);
     }
+
+    if (contentWidth !== this.width || contentHeight !== this.height) {
+      this.width = contentWidth;
+      this.height = contentHeight;
+      this.calculateBounds();
+      this.calculateContentSize();
+    }
   },
+
   didInsertElement() {
     this.contentElement = this.element.firstElementChild;
-    this.initBounds();
-    this.initContentSize();
+    this.calculateBounds();
+    this.calculateContentSize();
     // content size
     this.initContentOffset();
     this.setupScroller();
 
     var component = this;
-    var scrollTop = 0;
     function callback() {
       var element = component.element;
       if (element) {
@@ -121,7 +133,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = DecodeEachKey(items[itemIndex], '@identity');
+      itemKey = decodeEachKey(items[itemIndex], '@identity');
       cell = priorMap[itemKey];
       if (cell) {
         pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
@@ -142,7 +154,7 @@ export default Ember.Component.extend({
       if (!cellMap[cell.key]) {
         if (newItems.length) {
           itemIndex = newItems.pop();
-          itemKey = DecodeEachKey(items[itemIndex], '@identity');
+          itemKey = decodeEachKey(items[itemIndex], '@identity');
           pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
           width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
           height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
@@ -162,7 +174,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
-      itemKey = DecodeEachKey(items[itemIndex], '@identity');
+      itemKey = decodeEachKey(items[itemIndex], '@identity');
       pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
       width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
       height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
@@ -173,7 +185,7 @@ export default Ember.Component.extend({
     }
     this.cellMap = cellMap;
   },
-  initBounds() {
+  calculateBounds() {
     // TODO measure clientWidth and clientHeight vs offsetWidth and offsetHeight
     this.element.style.overflow = 'scroll';
     this.element.style.webkitOverflowScrolling = 'touch';
@@ -187,7 +199,7 @@ export default Ember.Component.extend({
       this.element.style.height = this.height + 'px';
     }
   },
-  initContentSize() {
+  calculateContentSize() {
     var contentWidth = this.cellLayout.contentWidth(this.width, this.height);
     var contentHeight = this.cellLayout.contentHeight(this.width, this.height);
     this.contentElement.style.width = contentWidth + 'px';

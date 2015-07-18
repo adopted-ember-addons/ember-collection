@@ -22,8 +22,18 @@ function shuffle(array) {
 export default Ember.Controller.extend({
   itemWidth: 100,
   itemHeight: 100,
+  containerWidth: 300,
+  containerHeight: 600,
 
   actions: {
+    updateContainerWidth: function(value) {
+      this.set('containerWidth', parseInt(value, 10));
+    },
+
+    updateContainerHeight: function(value) {
+      this.set('containerHeight', parseInt(value, 10));
+    },
+
     shuffle: function() {
         this.set('model', shuffle(this.get('model').slice(0)));
     },

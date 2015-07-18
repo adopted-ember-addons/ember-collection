@@ -5,13 +5,17 @@
 <button {{action 'makeTallRect'}}>Tall Rectable</button>
 <button {{action 'shuffle'}}>Shuffle</button>
 <p>
+  Container Width: <input type='range' min=200 max=1000 value={{containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{containerWidth}}
+  Container Height: <input type='range' min=200 max=1000 value={{containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{containerHeight}}
+</p>
+<p>
 Item Height: {{itemHeight}}
 Item Width: {{itemWidth}}
 </p>
 <hr />
 
 <div class="simple-list">
-  {{#ember-list items=model height=600 width=300 buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index scrolling|}}
+  {{#ember-list items=model height=containerHeight width=containerWidth buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
     <div class="list-item">
       {{item.name}}
     </div>
