@@ -41,6 +41,8 @@ export default Ember.Component.extend({
     this.width = 0;
     this.height = 0;
     this.contentElement = undefined;
+    Ember.set(this, 'cells', Ember.A([]));
+    this.cellMap = Object.create(null);
   },
   didInitAttrs() {
     this.buffer = this.attrs['buffer'] | 5;
@@ -60,8 +62,6 @@ export default Ember.Component.extend({
     if (this.cellLayout !== cellLayout || this.items !== items) {
       this.items = items;
       this.cellLayout = cellLayout;
-      Ember.set(this, 'cells', []);
-      this.cellMap = Object.create(null);
     }
 
     if (contentWidth !== this.width || contentHeight !== this.height) {
@@ -181,7 +181,7 @@ export default Ember.Component.extend({
       style = formatStyle(pos, width, height);
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
-      this.cells.push(cell);
+      this.cells.pushObject(cell);
     }
     this.cellMap = cellMap;
   },
