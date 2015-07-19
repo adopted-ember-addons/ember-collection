@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('pull-to-refresh');
   this.route('virtual');
   this.route('virtual-strange-ratios');
+  this.route('mixed');
 });
 
 export default Router;
