@@ -1,25 +1,28 @@
 /*global Bin*/
-export default class Grid
+export default class MixedGrid
 {
-  constructor(cellWidth, cellHeight) {
-    this.length = 0;
-    this.bin = new Bin.FixedGrid(this, cellWidth, cellHeight);
+  constructor(content, width) {
+    this.content = content;
+    this.bin = new Bin.ShelfFirst(content, width);
   }
 
   contentWidth(width /*,height*/) {
     return width;
   }
 
-  contentHeight(width /*,height*/) {
-    return this.bin.height(width);
+  contentHeight() {
+    return this.bin.height();
   }
 
   indexAt(offsetX, offsetY, width /*,height*/) {
+    console.log('Index At: ', offsetY, width);
     return this.bin.visibleStartingIndex(offsetY, width);
   }
 
   positionAt(index, width /*,height*/) {
-    return this.bin.position(index, width);
+    var position = this.bin.position(index, width);
+    console.log('Position At: ', index, width, ' => ', position);
+    return position;
   }
 
   widthAt(index) {

@@ -1,5 +1,5 @@
 <div>
-  {{~#each cells key="key" as |cell|~}}
-    <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index}}{{/unless}}</div>
+  {{~#each cells as |cell|~}}
+    <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
   {{~/each~}}
 </div>

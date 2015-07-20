@@ -1,0 +1,7 @@
+<div class="mixed">
+  {{#ember-list items=model height=800 width=500 buffer=10 cell-layout=(mixed-grid-layout model) as |item index|}}
+    <div class="list-item">
+      {{item.name}}
+    </div>
+  {{/ember-list}}
+</div>
