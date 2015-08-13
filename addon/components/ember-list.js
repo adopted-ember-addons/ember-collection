@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from './ember-list-template';
+import layout from './ember-list/template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 var getMutValue = Ember.__loader.require('ember-htmlbars/hooks/get-value')['default'];
 
