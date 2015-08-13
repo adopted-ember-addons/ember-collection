@@ -2,11 +2,11 @@ import Ember from 'ember';
 import { test } from 'ember-qunit';
 import moduleForView from '../helpers/module-for-view';
 import {compile, generateContent, nextTopPosition, extractPosition} from '../helpers/helpers';
-
+/*
 import ListView from 'ember-list-view';
 import ListItemView from 'ember-list-view/list-item-view';
 import ReusableListItemView from 'ember-list-view/reusable-list-item-view';
-
+*/
 var view;
 
 moduleForView('virtual-list', 'pull to refresh acceptance', {

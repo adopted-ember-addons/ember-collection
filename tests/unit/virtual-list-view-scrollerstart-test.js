@@ -7,11 +7,11 @@ import {
   sortElementsByPosition,
   itemPositions
   } from '../helpers/helpers';
-
+/*
 import ListView from 'ember-list-view';
 import ListItemView from 'ember-list-view/list-item-view';
 import ReusableListItemView from 'ember-list-view/reusable-list-item-view';
-
+*/
 var hasTouch = ('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch;
 
 var nextTopPosition = 0;

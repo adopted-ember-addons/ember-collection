@@ -1,19 +1,8 @@
 import Ember from 'ember';
-import layout from './ember-list/template';
-
+import layout from './ember-list-template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
+var getMutValue = Ember.__loader.require('ember-htmlbars/hooks/get-value')['default'];
 
-/* Not sure what this is for?
-class LayoutAttributes {
-  constructor(index, x, y, width, height) {
-    this.index = index;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-}
-*/
 
 class Cell {
   constructor(key, item, index, style) {
@@ -26,11 +15,28 @@ class Cell {
 }
 
 function formatStyle(pos, width, height) {
-  return 'position: absolute; top: 0; left: 0; -webkit-transform: translate('+pos.x+'px, '+pos.y+'px); width: '+width+'px; height: '+height+'px;';
+  return 'position: absolute; top: 0; left: 0;' +
+    ' -webkit-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' -moz-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' -ms-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' -o-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' width: '+width+'px; height: '+height+'px;';
 }
 
 export default Ember.Component.extend({
   layout: layout,
+
+  // Utility to get attribute value which may or may not be wrapped in mut helper.
+  // returns defaultValue if attribute not defined or defined as null or undefined
+  _maybeMutAttr(key, defaultValue) {
+    if (this.attrs == null) { return defaultValue; }
+    var obj = this.attrs[key];
+    if (obj == null) { return defaultValue; }
+    obj = getMutValue(obj);
+    obj = (obj == null) ? defaultValue : obj;
+    return obj;
+  },
   init() {
     this._super();
     // this.firstCell = undefined;
@@ -45,34 +51,50 @@ export default Ember.Component.extend({
     this.cellMap = Object.create(null);
   },
   didInitAttrs() {
-    this.buffer = this.attrs['buffer'] | 5;
-    this.offsetX = this.attrs['offset-x'] | 0;
-    this.offsetY = this.attrs['offset-y'] | 0;
-    this.width = this.getAttr('width') | 0;
-    this.height = this.getAttr('height') | 0;
+    this._super();
+    this.buffer = this._maybeMutAttr('buffer', 5);
+    this.offsetX = this._maybeMutAttr('offset-x', 0);
+    this.offsetY = this._maybeMutAttr('offset-y', 0);
+    this.width = this._maybeMutAttr('width', 0);
+    this.height = this._maybeMutAttr('height', 0);
   },
 
   didReceiveAttrs() {
+    this._super();
     // Reset cells when cell layout or items array changes
-    var cellLayout = this.attrs['cell-layout'];
-    var items = this.attrs['items'];
-    var contentWidth = this.getAttr('width');
-    var contentHeight = this.getAttr('height');
+    var cellLayout = this._maybeMutAttr('cell-layout');
+    var items = this._maybeMutAttr('items');
+    var contentWidth = this._maybeMutAttr('width');
+    var contentHeight = this._maybeMutAttr('height');
+    var calculateSize = false;
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
+      if (this.items != null && this.items !== items ) {
+        this.items.removeArrayObserver(this);
+      }
       this.items = items;
+      if (this.items != null) {
+        this.items.addArrayObserver(this);
+      }
       this.cellLayout = cellLayout;
+      calculateSize = true
     }
-
     if (contentWidth !== this.width || contentHeight !== this.height) {
       this.width = contentWidth;
       this.height = contentHeight;
       this.calculateBounds();
-      this.calculateContentSize();
+      calculateSize = true;
+    }
+    if (calculateSize) {
+       Ember.run.scheduleOnce('afterRender', this, 'calculateContentSize');
     }
   },
-
+  arrayWillChange() { },
+  arrayDidChange() {
+    this.rerender();
+  },
   didInsertElement() {
+    this._super();
     this.contentElement = this.element.firstElementChild;
     this.calculateBounds();
     this.calculateContentSize();
@@ -104,6 +126,12 @@ export default Ember.Component.extend({
     }
     callback();
   },
+  willDestroyElement() {
+    this._super();
+    if (this.items != null) {
+      this.items.removeArrayObserver(this);
+    }
+  },
   setupScroller() {
     //this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
     // TODO save for teardown
@@ -117,14 +145,18 @@ export default Ember.Component.extend({
   //   }
   // },
   willRender() {
-    this.cellLayout.length = this.getAttr('items').length;
+    if (!this.items) { return; }
+    if (this.cellLayout.length !== this.items.length) {
+      this.cellLayout.length = this.items.length;
+      this.calculateContentSize();
+    }
 
     var priorMap = this.cellMap;
     var cellMap = Object.create(null);
 
     var index = this.cellLayout.indexAt(this.offsetX, this.offsetY, this.width, this.height);
     var count = this.cellLayout.count(this.offsetX, this.offsetY, this.width, this.height);
-    var items = this.getAttr('items');
+    var items = this.items;
     index = Math.max(index - this.buffer, 0);
     count = Math.min(count + this.buffer, Ember.get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
@@ -134,7 +166,9 @@ export default Ember.Component.extend({
     for (i=0; i<count; i++) {
       itemIndex = index+i;
       itemKey = decodeEachKey(items[itemIndex], '@identity');
-      cell = priorMap[itemKey];
+      if (priorMap) {
+        cell = priorMap[itemKey];
+      }
       if (cell) {
         pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
         width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
@@ -186,10 +220,17 @@ export default Ember.Component.extend({
     this.cellMap = cellMap;
   },
   calculateBounds() {
+    // make sure rendered before accessing style.
+    if (this.element == null) { return; }
+
     // TODO measure clientWidth and clientHeight vs offsetWidth and offsetHeight
     this.element.style.overflow = 'scroll';
     this.element.style.webkitOverflowScrolling = 'touch';
     this.element.style.webkitTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.mozTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.msTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.oTransform = 'translate3d(0px, 0px, 0px) scale(1)';
+    this.element.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
     this.element.style.position = 'relative';
     this.element.style.boxSizing = 'border-box';
     if (this.width > 0) {
@@ -200,8 +241,10 @@ export default Ember.Component.extend({
     }
   },
   calculateContentSize() {
-    var contentWidth = this.cellLayout.contentWidth(this.width, this.height);
-    var contentHeight = this.cellLayout.contentHeight(this.width, this.height);
+    var cellLayout = this.get('cellLayout');
+    if (cellLayout == null || this.width == null || this.height == null) { return; }
+    var contentWidth = cellLayout.contentWidth(this.width);
+    var contentHeight = cellLayout.contentHeight(this.width);
     this.contentElement.style.width = contentWidth + 'px';
     this.contentElement.style.height = contentHeight + 'px';
   },

@@ -6,11 +6,13 @@ export default class Grid
     this.bin = new Bin.FixedGrid(this, cellWidth, cellHeight);
   }
 
-  contentWidth(width /*,height*/) {
+  contentWidth(width) {
     return width;
   }
 
-  contentHeight(width /*,height*/) {
+  contentHeight(width) {
+    // width sic! the content height depends on visible width and
+    // number of items.
     return this.bin.height(width);
   }
 

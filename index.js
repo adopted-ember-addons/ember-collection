@@ -10,5 +10,6 @@ module.exports = {
 
   included: function(app) {
     this.app.import('vendor/layout-bin-packer/index.js');
+    this.app.import('bower_components/ember/ember-template-compiler.js');
   }
 };
