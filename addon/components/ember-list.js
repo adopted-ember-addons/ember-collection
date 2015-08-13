@@ -51,7 +51,6 @@ export default Ember.Component.extend({
     this.cellMap = Object.create(null);
   },
   didInitAttrs() {
-    this._super();
     this.buffer = this._maybeMutAttr('buffer', 5);
     this.offsetX = this._maybeMutAttr('offset-x', 0);
     this.offsetY = this._maybeMutAttr('offset-y', 0);
@@ -60,7 +59,6 @@ export default Ember.Component.extend({
   },
 
   didReceiveAttrs() {
-    this._super();
     // Reset cells when cell layout or items array changes
     var cellLayout = this._maybeMutAttr('cell-layout');
     var items = this._maybeMutAttr('items');
@@ -77,7 +75,7 @@ export default Ember.Component.extend({
         this.items.addArrayObserver(this);
       }
       this.cellLayout = cellLayout;
-      calculateSize = true
+      calculateSize = true;
     }
     if (contentWidth !== this.width || contentHeight !== this.height) {
       this.width = contentWidth;
