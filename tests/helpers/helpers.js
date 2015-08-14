@@ -1,5 +1,14 @@
 import Ember from 'ember';
-var compile = Ember.Handlebars.compile;
+import hbs from 'htmlbars-inline-precompile';
+
+var defaultTemplate = hbs`
+  {{#ember-list items=content height=height width=width
+      offset-x=offsetX offset-y=offsetY
+      cell-layout=(fixed-grid-layout itemWidth itemHeight)
+      as |item|}}
+    <div class="list-item">{{item.name}}</div>
+  {{/ember-list}}`;
+
 
 function generateContent(n) {
   var content = Ember.A();
@@ -86,4 +95,4 @@ export {
   generateContent,
   sortElementsByPosition,
   extractPosition,
-  compile };
+  defaultTemplate };

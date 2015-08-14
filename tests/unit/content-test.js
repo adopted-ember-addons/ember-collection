@@ -1,22 +1,17 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {
+  generateContent, sortElementsByPosition, defaultTemplate
+  } from '../helpers/helpers';
 
 var nItems = 100;
 var itemWidth = 100;
 var itemHeight = 40;
 var width = 500;
 var height = 400;
+var template = defaultTemplate;
 
-var template = hbs`
-  {{#ember-list items=content height=height width=width
-      cell-layout=(fixed-grid-layout itemWidth itemHeight)
-      as |item|}}
-    <div class="list-item">{{item.name}}</div>
-  {{/ember-list}}`;
-
-moduleForComponent('ember-list', 'list-view integration - content', {
+moduleForComponent('ember-list', 'manipulate content', {
   integration: true
 });
 
@@ -24,7 +19,7 @@ test("replacing the list content", function(assert) {
   var content = generateContent(nItems);
   Ember.run(()=>{
     this.render(template);
-    this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.setProperties({width, height, itemWidth, itemHeight, content});
     this.set('content', Ember.A([{name: 'The only item'}]));
   });
 

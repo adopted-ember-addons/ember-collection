@@ -1,100 +1,76 @@
 import Ember from 'ember';
 import {test, moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {
+  generateContent, sortElementsByPosition, defaultTemplate
+  } from '../helpers/helpers';
+
+var template = defaultTemplate;
 
 moduleForComponent('ember-list', 'startingIndex', {integration: true});
 
-skip("base case", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("base case", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var content = generateContent(5);
+  //var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 0
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({width, height, itemWidth, itemHeight, content})
   });
-
-  assert.equal(view._startingIndex(), 0);
+  assert.equal(this.get('startingIndex', 0));
 });
 
-skip("scroll but within content length", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("scroll but within content length", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var content = generateContent(5);
+  var offsetY = 100;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 100
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY});
   });
-
-  assert.equal(view._startingIndex(), 0);
+  assert.equal(this.get('startingIndex', 0));
 });
 
-skip("scroll but beyond content length", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("scroll but beyond content length", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var content = generateContent(20);
+  var offsetY = 100;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 1000
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY});
   });
-
-  assert.equal(view._startingIndex(), 0);
+  assert.equal(this.get('startingIndex', 0));
 });
 
 
-skip("larger list", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("larger list", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var content = generateContent(50);
+  var offsetY = 100;
 
-  // 2x2 grid
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(50),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 1000
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY});
   });
-
-  assert.equal(view._startingIndex(), 28);
+  assert.equal(this.get('startingIndex', 28));
 });
 
-skip("larger list", function(assert){
-  var height = 200, rowHeight = 100, width = 100, elementWidth = 50;
+test("larger list (2)", function(assert){
+  var width = 100, height = 200, itemWidth = 50, itemHeight = 100;
+  var content = generateContent(50);
+  var offsetY = 100;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(40),
-      width: width,
-      elementWidth: width,
-      scrollTop: 100
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY});
   });
-
-  assert.equal(view._startingIndex(), 1);
+  assert.equal(this.get('startingIndex', 1));
 });
 

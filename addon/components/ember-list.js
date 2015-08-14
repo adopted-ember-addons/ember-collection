@@ -26,6 +26,7 @@ function formatStyle(pos, width, height) {
 
 export default Ember.Component.extend({
   layout: layout,
+  classNames: ['ember-list'],
 
   // Utility to get attribute value which may or may not be wrapped in mut helper.
   // returns defaultValue if attribute not defined or defined as null or undefined
@@ -64,6 +65,8 @@ export default Ember.Component.extend({
     var items = this._maybeMutAttr('items');
     var contentWidth = this._maybeMutAttr('width');
     var contentHeight = this._maybeMutAttr('height');
+    var offsetX = this._maybeMutAttr('offset-x', 0);
+    var offsetY = this._maybeMutAttr('offset-y', 0);
     var calculateSize = false;
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
@@ -85,6 +88,11 @@ export default Ember.Component.extend({
     }
     if (calculateSize) {
        Ember.run.scheduleOnce('afterRender', this, 'calculateContentSize');
+    }
+    if (offsetX != this.offsetY || offsetY != this.offsetY) {
+      this.offsetX = offsetX;
+      this.offsetY = offsetY;
+      Ember.run.scheduleOnce('afterRender', this, 'initContentOffset');
     }
   },
   arrayWillChange() { },
@@ -253,5 +261,9 @@ export default Ember.Component.extend({
     if (this.offsetY > 0) {
       this.element.scrollTop = this.offsetY;
     }
-  }
+  },
+  startingIndex: Ember.computed('offsetX', 'offsetY', 'width', 'height', ()=>{
+    this.cellLayout.indexAt(
+      this.offsetX, this.offsetY, this.width, this.height);
+  })
 });

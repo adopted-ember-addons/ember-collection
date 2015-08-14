@@ -1,79 +1,75 @@
 import Ember from 'ember';
 import {test, moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {
+  generateContent, sortElementsByPosition, defaultTemplate
+  } from '../helpers/helpers';
+
+var template = defaultTemplate;
+var content = generateContent(5);
 
 moduleForComponent('ember-list', 'scrollTop', {integration: true});
 
-skip("base case", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("base case", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var offsetY = 0;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 0
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY})
   });
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
+  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item 1", "The first item has not been hidden");
 
-  assert.equal(view.get('scrollTop'), 0);
-
-  Ember.run(function(){
-    view.set('width', 150);
+  Ember.run(()=>{
+    this.set('width', 150);
   });
-
-  assert.equal(view.get('scrollTop'), 0);
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
 });
 
-skip("scroll but within content length", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("scroll but within content length", function(assert){
+  var width = 100, height = 100, itemWidth = 50, itemHeight = 50;
+  var offsetY = 100;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 100
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY})
   });
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 50);
+  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "", "The first item has been hidden");
 
-  assert.equal(view.get('scrollTop'), 100);
-
-  Ember.run(function(){
-    view.set('width', 150);
+  Ember.run(()=>{
+    this.set('width', 150);
   });
-
-  assert.equal(view.get('scrollTop'), 0);
+  debugger
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
+  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item 1", "The first item has been revealed again.");
 });
 
-skip("scroll but beyond content length", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("scroll but beyond content length", function(assert){
+  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+  var offsetY = 1000;
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(5),
-      width: width,
-      elementWidth: elementWidth,
-      scrollTop: 1000
-    });
+  Ember.run(()=>{
+    this.render(template);
+    this.setProperties({
+      width, height, itemWidth, itemHeight, content, offsetY})
   });
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
 
-  assert.equal(view.get('scrollTop'), 1000);
-
-  Ember.run(function(){
-    view.set('width', 150);
+  Ember.run(()=>{
+    this.set('width', 150);
   });
-
-  assert.equal(view.get('scrollTop'), 0);
+  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
 });
