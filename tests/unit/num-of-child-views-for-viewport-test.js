@@ -1,8 +1,7 @@
 import Ember from 'ember';
-import {test, moduleForComponent} from 'ember-qunit';
+import {moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+// import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('ember-list', 'numOfChildViewsForViewport', {integration: true});
 

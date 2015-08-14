@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import {test, moduleForComponent} from 'ember-qunit';
+import {moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {generateContent} from '../helpers/helpers';
+// import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('ember-list', 'startingIndex', {integration: true});
 
@@ -81,7 +81,7 @@ skip("larger list", function(assert){
 });
 
 skip("larger list", function(assert){
-  var height = 200, rowHeight = 100, width = 100, elementWidth = 50;
+  var height = 200, rowHeight = 100, width = 100;
 
   var view;
   Ember.run(this, function(){

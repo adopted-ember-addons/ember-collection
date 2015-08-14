@@ -1,8 +1,11 @@
 import Ember from 'ember';
-import {test, moduleForComponent} from 'ember-qunit';
+import {moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {generateContent} from '../helpers/helpers';
+// import hbs from 'htmlbars-inline-precompile';
+
+// TODO: Remove these declarations. They're just there to keep JSHint happy.
+let compile, ListItemView, ReusableListItemView;
 
 moduleForComponent('ember-list', 'View recycling', {integration: true});
 

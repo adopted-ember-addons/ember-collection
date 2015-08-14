@@ -1,8 +1,11 @@
 import Ember from 'ember';
-import {test, moduleForComponent} from 'ember-qunit';
+import {moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
-import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import {sortElementsByPosition} from '../helpers/helpers';
+// import hbs from 'htmlbars-inline-precompile';
+
+// TODO: Remove these declarations. They're just there to keep JSHint happy.
+let compile, itemPositions, ListItemView;
 
 moduleForComponent('ember-list', 'Multi-height Multi-view', {integration: true });
 
@@ -69,8 +72,6 @@ skip("Correct view is used for right data type", function(assert) {
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(this.$('.ember-list-item-view').length, 4);
-
-  var i, contentIdx;
 
   assert.equal(Ember.$(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
   assert.equal(Ember.$(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");

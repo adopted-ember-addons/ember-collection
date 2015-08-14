@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import VirtualListView from 'ember-list-view/virtual-list-view';
 import ListItemView from 'ember-list-view/list-item-view';
 
@@ -25,7 +24,7 @@ export default VirtualListView.extend({
 
     return type.rowHeight ? type.rowHeight : type.proto().rowHeight;
   },
-  itemViewForIndex: function(idx){
+  itemViewForIndex: function(){
     return this.itemViews[this.get('content').objectAt(0).type];
   }
 });

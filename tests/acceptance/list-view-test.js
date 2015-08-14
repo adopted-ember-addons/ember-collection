@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test, skip } from 'qunit';
+import { module, skip } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
 module('Acceptance | list view', {
@@ -21,7 +21,7 @@ skip('visiting /list-view', function(assert) {
 });
 
 /* FOLLOWING IS OLD ACCEPTANCE TEST CODE THAT NEEDS TO BE REWRITTEN */
-`
+/*
 import Ember from 'ember';
 import { test } from 'ember-qunit';
 import moduleForView from '../helpers/module-for-view';
@@ -506,7 +506,7 @@ test("height and width change after with scroll – simple", function(assert){
     { x: 0, y:  50 }, { x: 50, y:  50 },
     { x: 0, y: 100 }, { x: 50, y: 100 },
     { x: 0, y: 150 }, { x: 50, y: 150 },
-    /* padding */ { x: 0, y: 200 }, { x: 50, y: 200 }], "after scroll: The rows are in the correct positions");
+    /* padding / { x: 0, y: 200 }, { x: 50, y: 200 }], "after scroll: The rows are in the correct positions");
 
   // rotate to a with 3x2 grid visible and 8 elements
   Ember.run(function() {
@@ -524,7 +524,7 @@ test("height and width change after with scroll – simple", function(assert){
   assert.equal(this.$('.ember-list-item-view').length, 9, "after width + height change: the correct number of rows were rendered");
 
   assert.deepEqual(itemPositions(view), [
-    /*              */  { x:  50, y:   0 }, { x: 100, y:   0 },
+    /*              /  { x:  50, y:   0 }, { x: 100, y:   0 },
     { x:   0, y:  50 }, { x:  50, y:  50 }, { x: 100, y:  50 },
     { x:   0, y: 100 }, { x:  50, y: 100 }, { x: 100, y: 100 },
     { x:   0, y: 150 }], "after width + height change: The rows are in the correct positions");
@@ -605,7 +605,7 @@ test("height and width change after with scroll – 1x2 -> 2x2 with 5 items", fu
   assert.deepEqual(itemPositions(view), [
     { x: 0, y: 100 },
     { x: 0, y: 150 },
-    /* padding */ { x: 0, y: 200 }], "after scroll: The rows are in the correct positions");
+    /* padding / { x: 0, y: 200 }], "after scroll: The rows are in the correct positions");
 
   // rotate to a with 2x2 grid visible and 8 elements
   Ember.run(function() {
@@ -1228,4 +1228,5 @@ function yPosition(position){
 
 function xPosition(position){
   return position.x;
-}`
+}
+*/
