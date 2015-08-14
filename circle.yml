@@ -1,0 +1,20 @@
+machine:
+  node:
+    version: 0.12
+
+dependencies:
+  override:
+    - npm install -g bower
+    - npm install
+    - bower install
+
+test:
+  override:
+    - if [ $CIRCLE_NODE_INDEX = 0 ]; then ./node_modules/.bin/ember try default; fi:
+        parallel: true
+    - if [ $CIRCLE_NODE_INDEX = 1 ]; then ./node_modules/.bin/ember try ember-release; fi:
+        parallel: true
+    - if [ $CIRCLE_NODE_INDEX = 2 ]; then ./node_modules/.bin/ember try ember-beta; fi:
+        parallel: true
+    - if [ $CIRCLE_NODE_INDEX = 3 ]; then ./node_modules/.bin/ember try ember-canary; fi:
+        parallel: true
