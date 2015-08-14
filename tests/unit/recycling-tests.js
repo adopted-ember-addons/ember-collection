@@ -1,15 +1,12 @@
 import Ember from 'ember';
-import { test } from 'ember-qunit';
-import moduleForView from '../helpers/module-for-view';
-import {compile, generateContent, sortElementsByPosition, itemPositions} from '../helpers/helpers';
+import {test, moduleForComponent} from 'ember-qunit';
+import {skip} from 'qunit';
+import {generateContent, sortElementsByPosition} from '../helpers/helpers';
+import hbs from 'htmlbars-inline-precompile';
 
-import ListView from 'ember-list-view';
-import ListItemView from 'ember-list-view/list-item-view';
-import ReusableListItemView from 'ember-list-view/reusable-list-item-view';
+moduleForComponent('ember-list', 'View recycling', {integration: true});
 
-moduleForView('list-view', 'View recycling', {});
-
-test("recycling complex views long list", function(assert){
+skip("recycling complex views long list", function(assert){
   var content = generateContent(100),
     height = 50,
     rowHeight = 50,
@@ -96,7 +93,7 @@ test("recycling complex views long list", function(assert){
 
 });
 
-test("recycling complex views short list", function(assert){
+skip("recycling complex views short list", function(assert){
   var content = generateContent(2),
     height = 50,
     rowHeight = 50,
@@ -179,7 +176,7 @@ test("recycling complex views short list", function(assert){
 
 });
 
-test("recycling complex views long list, with ReusableListItemView", function(assert){
+skip("recycling complex views long list, with ReusableListItemView", function(assert){
   var content = generateContent(50),
     height = 50,
     rowHeight = 50,
@@ -282,7 +279,7 @@ test("recycling complex views long list, with ReusableListItemView", function(as
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
 });
 
-test("recycling complex views short list, with ReusableListItemView", function(assert){
+skip("recycling complex views short list, with ReusableListItemView", function(assert){
   var content = generateContent(2),
     height = 50,
     rowHeight = 50,
@@ -385,7 +382,7 @@ test("recycling complex views short list, with ReusableListItemView", function(a
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
 });
 
-test("recycling complex views with ReusableListItemView, handling empty slots at the end of the grid", function(assert){
+skip("recycling complex views with ReusableListItemView, handling empty slots at the end of the grid", function(assert){
   var content = generateContent(20),
     height = 150,
     rowHeight = 50,

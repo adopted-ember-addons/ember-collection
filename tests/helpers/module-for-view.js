@@ -1,18 +1,18 @@
 import Ember from 'ember';
 import TestModule from 'ember-test-helpers/test-module';
 import { getResolver } from 'ember-test-helpers/test-resolver';
-import { createModule } from 'qunit-module';
+import { createModule } from 'ember-qunit/qunit-module';
 
 var TestModuleForView = TestModule.extend({
   init: function(viewName, description, callbacks) {
     this.viewName = viewName;
-    this._super.call(this, 'view:' + viewName, description, callbacks);
+    this._super.call(this, 'component:' + viewName, description, callbacks);
     this.setupSteps.push(this.setupView);
   },
   initNeeds: function() {
     this.needs = [];
     // toplevel refers to class extended from Ember.View
-    if (this.subjectName !== 'view:toplevel') {
+    if (this.subjectName !== 'component:toplevel') {
       this.needs.push(this.subjectName);
     }
     if (this.callbacks.needs) {

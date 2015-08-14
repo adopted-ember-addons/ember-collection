@@ -1,15 +1,12 @@
 import Ember from 'ember';
-import { test } from 'ember-qunit';
-import moduleForView from '../helpers/module-for-view';
-import {compile, generateContent, sortElementsByPosition, itemPositions} from '../helpers/helpers';
+import {test, moduleForComponent} from 'ember-qunit';
+import {skip} from 'qunit';
+import {generateContent, sortElementsByPosition} from '../helpers/helpers';
+import hbs from 'htmlbars-inline-precompile';
 
-import ListView from 'ember-list-view';
-import ListItemView from 'ember-list-view/list-item-view';
-import ReusableListItemView from 'ember-list-view/reusable-list-item-view';
+moduleForComponent('ember-list', 'scrollTop', {integration: true});
 
-moduleForView('list-view', 'scrollTop', {});
-
-test("base case", function(assert){
+skip("base case", function(assert){
   var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
 
   var view;
@@ -33,7 +30,7 @@ test("base case", function(assert){
   assert.equal(view.get('scrollTop'), 0);
 });
 
-test("scroll but within content length", function(assert){
+skip("scroll but within content length", function(assert){
   var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
 
   var view;
@@ -57,7 +54,7 @@ test("scroll but within content length", function(assert){
   assert.equal(view.get('scrollTop'), 0);
 });
 
-test("scroll but beyond content length", function(assert){
+skip("scroll but beyond content length", function(assert){
   var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
 
   var view;

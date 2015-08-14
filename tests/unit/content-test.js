@@ -1,185 +1,115 @@
 import Ember from 'ember';
-import { test } from 'ember-qunit';
-import moduleForView from '../helpers/module-for-view';
-import {registerListViewHelpers} from 'ember-list-view/helper';
-import ListItemView from 'ember-list-view/list-item-view';
-import {compile, generateContent, sortElementsByPosition} from '../helpers/helpers';
+import { test, moduleForComponent } from 'ember-qunit';
+import {generateContent, sortElementsByPosition} from '../helpers/helpers';
+import hbs from 'htmlbars-inline-precompile';
 
-registerListViewHelpers();
+var nItems = 100;
+var itemWidth = 100;
+var itemHeight = 40;
+var width = 500;
+var height = 400;
 
-moduleForView('toplevel', 'list-view integration - content', {});
+var template = hbs`
+  {{#ember-list items=content height=height width=width
+      cell-layout=(fixed-grid-layout itemWidth itemHeight)
+      as |item|}}
+    <div class="list-item">{{item.name}}</div>
+  {{/ember-list}}`;
 
-test('the ember-list helper', function(assert){
-  var view = this.subject({
-    controller: {
-      model: generateContent(100)
-    },
-    template: compile(`{{#ember-list items=model height=500 row-height=50}}{{name}}{{/ember-list}}`)
-  });
-
-  this.render();
-
-  assert.equal(this.$('.ember-list-item-view').length, 11, "The rendered list was updated");
-  assert.equal(this.$('.ember-list-container').height(), 5000, "The scrollable view has the correct height");
+moduleForComponent('ember-list', 'list-view integration - content', {
+  integration: true
 });
-
-test("the ember-list helper uses items=", function(assert) {
-  var view = this.subject({
-    controller: { itemz: generateContent(100) },
-    template: compile("{{#ember-list items=itemz height=500 rowHeight=50}}{{name}}{{/ember-list}}")
-  });
-
-  this.render();
-
-  assert.equal(this.$('.ember-list-item-view').length, 11, "The rendered list was updated");
-  assert.equal(this.$('.ember-list-container').height(), 5000, "The scrollable view has the correct height");
-});
-
-moduleForView('list-view', 'list-view integration - content', {});
 
 test("replacing the list content", function(assert) {
-  var content = generateContent(100);
-  var height = 500;
-  var rowHeight = 50;
-
-  var itemViewClass = ListItemView.extend({
-      template: compile("{{name}}")
-    });
-
-  var view;
+  var content = generateContent(nItems);
   Ember.run(()=>{
-    view = this.subject({
-      content: content,
-      height: height,
-      rowHeight: rowHeight,
-      itemViewClass: itemViewClass
-    });
+    this.render(template);
+    this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.set('content', Ember.A([{name: 'The only item'}]));
   });
 
-  this.render();
-
-  Ember.run(function(){
-    view.set('content', Ember.A([{name: 'The only item'}]));
+  Ember.run(()=>{
+    assert.equal(this.$('.ember-list-item-view')
+      .filter(function(){ return $(this).css('display') !== 'none'; })
+      .length, 1, "The rendered list was updated");
+    assert.equal(this.$('.ember-list-container').height(), itemHeight, "The scrollable view has the correct height");
   });
-
-  assert.equal(this.$('.ember-list-item-view').length, 1, "The rendered list was updated");
-  assert.equal(this.$('.ember-list-container').height(), 50, "The scrollable view has the correct height");
 });
 
 test("adding to the front of the list content", function(assert) {
-  var content = generateContent(100);
-  var height = 500;
-  var rowHeight = 50;
-  var itemViewClass = ListItemView.extend({
-      template: compile("{{name}}")
-    });
-
-  var view;
+  var content = generateContent(nItems);
   Ember.run(()=>{
-    view = this.subject({
-      content: content,
-      height: height,
-      rowHeight: rowHeight,
-      itemViewClass: itemViewClass
-    });
+    this.render(template);
+    this.setProperties({height, width, itemHeight, itemWidth, content});
   });
-
-  this.render();
-
   Ember.run(function() {
     content.unshiftObject({name: "Item -1"});
   });
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
-  assert.equal(Ember.$(positionSorted[0]).text(), "Item -1", "The item has been inserted in the list");
-  assert.equal(this.$('.ember-list-container').height(), 5050, "The scrollable view has the correct height");
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item -1", "The item has been inserted in the list");
+  var expectedRows = Math.ceil((nItems + 1) / (width / itemWidth));
+  assert.equal(
+    this.$('.ember-list-container').height(), 
+    expectedRows * itemHeight, 
+    "The scrollable view has the correct height");
 });
 
 test("inserting in the middle of visible content", function(assert) {
-  var content = generateContent(100),
-    height = 500,
-    rowHeight = 50,
-    itemViewClass = ListItemView.extend({
-      template: compile("{{name}}")
-    });
-
-  var view;
+  var content = generateContent(nItems);
   Ember.run(()=>{
-    view = this.subject({
-      content: content,
-      height: height,
-      rowHeight: rowHeight,
-      itemViewClass: itemViewClass
-    });
+    this.render(template);
+    this.setProperties({height, width, itemHeight, itemWidth, content});
   });
-
-  this.render();
-
   Ember.run(function() {
     content.insertAt(2, {name: "Item 2'"});
   });
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
-  assert.equal(Ember.$(positionSorted[0]).text(), "Item 1", "The item has been inserted in the list");
-  assert.equal(Ember.$(positionSorted[2]).text(), "Item 2'", "The item has been inserted in the list");
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item 1", "The item has been inserted in the list");
+  assert.equal(
+    Ember.$(positionSorted[2]).text().trim(), 
+    "Item 2'", "The item has been inserted in the list");
 });
 
 test("clearing the content", function(assert) {
-  var content = generateContent(100),
-    height = 500,
-    rowHeight = 50,
-    itemViewClass = ListItemView.extend({
-      template: compile("{{name}}")
-    });
-
-  var view;
+  var content = generateContent(nItems);
   Ember.run(()=>{
-    view = this.subject({
-      content: content,
-      height: height,
-      rowHeight: rowHeight,
-      itemViewClass: itemViewClass
-    });
+    this.render(template);
+    this.setProperties({height, width, itemHeight, itemWidth, content});
   });
-
-  this.render();
-
   Ember.run(function() {
     content.clear();
   });
 
-  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
-  assert.equal(positionSorted.length, 0, "The list should not contain any elements");
+  assert.equal(this.$('.ember-list-item-view')
+    .filter(function(){ return $(this).css('display') !== 'none'; })
+    .length, 0, "The rendered list does not contain any elements.");
 });
 
 test("deleting the first element", function(assert) {
-  var content = generateContent(100),
-    height = 500,
-    rowHeight = 50,
-    itemViewClass = ListItemView.extend({
-      template: compile("{{name}}")
-    });
-
-  var view;
+  var content = generateContent(nItems);
   Ember.run(()=>{
-    view = this.subject({
-      content: content,
-      height: height,
-      rowHeight: rowHeight,
-      itemViewClass: itemViewClass
-    });
+    this.render(template);
+    this.setProperties({height, width, itemHeight, itemWidth, content});
   });
 
-  this.render();
-
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
-  assert.equal(Ember.$(positionSorted[0]).text(), "Item 1", "The item has been inserted in the list");
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item 1", "Item 1 has not been removed from the list.");
 
   Ember.run(function() {
     content.removeAt(0);
   });
 
   positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
-  assert.equal(Ember.$(positionSorted[0]).text(), "Item 2", "The item has been inserted in the list");
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(), 
+    "Item 2", "Item 1 has been remove from the list.");
 });
 

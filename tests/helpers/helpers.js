@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import listViewHelpers from 'ember-list-view/list-view-helper';
 var compile = Ember.Handlebars.compile;
 
 function generateContent(n) {
@@ -9,7 +8,6 @@ function generateContent(n) {
   }
   return content;
 }
-
 function extractPositionFromTransform(string) {
   var matched, x, y, position;
 
@@ -30,22 +28,22 @@ function extractNumberFromPosition(string) {
   var number = string.replace(/px/g,'');
   return parseInt(number, 10);
 }
-
 function extractPosition(element) {
   var style, position,
-    transformProp = listViewHelpers.transformProp;
+    transformProp = 'transform';
 
   style = element.style;
 
+  position = {x: 0, y:0};
   if (style.top) {
-    position = {
-      y: extractNumberFromPosition(style.top),
-      x: extractNumberFromPosition(style.left)
-    };
-  } else if (style[transformProp]) {
-    position = extractPositionFromTransform(style[transformProp]);
+    position.x += extractNumberFromPosition(style.top);
+    position.y += extractNumberFromPosition(style.left);
   }
-
+  if (style[transformProp]) {
+    var transPosition = extractPositionFromTransform(style[transformProp]);
+    position.x += transPosition.x;
+    position.y += transPosition.y;
+  }
   return position;
 }
 
