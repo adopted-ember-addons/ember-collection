@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, test, skip } from 'qunit';
+import { module, skip } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
 module('Acceptance | list view', {
@@ -21,7 +21,8 @@ skip('visiting /list-view', function(assert) {
 });
 
 /* FOLLOWING IS OLD ACCEPTANCE TEST CODE THAT NEEDS TO BE REWRITTEN */
-`
+skip('skipped acceptance tests', '', function() {
+  return `
 import Ember from 'ember';
 import { test } from 'ember-qunit';
 import moduleForView from '../helpers/module-for-view';
@@ -1228,4 +1229,4 @@ function yPosition(position){
 
 function xPosition(position){
   return position.x;
-}`
+}`;});

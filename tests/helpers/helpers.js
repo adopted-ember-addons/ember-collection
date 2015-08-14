@@ -1,14 +1,27 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
+import EmberListWrapper from 'dummy/components/ember-list-wrapper';
 
-var defaultTemplate = hbs`
-  {{#ember-list items=content height=height width=width
-      offset-x=offsetX offset-y=offsetY
-      cell-layout=(fixed-grid-layout itemWidth itemHeight)
-      as |item|}}
-    <div class="list-item">{{item.name}}</div>
-  {{/ember-list}}`;
+function renderComponent(testContext, attrs) {
 
+  EmberListWrapper.startingIndexListener = function(idx) {
+    testContext.set('startingIndex', idx);
+  };
+  EmberListWrapper.visibleCountDidChange = function(count) {
+    testContext.set('visibleCount', count);
+  };
+  if (attrs.buffer == null) { attrs.buffer = 5; }
+  Ember.run(function() {
+    testContext.render(
+      hbs`{{ember-list-wrapper
+        content=content height=height width=width buffer=buffer
+        offsetX=offsetX offsetY=offsetY
+        itemWidth=itemWidth itemHeight=itemHeight
+    }}`);
+    testContext.setProperties(attrs);
+  });
+
+}
 
 function generateContent(n) {
   var content = Ember.A();
@@ -89,10 +102,14 @@ function itemPositions(view) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }
-
+function getEmberList(testContext) {
+  var id = testContext.$('.ember-list').attr('id');
+  return testContext.get('container').lookup('-view-registry:main')[id];
+}
 export {
   itemPositions,
   generateContent,
   sortElementsByPosition,
   extractPosition,
-  defaultTemplate };
+  getEmberList,
+  renderComponent };

@@ -14,9 +14,9 @@ export default class MixedGrid
     return this.bin.height();
   }
 
-  indexAt(offsetX, offsetY, width /*,height*/) {
+  indexAt(offsetX, offsetY, width,height) {
     console.log('Index At: ', offsetY, width);
-    return this.bin.visibleStartingIndex(offsetY, width);
+    return this.bin.visibleStartingIndex(offsetY, width, height);
   }
 
   positionAt(index, width /*,height*/) {

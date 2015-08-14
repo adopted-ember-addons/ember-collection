@@ -16,8 +16,8 @@ export default class Grid
     return this.bin.height(width);
   }
 
-  indexAt(offsetX, offsetY, width /*,height*/) {
-    return this.bin.visibleStartingIndex(offsetY, width);
+  indexAt(offsetX, offsetY, width, height) {
+    return this.bin.visibleStartingIndex(offsetY, width, height);
   }
 
   positionAt(index, width /*,height*/) {

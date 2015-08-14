@@ -1,3 +1,9 @@
+/* 
+
+TODO
+
+these tests should be converted into tests of mixed-grid layout
+
 import Ember from 'ember';
 import {test, moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
@@ -452,3 +458,4 @@ skip("handle bindable rowHeight with multi-height (only fallback case)", functio
     { x:0, y:  400 }  // <-- buffer
   ], "inDOM views are correctly positioned: after rowHeight change");
 });
+*/

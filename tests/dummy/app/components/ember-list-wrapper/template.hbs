@@ -1,0 +1,8 @@
+{{#ember-list items=content height=height width=width buffer=buffer
+    offset-x=offsetX offset-y=offsetY
+    startingIndexDidChange=(action "startingIndexDidChange")
+    visibleCountDidChange=(action "visibleCountDidChange")
+    cell-layout=(fixed-grid-layout attrs.itemWidth attrs.itemHeight)
+    as |item|}}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-list}}

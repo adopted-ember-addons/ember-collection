@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
 import {
-  generateContent, sortElementsByPosition, defaultTemplate
+  generateContent, sortElementsByPosition, renderComponent
   } from '../helpers/helpers';
 
 var nItems = 100;
@@ -9,7 +9,6 @@ var itemWidth = 100;
 var itemHeight = 40;
 var width = 500;
 var height = 400;
-var template = defaultTemplate;
 
 moduleForComponent('ember-list', 'manipulate content', {
   integration: true
@@ -17,12 +16,12 @@ moduleForComponent('ember-list', 'manipulate content', {
 
 test("replacing the list content", function(assert) {
   var content = generateContent(nItems);
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content
+  });
   Ember.run(()=>{
-    this.render(template);
-    this.setProperties({width, height, itemWidth, itemHeight, content});
     this.set('content', Ember.A([{name: 'The only item'}]));
   });
-
   Ember.run(()=>{
     assert.equal(this.$('.ember-list-item-view')
       .filter(function(){ return $(this).css('display') !== 'none'; })
@@ -33,14 +32,12 @@ test("replacing the list content", function(assert) {
 
 test("adding to the front of the list content", function(assert) {
   var content = generateContent(nItems);
-  Ember.run(()=>{
-    this.render(template);
-    this.setProperties({height, width, itemHeight, itemWidth, content});
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content
   });
   Ember.run(function() {
     content.unshiftObject({name: "Item -1"});
   });
-
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(), 
@@ -54,9 +51,8 @@ test("adding to the front of the list content", function(assert) {
 
 test("inserting in the middle of visible content", function(assert) {
   var content = generateContent(nItems);
-  Ember.run(()=>{
-    this.render(template);
-    this.setProperties({height, width, itemHeight, itemWidth, content});
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content
   });
   Ember.run(function() {
     content.insertAt(2, {name: "Item 2'"});
@@ -73,9 +69,8 @@ test("inserting in the middle of visible content", function(assert) {
 
 test("clearing the content", function(assert) {
   var content = generateContent(nItems);
-  Ember.run(()=>{
-    this.render(template);
-    this.setProperties({height, width, itemHeight, itemWidth, content});
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content
   });
   Ember.run(function() {
     content.clear();
@@ -88,9 +83,8 @@ test("clearing the content", function(assert) {
 
 test("deleting the first element", function(assert) {
   var content = generateContent(nItems);
-  Ember.run(()=>{
-    this.render(template);
-    this.setProperties({height, width, itemHeight, itemWidth, content});
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content
   });
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));

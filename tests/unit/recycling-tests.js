@@ -1,3 +1,7 @@
+/* TODO:
+
+I'm not sure whether tests like these are needed for new component.
+
 import Ember from 'ember';
 import {test, moduleForComponent} from 'ember-qunit';
 import {skip} from 'qunit';
@@ -494,3 +498,5 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
 
   assert.equal(this.$('.ember-list-item-view:visible').length, 12, "The number of items that are not hidden with display:none (post-expand to 3 columns)");
 });
+
+*/
