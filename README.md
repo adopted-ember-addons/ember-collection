@@ -1,4 +1,6 @@
-# ListView [![Build Status](https://secure.travis-ci.org/emberjs/list-view.png?branch=master)](http://travis-ci.org/emberjs/list-view)
+# ListView
+
+[![Circle CI](https://circleci.com/gh/emberjs/ember-collection.svg?style=shield)](https://circleci.com/gh/emberjs/ember-collection)
 
 An efficient incremental rendering list view for large lists.
 

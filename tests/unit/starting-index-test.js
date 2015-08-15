@@ -50,5 +50,6 @@ test("larger list (2)", function(assert){
   renderComponent(this, {
     width, height, itemWidth, itemHeight, content, offsetY});
   assert.equal(this.get('startingIndex'), 2);
+
 });
 

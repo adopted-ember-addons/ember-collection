@@ -1,0 +1,22 @@
+machine:
+  node:
+    version: 0.12
+
+dependencies:
+  override:
+    - npm install -g bower
+    - npm install
+    - bower install
+
+test:
+  override:
+    - ? >
+        PATH="./node_modules/.bin:$PATH";
+
+        case $CIRCLE_NODE_INDEX in
+        0) ember try default ;;
+        1) ember try ember-release ;;
+        2) ember try ember-beta ;;
+        3) ember try ember-canary || echo "WARNING: Tests failed on canary." ;;
+        esac
+      : parallel: true
