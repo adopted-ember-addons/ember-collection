@@ -1,5 +1,5 @@
 {
-  "name": "ember-list-view",
+  "name": "ember-collection",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {

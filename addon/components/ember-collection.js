@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from './ember-list/template';
+import layout from './ember-collection/template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 var getMutValue = Ember.__loader.require('ember-htmlbars/hooks/get-value')['default'];
 
@@ -16,11 +16,11 @@ class Cell {
 
 function formatStyle(pos, width, height) {
   return 'position: absolute; top: 0; left: 0;' +
-    ' -webkit-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
-    ' -moz-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
-    ' -ms-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
-    ' -o-transform: translate('+pos.x+'px, '+pos.y+'px);' + 
-    ' transform: translate('+pos.x+'px, '+pos.y+'px);' + 
+    ' -webkit-transform: translate('+pos.x+'px, '+pos.y+'px);' +
+    ' -moz-transform: translate('+pos.x+'px, '+pos.y+'px);' +
+    ' -ms-transform: translate('+pos.x+'px, '+pos.y+'px);' +
+    ' -o-transform: translate('+pos.x+'px, '+pos.y+'px);' +
+    ' transform: translate('+pos.x+'px, '+pos.y+'px);' +
     ' width: '+width+'px; height: '+height+'px;';
 }
 
