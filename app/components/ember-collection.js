@@ -1,2 +1,2 @@
-import EmberList from 'ember-collection/components/ember-collection';
-export default EmberList;
+import EmberCollection from 'ember-collection/components/ember-collection';
+export default EmberCollection;
