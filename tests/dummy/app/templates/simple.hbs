@@ -15,9 +15,9 @@ Item Width: {{itemWidth}}
 <hr />
 
 <div class="simple-list">
-  {{#ember-list items=model height=containerHeight width=containerWidth buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
+  {{#ember-collection items=model height=containerHeight width=containerWidth buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
     <div class="list-item">
       {{item.name}}
     </div>
-  {{/ember-list}}
+  {{/ember-collection}}
 </div>
