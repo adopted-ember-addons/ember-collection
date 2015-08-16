@@ -70,11 +70,12 @@ export default Ember.Component.extend({
     var calculateSize = false;
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
-      if (this.items != null && this.items !== items ) {
+      if (this.items != null && this.items !== items &&
+          this.items.removeArrayObserver != null ) {
         this.items.removeArrayObserver(this);
       }
       this.items = items;
-      if (this.items != null) {
+      if (this.items != null && this.items.addArrayObserver != null ) {
         this.items.addArrayObserver(this);
       }
       this.cellLayout = cellLayout;
@@ -136,7 +137,7 @@ export default Ember.Component.extend({
   },
   willDestroyElement() {
     this._super();
-    if (this.items != null) {
+    if (this.items != null && this.items.removeArrayObserver != null) {
       this.items.removeArrayObserver(this);
     }
   },
