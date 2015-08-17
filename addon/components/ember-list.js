@@ -49,6 +49,10 @@ export default Ember.Component.extend({
     this.cellMap = Object.create(null);
     this.startingIndex = undefined;
     this.visibleCount = undefined;
+    // XXX bug: didReceiveAttrs received before init! redo initial attrs setup
+    if (this.attrs != null) {
+      this.didReceiveAttrs();
+    }
   },
   didInitAttrs() {
     this.buffer = this._maybeMutAttr('buffer', 5);
