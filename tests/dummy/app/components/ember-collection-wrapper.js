@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from './ember-list-wrapper/template';
+import layout from './ember-collection-wrapper/template';
 
 var EmberListWrapper = Ember.Component.extend({
   layout: layout,

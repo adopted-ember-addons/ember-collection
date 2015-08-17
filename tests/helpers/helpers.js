@@ -1,19 +1,19 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import EmberListWrapper from 'dummy/components/ember-list-wrapper';
+import EmberCollectionWrapper from 'dummy/components/ember-collection-wrapper';
 
 function renderComponent(testContext, attrs) {
 
-  EmberListWrapper.startingIndexListener = function(idx) {
+  EmberCollectionWrapper.startingIndexListener = function(idx) {
     testContext.set('startingIndex', idx);
   };
-  EmberListWrapper.visibleCountDidChange = function(count) {
+  EmberCollectionWrapper.visibleCountDidChange = function(count) {
     testContext.set('visibleCount', count);
   };
   if (attrs.buffer == null) { attrs.buffer = 5; }
   Ember.run(function() {
     testContext.render(
-      hbs`{{ember-list-wrapper
+      hbs`{{ember-collection-wrapper
         content=content height=height width=width buffer=buffer
         offsetX=offsetX offsetY=offsetY
         itemWidth=itemWidth itemHeight=itemHeight

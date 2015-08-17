@@ -14,8 +14,10 @@ function checkStart(
   this.assert.equal(this.get('startingIndex'), expectedIndex);
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   var itemNumber = (expectedIndex + 1) + '';
+  var $firstVisible = Ember.$(positionSorted
+    .filter(function(){ return $(this).css('display') !== 'none'; })[0]);
   this.assert.equal(  
-    Ember.$(positionSorted[0]).text().trim(), 
+    $firstVisible.text().trim(), 
     "Item " + itemNumber, "Item " + itemNumber + " is displayed first");
 }
 
