@@ -40,12 +40,12 @@ test("adding to the front of the list content", function(assert) {
   });
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item -1", "The item has been inserted in the list");
   var expectedRows = Math.ceil((nItems + 1) / (width / itemWidth));
   assert.equal(
-    this.$('.ember-list-container').height(), 
-    expectedRows * itemHeight, 
+    this.$('.ember-list-container').height(),
+    expectedRows * itemHeight,
     "The scrollable view has the correct height");
 });
 
@@ -60,10 +60,10 @@ test("inserting in the middle of visible content", function(assert) {
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The item has been inserted in the list");
   assert.equal(
-    Ember.$(positionSorted[2]).text().trim(), 
+    Ember.$(positionSorted[2]).text().trim(),
     "Item 2'", "The item has been inserted in the list");
 });
 
@@ -89,7 +89,7 @@ test("deleting the first element", function(assert) {
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "Item 1 has not been removed from the list.");
 
   Ember.run(function() {
@@ -98,7 +98,7 @@ test("deleting the first element", function(assert) {
 
   positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 2", "Item 1 has been remove from the list.");
 });
 

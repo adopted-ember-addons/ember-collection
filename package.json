@@ -1,6 +1,6 @@
 {
   "name": "ember-collection",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Optimized display for large lists of objects in ember.",
   "directories": {
     "doc": "doc",
