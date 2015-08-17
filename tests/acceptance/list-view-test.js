@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { module, skip } from 'qunit';
+import { module, test } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
 module('Acceptance | list view', {
@@ -12,11 +12,11 @@ module('Acceptance | list view', {
   }
 });
 
-skip('visiting /list-view', function(assert) {
-  visit('/list-view');
+test('visiting /simple', function(assert) {
+  visit('/simple');
 
   andThen(function() {
-    assert.equal(currentURL(), '/list-view');
+    assert.equal(currentURL(), '/simple');
   });
 });
 
