@@ -1,0 +1,7 @@
+{{#ember-collection items=content height=height width=width buffer=buffer
+    offset-x=offsetX offset-y=offsetY
+    sliceDidChange=(action "sliceDidChange")
+    cell-layout=(fixed-grid-layout attrs.itemWidth attrs.itemHeight)
+    as |item|}}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-collection}}

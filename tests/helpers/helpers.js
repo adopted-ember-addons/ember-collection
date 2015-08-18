@@ -1,5 +1,24 @@
 import Ember from 'ember';
-var compile = Ember.Handlebars.compile;
+import hbs from 'htmlbars-inline-precompile';
+import EmberCollectionWrapper from 'dummy/components/ember-collection-wrapper';
+
+function renderComponent(testContext, attrs) {
+
+  EmberCollectionWrapper.sliceListener = function(idx, count) {
+    testContext.set('startingIndex', idx);
+    testContext.set('visibleCount', count);
+  };
+  if (attrs.buffer == null) { attrs.buffer = 5; }
+  Ember.run(function() {
+    testContext.render(
+      hbs`{{ember-collection-wrapper
+        content=content height=height width=width buffer=buffer
+        offsetX=offsetX offsetY=offsetY
+        itemWidth=itemWidth itemHeight=itemHeight
+    }}`);
+    testContext.setProperties(attrs);
+  });
+}
 
 function generateContent(n) {
   var content = Ember.A();
@@ -29,8 +48,7 @@ function extractNumberFromPosition(string) {
   return parseInt(number, 10);
 }
 function extractPosition(element) {
-  var style, position,
-    transformProp = 'transform';
+  var style, position, i;
 
   style = element.style;
 
@@ -39,10 +57,14 @@ function extractPosition(element) {
     position.x += extractNumberFromPosition(style.top);
     position.y += extractNumberFromPosition(style.left);
   }
-  if (style[transformProp]) {
-    var transPosition = extractPositionFromTransform(style[transformProp]);
-    position.x += transPosition.x;
-    position.y += transPosition.y;
+  for (i in Array.apply(null, style)) {
+    var transformProp = style[i];
+    if (/transform/.test(transformProp)) {
+      var transPosition = extractPositionFromTransform(style[transformProp]);
+      position.x += transPosition.x;
+      position.y += transPosition.y;
+      break;      
+    }
   }
   return position;
 }
@@ -80,10 +102,14 @@ function itemPositions(view) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }
-
+function getEmberList(testContext) {
+  var id = testContext.$('.ember-list').attr('id');
+  return testContext.get('container').lookup('-view-registry:main')[id];
+}
 export {
   itemPositions,
   generateContent,
   sortElementsByPosition,
   extractPosition,
-  compile };
+  getEmberList,
+  renderComponent };

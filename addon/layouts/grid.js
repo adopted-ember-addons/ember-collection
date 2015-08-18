@@ -16,8 +16,8 @@ export default class Grid
     return this.bin.height(width);
   }
 
-  indexAt(offsetX, offsetY, width /*,height*/) {
-    return this.bin.visibleStartingIndex(offsetY, width);
+  indexAt(offsetX, offsetY, width, height) {
+    return this.bin.visibleStartingIndex(offsetY, width, height);
   }
 
   positionAt(index, width /*,height*/) {
@@ -34,5 +34,8 @@ export default class Grid
 
   count(offsetX, offsetY, width, height) {
     return this.bin.numberVisibleWithin(offsetY, width, height, true);
+  }
+  maxScroll(width, height) {
+    return this.bin.maxContentOffset(width, height);
   }
 }

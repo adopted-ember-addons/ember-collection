@@ -1,74 +1,33 @@
-import Ember from 'ember';
-import {moduleForComponent} from 'ember-qunit';
-import {skip} from 'qunit';
-import {generateContent} from '../helpers/helpers';
-// import hbs from 'htmlbars-inline-precompile';
+import {test, moduleForComponent} from 'ember-qunit';
+import {
+  generateContent, renderComponent
+  } from '../helpers/helpers';
 
 moduleForComponent('ember-list', 'totalHeight', {integration: true});
 
-skip("single column", function(assert){
-  var height = 500, rowHeight = 50;
+test("single column", function(assert){
+  var width = 50, height = 500, itemHeight = 50, itemWidth = 50;
+  var content = generateContent(20);
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(20)
-    });
-  });
-
-  assert.equal(view.get('totalHeight'), 1000);
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content});
+  assert.equal(this.$('.ember-list-container').height(), 1000);
 });
 
-skip("even", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("even", function(assert){
+  var width = 100, height = 500, itemHeight = 50, itemWidth = 50;
+  var content = generateContent(20);
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(20),
-      width: width,
-      elementWidth: elementWidth
-    });
-  });
-
-  assert.equal(view.get('totalHeight'), 500);
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content});
+  assert.equal(this.$('.ember-list-container').height(), 500);
 });
 
-skip("odd", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
+test("odd", function(assert){
+  var width = 100, height = 500, itemHeight = 50, itemWidth = 50;
+  var content = generateContent(21);
+  renderComponent(this, {
+    width, height, itemWidth, itemHeight, content});
 
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(21),
-      width: width,
-      elementWidth: elementWidth
-    });
-  });
-
-  assert.equal(view.get('totalHeight'), 550);
-});
-
-skip("with bottomPadding", function(assert){
-  var height = 500, rowHeight = 50, width = 100, elementWidth = 50;
-
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      height: height,
-      rowHeight: rowHeight,
-      content: generateContent(20),
-      width: width,
-      elementWidth: elementWidth,
-      bottomPadding: 25
-    });
-  });
-
-  assert.equal(view.get('totalHeight'), 525);
+  assert.equal(this.$('.ember-list-container').height(), 550);
 });
