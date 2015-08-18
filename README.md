@@ -51,9 +51,9 @@ ember install ember-list-view
 
 First, let's create a template:
 ```handlebars
-{{#ember-list items=model height=500 rowHeight=50 width=500}}
+{{#ember-collection items=model height=500 rowHeight=50 width=500}}
   {{name}}
-{{/ember-list}}
+{{/ember-collection}}
 ```
 
 Next, let's feed our template with some data:
