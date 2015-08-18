@@ -143,6 +143,11 @@ export default Ember.Component.extend({
   //     this.rerender();
   //   }
   // },
+
+  willRender: function() {
+    this.notifyPropertyChange('cells');
+  },
+
   updateCells() {
     if (!this._items) { return; }
     if (this._cellLayout.length !== this._items.length) {
@@ -242,7 +247,7 @@ export default Ember.Component.extend({
   },
   calculateContentSize() {
     var cellLayout = this._cellLayout;
-    if (cellLayout == null || this._width == null || this._height == null) { return; }
+    if (cellLayout == null || this._width == null || this._height == null || this.contentElement === undefined) { return; }
     var contentWidth = cellLayout.contentWidth(this._width);
     var contentHeight = cellLayout.contentHeight(this._width);
     this.contentElement.style.width = contentWidth + 'px';
