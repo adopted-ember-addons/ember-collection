@@ -203,13 +203,12 @@ export default Ember.Component.extend({
       this.cells.pushObject(cell);
     }
     this.cellMap = cellMap;
-    if (startingIndex !== this.startingIndex) {
+    if (startingIndex !== this.startingIndex || visibleCount !== this.visibleCount) {
       this.startingIndex = startingIndex;
-      (this.attrs.startingIndexDidChange || Ember.K)(startingIndex);
-    }
-    if (visibleCount !== this.visibleCount) {
       this.visibleCount = visibleCount;
-      (this.attrs.visibleCountDidChange || Ember.K)(visibleCount);
+      if (this.attrs.sliceDidChange != null) {
+        this.attrs.sliceDidChange(startingIndex, visibleCount);
+      }
     }
   },
   calculateBounds() {

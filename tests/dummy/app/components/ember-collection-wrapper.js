@@ -4,14 +4,9 @@ import layout from './ember-collection-wrapper/template';
 var EmberListWrapper = Ember.Component.extend({
   layout: layout,
   actions: {
-    startingIndexDidChange: function (idx) {
-      if (EmberListWrapper.startingIndexListener != null) {
-        EmberListWrapper.startingIndexListener(idx);
-      }
-    },
-    visibleCountDidChange: function (count) {
-      if (EmberListWrapper.visibleCountListener != null) {
-        EmberListWrapper.visibleCountListener(count);
+    sliceDidChange: function(startingIndex, visibleCount) {
+      if (EmberListWrapper.sliceListener(startingIndex, visibleCount)) {
+        EmberListWrapper.sliceListener(startingIndex, visibleCount);
       }
     }
   }

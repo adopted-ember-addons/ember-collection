@@ -4,10 +4,8 @@ import EmberCollectionWrapper from 'dummy/components/ember-collection-wrapper';
 
 function renderComponent(testContext, attrs) {
 
-  EmberCollectionWrapper.startingIndexListener = function(idx) {
+  EmberCollectionWrapper.sliceListener = function(idx, count) {
     testContext.set('startingIndex', idx);
-  };
-  EmberCollectionWrapper.visibleCountDidChange = function(count) {
     testContext.set('visibleCount', count);
   };
   if (attrs.buffer == null) { attrs.buffer = 5; }
@@ -20,7 +18,6 @@ function renderComponent(testContext, attrs) {
     }}`);
     testContext.setProperties(attrs);
   });
-
 }
 
 function generateContent(n) {
