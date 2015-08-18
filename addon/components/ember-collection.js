@@ -35,13 +35,14 @@ export default Ember.Component.extend({
     this._offsetY = undefined;
     this._width = undefined;
     this._height = undefined;
-    
+
     // this.firstCell = undefined;
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
     this._cells = [];
     this._cellMap = Object.create(null);
+    this.animationFrameRequest = null;
 
     // TODO: Super calls should always be at the top of the constructor.
     // I had to move the super call after the properties were defined to
@@ -98,7 +99,6 @@ export default Ember.Component.extend({
     this.calculateContentSize();
     // content size
     this.initContentOffset();
-    this.setupScroller();
 
     let callback = () => {
       var element = this.element;
@@ -119,11 +119,9 @@ export default Ember.Component.extend({
           }
         }
       }
-      requestAnimationFrame(callback);
+      this.animationFrameRequest = requestAnimationFrame(callback);
     };
 
-    // TODO: Currently, this callback runs forever. We need to make it
-    // cancelable and it should be canceled inside of willDestroyElement.
     callback();
   },
 
@@ -131,18 +129,11 @@ export default Ember.Component.extend({
     return this.updateCells();
   }),
 
-  setupScroller() {
-    //this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
-    // TODO save for teardown
+  willDestroyElement() {
+    if (this.animationFrameRequest) {
+      cancelAnimationFrame(this.animationFrameRequest);
+    }
   },
-  // updateOffset() {
-  //   if (this.element) {
-  //     console.log('scroll');
-  //     this._offsetX = this.element.scrollLeft;
-  //     this._offsetY = this.element.scrollTop;
-  //     this.rerender();
-  //   }
-  // },
 
   willRender: function() {
     this.notifyPropertyChange('cells');
