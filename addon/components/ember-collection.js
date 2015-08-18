@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
-var getMutValue = Ember.__loader.require('ember-htmlbars/hooks/get-value')['default'];
 
 
 class Cell {
@@ -28,16 +27,6 @@ export default Ember.Component.extend({
   layout: layout,
   classNames: ['ember-list'],
 
-  // Utility to get attribute value which may or may not be wrapped in mut helper.
-  // returns defaultValue if attribute not defined or defined as null or undefined
-  _maybeMutAttr(key, defaultValue) {
-    if (this.attrs == null) { return defaultValue; }
-    var obj = this.attrs[key];
-    if (obj == null) { return defaultValue; }
-    obj = getMutValue(obj);
-    obj = (obj == null) ? defaultValue : obj;
-    return obj;
-  },
   init() {
     this._super();
     this.offsetX = 0;
@@ -56,23 +45,23 @@ export default Ember.Component.extend({
   },
   didInitAttrs() {
     this._super();
-    this.buffer = this._maybeMutAttr('buffer', 5);
-    this.offsetX = this._maybeMutAttr('offset-x', 0);
-    this.offsetY = this._maybeMutAttr('offset-y', 0);
-    this.width = this._maybeMutAttr('width', 0);
-    this.height = this._maybeMutAttr('height', 0);
+    this.buffer = this.getAttr('buffer') | 5;
+    this.offsetX = this.getAttr('offset-x') | 0;
+    this.offsetY = this.getAttr('offset-y') | 0;
+    this.width = this.getAttr('width') | 0;
+    this.height = this.getAttr('height') | 0;
   },
 
   didReceiveAttrs() {
     this._super();
     // Reset cells when cell layout or items array changes
-    var buffer = this._maybeMutAttr('buffer', 5);
-    var cellLayout = this._maybeMutAttr('cell-layout');
-    var items = this._maybeMutAttr('items');
-    var contentWidth = this._maybeMutAttr('width');
-    var contentHeight = this._maybeMutAttr('height');
-    var offsetX = this._maybeMutAttr('offset-x', 0);
-    var offsetY = this._maybeMutAttr('offset-y', 0);
+    var buffer = this.getAttr('buffer') | 5;
+    var cellLayout = this.getAttr('cell-layout');
+    var items = this.getAttr('items');
+    var contentWidth = this.getAttr('width') | 0;
+    var contentHeight = this.getAttr('height') | 0;
+    var offsetX = this.getAttr('offset-x') | 0;
+    var offsetY = this.getAttr('offset-y') | 0;
     var calculateSize = false;
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
