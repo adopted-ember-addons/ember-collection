@@ -49,6 +49,10 @@ export default Ember.Component.extend({
   },
 
   didReceiveAttrs() {
+    // Work around emberjs/ember.js#11992. Affects <=1.13.8 and <=2.0.0.
+    // This will likely be patched in 1.13.9 and 2.0.1.
+    this._super();
+
     // Reset cells when cell layout or items array changes
     var cellLayout = this.getAttr('cell-layout');
     var items = this.getAttr('items');
