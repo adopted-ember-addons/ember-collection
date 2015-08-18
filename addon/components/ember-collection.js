@@ -241,10 +241,13 @@ export default Ember.Component.extend({
   calculateContentSize() {
     var cellLayout = this.get('cellLayout');
     if (cellLayout == null || this.width == null || this.height == null) { return; }
-    var contentWidth = cellLayout.contentWidth(this.width);
-    var contentHeight = cellLayout.contentHeight(this.width);
-    this.contentElement.style.width = contentWidth + 'px';
-    this.contentElement.style.height = contentHeight + 'px';
+
+    if(this.contentElement) {
+      var contentWidth = cellLayout.contentWidth(this.width);
+      var contentHeight = cellLayout.contentHeight(this.width);
+      this.contentElement.style.width = contentWidth + 'px';
+      this.contentElement.style.height = contentHeight + 'px';
+    }
   },
   initContentOffset() {
     if (this.offsetX > 0) {
