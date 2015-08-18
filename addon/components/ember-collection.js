@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     this.width = 0;
     this.height = 0;
     this.contentElement = undefined;
-    Ember.set(this, 'cells', Ember.A([]));
+    this.cells = [];
     this.cellMap = Object.create(null);
   },
 
