@@ -33,11 +33,13 @@ test("scroll but within content length", function(assert){
   renderComponent(this, {
     width, height, itemWidth, itemHeight, content, offsetY});
 
-  assert.equal(this.$('.ember-list').prop('scrollTop'), 50);
+  assert.equal(
+    this.$('.ember-list').prop('scrollTop'), 50, 'Scrolled one row.');
   Ember.run(()=>{
     this.set('width', 150);
   });
-  assert.equal(this.$('.ember-list').prop('scrollTop'), 0);
+  assert.equal(
+    this.$('.ember-list').prop('scrollTop'), 0, 'No scroll with wider list.');
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(), 
@@ -50,7 +52,8 @@ test("scroll within content length, beyond buffer", function(assert){
   renderComponent(this, {
     width, height, itemWidth, itemHeight, content: generateContent(10), offsetY});
   Ember.run(()=>{ this.set('offsetY', 150);});
-  assert.equal(this.$('.ember-list').prop('scrollTop'), 150);
+  assert.equal(
+    this.$('.ember-list').prop('scrollTop'), 150, 'scrolled to item 7');
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(), 
@@ -59,7 +62,8 @@ test("scroll within content length, beyond buffer", function(assert){
   Ember.run(()=>{
     this.set('width', 200);
   });
-  assert.equal(this.$('.ember-list').prop('scrollTop'), 50);
+  assert.equal(
+    this.$('.ember-list').prop('scrollTop'), 50, 'Scrolled down one row.');
   positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(), 

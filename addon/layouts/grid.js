@@ -35,4 +35,7 @@ export default class Grid
   count(offsetX, offsetY, width, height) {
     return this.bin.numberVisibleWithin(offsetY, width, height, true);
   }
+  maxScroll(width, height) {
+    return this.bin.maxContentOffset(width, height);
+  }
 }

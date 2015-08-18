@@ -55,6 +55,7 @@ export default Ember.Component.extend({
     }
   },
   didInitAttrs() {
+    this._super();
     this.buffer = this._maybeMutAttr('buffer', 5);
     this.offsetX = this._maybeMutAttr('offset-x', 0);
     this.offsetY = this._maybeMutAttr('offset-y', 0);
@@ -63,6 +64,7 @@ export default Ember.Component.extend({
   },
 
   didReceiveAttrs() {
+    this._super();
     // Reset cells when cell layout or items array changes
     var buffer = this._maybeMutAttr('buffer', 5);
     var cellLayout = this._maybeMutAttr('cell-layout');
@@ -87,19 +89,20 @@ export default Ember.Component.extend({
     }
     if (contentWidth !== this.width || contentHeight !== this.height ||
         buffer !== this.buffer) {
-      this.width = contentWidth;
-      this.height = contentHeight;
+      this.set('width', contentWidth);
+      this.set('height', contentHeight);
       this.buffer = buffer;
       this.calculateBounds();
       calculateSize = true;
     }
-    if (calculateSize) {
-       Ember.run.scheduleOnce('afterRender', this, 'calculateContentSize');
-    }
     if (offsetX !== this.offsetY || offsetY !== this.offsetY) {
       this.offsetX = offsetX;
       this.offsetY = offsetY;
-      Ember.run.scheduleOnce('afterRender', this, 'initContentOffset');
+      calculateSize = true;
+    }
+    if (calculateSize) {
+      this.calculateBounds();
+      this.calculateContentSize();
     }
   },
   arrayWillChange() { },
@@ -109,10 +112,9 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super();
     this.contentElement = this.element.firstElementChild;
-    this.calculateBounds();
-    this.calculateContentSize();
-    // content size
-    this.initContentOffset();
+    this.calculateBounds();      // viewport setup
+    this.calculateContentSize(); // content size
+    this.initContentOffset();    // content scroll in viewport
     this.setupScroller();
 
     var component = this;
@@ -263,13 +265,16 @@ export default Ember.Component.extend({
     var contentHeight = cellLayout.contentHeight(this.width);
     this.contentElement.style.width = contentWidth + 'px';
     this.contentElement.style.height = contentHeight + 'px';
+    this.initContentOffset();
   },
   initContentOffset() {
+    if (this.element == null) { return; }
     if (this.offsetX > 0) {
       this.element.scrollLeft = this.offsetX;
     }
-    if (this.offsetY > 0) {
-      this.element.scrollTop = this.offsetY;
+    if (this.offsetY > 0 && this.cellLayout != null) {
+      this.element.scrollTop = Math.min(
+        this.offsetY, this.cellLayout.maxScroll(this.width, this.height));
     }
   }
 });
