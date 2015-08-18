@@ -116,6 +116,8 @@ export default Ember.Component.extend({
       requestAnimationFrame(callback);
     };
 
+    // TODO: Currently, this callback runs forever. We need to make it
+    // cancelable and it should be canceled inside of willDestroyElement.
     callback();
   },
   willDestroyElement() {
