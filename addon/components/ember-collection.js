@@ -94,28 +94,28 @@ export default Ember.Component.extend({
     this.initContentOffset();
     this.setupScroller();
 
-    var component = this;
-    function callback() {
-      var element = component.element;
+    let callback = () => {
+      var element = this.element;
       if (element) {
         var offsetX = element.scrollLeft;
         var offsetY = element.scrollTop;
 
-        if (offsetX !== component.offsetX || offsetY !== component.offsetY) {
-          component.offsetX = offsetX;
-          component.offsetY = offsetY;
+        if (offsetX !== this.offsetX || offsetY !== this.offsetY) {
+          this.offsetX = offsetX;
+          this.offsetY = offsetY;
 
-          var index = component.cellLayout.indexAt(offsetX, offsetY, component.width, component.height);
-          var count = component.cellLayout.count(offsetX, offsetY, component.width, component.height);
-          if (index !== component.currentIndex || count !== component.currentCount) {
-            component.currentIndex = index;
-            component.currentCount = count;
-            Ember.run(component, 'rerender');
+          var index = this.cellLayout.indexAt(offsetX, offsetY, this.width, this.height);
+          var count = this.cellLayout.count(offsetX, offsetY, this.width, this.height);
+          if (index !== this.currentIndex || count !== this.currentCount) {
+            this.currentIndex = index;
+            this.currentCount = count;
+            Ember.run(this, 'rerender');
           }
         }
       }
       requestAnimationFrame(callback);
-    }
+    };
+
     callback();
   },
   willDestroyElement() {
