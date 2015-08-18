@@ -65,14 +65,7 @@ export default Ember.Component.extend({
     var calculateSize = false;
 
     if (this.cellLayout !== cellLayout || this.items !== items) {
-      if (this.items != null && this.items !== items &&
-          this.items.removeArrayObserver != null ) {
-        this.items.removeArrayObserver(this);
-      }
-      this.items = items;
-      if (this.items != null && this.items.addArrayObserver != null ) {
-        this.items.addArrayObserver(this);
-      }
+      this.set('items', items);
       this.cellLayout = cellLayout;
       calculateSize = true;
     }
@@ -94,10 +87,9 @@ export default Ember.Component.extend({
       this.calculateContentSize();
     }
   },
-  arrayWillChange() { },
-  arrayDidChange() {
+  itemsDidChange: Ember.observer('items.[]', function() {
     this.rerender();
-  },
+  }),
   didInsertElement() {
     this._super();
     this.contentElement = this.element.firstElementChild;
@@ -129,12 +121,6 @@ export default Ember.Component.extend({
       requestAnimationFrame(callback);
     }
     callback();
-  },
-  willDestroyElement() {
-    this._super();
-    if (this.items != null && this.items.removeArrayObserver != null) {
-      this.items.removeArrayObserver(this);
-    }
   },
   setupScroller() {
     //this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
