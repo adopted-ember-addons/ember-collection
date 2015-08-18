@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
-var getMutValue = Ember.__loader.require('ember-htmlbars/hooks/get-value')['default'];
-
 
 class Cell {
   constructor(key, item, index, style) {
@@ -27,59 +25,64 @@ function formatStyle(pos, width, height) {
 export default Ember.Component.extend({
   layout: layout,
 
-  // Utility to get attribute value which may or may not be wrapped in mut helper.
-  // returns defaultValue if attribute not defined or defined as null or undefined
-  _maybeMutAttr(key, defaultValue) {
-    if (this.attrs == null) { return defaultValue; }
-    var obj = this.attrs[key];
-    if (obj == null) { return defaultValue; }
-    obj = getMutValue(obj);
-    obj = (obj == null) ? defaultValue : obj;
-    return obj;
-  },
   init() {
-    this._super();
+    // State pulled from attrs is prefixed with an underscore
+    // so that there's no chance of shadowing the attrs proxy.
+    this._buffer = undefined;
+    this._cellLayout = undefined;
+    this._items = undefined;
+    this._offsetX = undefined;
+    this._offsetY = undefined;
+    this._width = undefined;
+    this._height = undefined;
+    
     // this.firstCell = undefined;
     // this.lastCell = undefined;
     // this.cellCount = undefined;
-    this.offsetX = 0;
-    this.offsetY = 0;
-    this.width = 0;
-    this.height = 0;
     this.contentElement = undefined;
-    Ember.set(this, 'cells', Ember.A([]));
-    this.cellMap = Object.create(null);
+    this._cells = [];
+    this._cellMap = Object.create(null);
+
+    // TODO: Super calls should always be at the top of the constructor.
+    // I had to move the super call after the properties were defined to
+    // work around what I believe is a bug in the attrs proxy. The problem
+    // seems to arise when you:
+    //
+    //   1. Call this._super() immediately.
+    //   2. Set a property on `this` that is both not in the
+    //      initial attrs hash and not on the prototype.
+    this._super();
   },
+
   didInitAttrs() {
-    this.buffer = this._maybeMutAttr('buffer', 5);
-    this.offsetX = this._maybeMutAttr('offset-x', 0);
-    this.offsetY = this._maybeMutAttr('offset-y', 0);
-    this.width = this._maybeMutAttr('width', 0);
-    this.height = this._maybeMutAttr('height', 0);
+    let buffer = this.getAttr('buffer');
+    this._buffer = (typeof buffer === 'number') ? buffer : 5;
+    this._offsetX = this.getAttr('offset-x') | 0;
+    this._offsetY = this.getAttr('offset-y') | 0;
+    this._width = this.getAttr('width') | 0;
+    this._height = this.getAttr('height') | 0;
   },
 
   didReceiveAttrs() {
+    // Work around emberjs/ember.js#11992. Affects <=1.13.8 and <=2.0.0.
+    // This will likely be patched in 1.13.9 and 2.0.1.
+    this._super();
+
     // Reset cells when cell layout or items array changes
-    var cellLayout = this._maybeMutAttr('cell-layout');
-    var items = this._maybeMutAttr('items');
-    var contentWidth = this._maybeMutAttr('width');
-    var contentHeight = this._maybeMutAttr('height');
+    var cellLayout = this.getAttr('cell-layout');
+    var items = this.getAttr('items');
+    var contentWidth = this.getAttr('width');
+    var contentHeight = this.getAttr('height');
     var calculateSize = false;
 
-    if (this.cellLayout !== cellLayout || this.items !== items) {
-      if (this.items != null && this.items !== items ) {
-        this.items.removeArrayObserver(this);
-      }
-      this.items = items;
-      if (this.items != null) {
-        this.items.addArrayObserver(this);
-      }
-      this.cellLayout = cellLayout;
+    if (this._cellLayout !== cellLayout || this._items !== items) {
+      this.set('_items', items);
+      this._cellLayout = cellLayout;
       calculateSize = true;
     }
-    if (contentWidth !== this.width || contentHeight !== this.height) {
-      this.width = contentWidth;
-      this.height = contentHeight;
+    if (contentWidth !== this._width || contentHeight !== this._height) {
+      this._width = contentWidth;
+      this._height = contentHeight;
       this.calculateBounds();
       calculateSize = true;
     }
@@ -87,10 +90,7 @@ export default Ember.Component.extend({
        Ember.run.scheduleOnce('afterRender', this, 'calculateContentSize');
     }
   },
-  arrayWillChange() { },
-  arrayDidChange() {
-    this.rerender();
-  },
+
   didInsertElement() {
     this._super();
     this.contentElement = this.element.firstElementChild;
@@ -100,36 +100,37 @@ export default Ember.Component.extend({
     this.initContentOffset();
     this.setupScroller();
 
-    var component = this;
-    function callback() {
-      var element = component.element;
+    let callback = () => {
+      var element = this.element;
       if (element) {
         var offsetX = element.scrollLeft;
         var offsetY = element.scrollTop;
 
-        if (offsetX !== component.offsetX || offsetY !== component.offsetY) {
-          component.offsetX = offsetX;
-          component.offsetY = offsetY;
+        if (offsetX !== this._offsetX || offsetY !== this._offsetY) {
+          this._offsetX = offsetX;
+          this._offsetY = offsetY;
 
-          var index = component.cellLayout.indexAt(offsetX, offsetY, component.width, component.height);
-          var count = component.cellLayout.count(offsetX, offsetY, component.width, component.height);
-          if (index !== component.currentIndex || count !== component.currentCount) {
-            component.currentIndex = index;
-            component.currentCount = count;
-            Ember.run(component, 'rerender');
+          var index = this._cellLayout.indexAt(offsetX, offsetY, this._width, this._height);
+          var count = this._cellLayout.count(offsetX, offsetY, this._width, this._height);
+          if (index !== this.currentIndex || count !== this.currentCount) {
+            this.currentIndex = index;
+            this.currentCount = count;
+            Ember.run(this, 'rerender');
           }
         }
       }
       requestAnimationFrame(callback);
-    }
+    };
+
+    // TODO: Currently, this callback runs forever. We need to make it
+    // cancelable and it should be canceled inside of willDestroyElement.
     callback();
   },
-  willDestroyElement() {
-    this._super();
-    if (this.items != null) {
-      this.items.removeArrayObserver(this);
-    }
-  },
+
+  cells: Ember.computed('_items.[]', function() {
+    return this.updateCells();
+  }),
+
   setupScroller() {
     //this.element.addEventListener('scroll', Ember.run.bind(this, 'updateOffset'));
     // TODO save for teardown
@@ -137,26 +138,26 @@ export default Ember.Component.extend({
   // updateOffset() {
   //   if (this.element) {
   //     console.log('scroll');
-  //     this.offsetX = this.element.scrollLeft;
-  //     this.offsetY = this.element.scrollTop;
+  //     this._offsetX = this.element.scrollLeft;
+  //     this._offsetY = this.element.scrollTop;
   //     this.rerender();
   //   }
   // },
-  willRender() {
-    if (!this.items) { return; }
-    if (this.cellLayout.length !== this.items.length) {
-      this.cellLayout.length = this.items.length;
+  updateCells() {
+    if (!this._items) { return; }
+    if (this._cellLayout.length !== this._items.length) {
+      this._cellLayout.length = this._items.length;
       this.calculateContentSize();
     }
 
-    var priorMap = this.cellMap;
+    var priorMap = this._cellMap;
     var cellMap = Object.create(null);
 
-    var index = this.cellLayout.indexAt(this.offsetX, this.offsetY, this.width, this.height);
-    var count = this.cellLayout.count(this.offsetX, this.offsetY, this.width, this.height);
-    var items = this.items;
-    index = Math.max(index - this.buffer, 0);
-    count = Math.min(count + this.buffer, Ember.get(items, 'length') - index);
+    var index = this._cellLayout.indexAt(this._offsetX, this._offsetY, this._width, this._height);
+    var count = this._cellLayout.count(this._offsetX, this._offsetY, this._width, this._height);
+    var items = this._items;
+    index = Math.max(index - this._buffer, 0);
+    count = Math.min(count + this._buffer, Ember.get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
 
     var newItems = [];
@@ -168,9 +169,9 @@ export default Ember.Component.extend({
         cell = priorMap[itemKey];
       }
       if (cell) {
-        pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
-        width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
-        height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
+        pos = this._cellLayout.positionAt(itemIndex, this._width, this._height);
+        width = this._cellLayout.widthAt(itemIndex, this._width, this._height);
+        height = this._cellLayout.heightAt(itemIndex, this._width, this._height);
         style = formatStyle(pos, width, height);
         Ember.set(cell, 'style', style);
         Ember.set(cell, 'hidden', false);
@@ -181,15 +182,15 @@ export default Ember.Component.extend({
       }
     }
 
-    for (i=0; i<this.cells.length; i++) {
-      cell = this.cells[i];
+    for (i=0; i<this._cells.length; i++) {
+      cell = this._cells[i];
       if (!cellMap[cell.key]) {
         if (newItems.length) {
           itemIndex = newItems.pop();
           itemKey = decodeEachKey(items[itemIndex], '@identity');
-          pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
-          width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
-          height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
+          pos = this._cellLayout.positionAt(itemIndex, this._width, this._height);
+          width = this._cellLayout.widthAt(itemIndex, this._width, this._height);
+          height = this._cellLayout.heightAt(itemIndex, this._width, this._height);
           style = formatStyle(pos, width, height);
           Ember.set(cell, 'style', style);
           Ember.set(cell, 'key', itemKey);
@@ -207,15 +208,16 @@ export default Ember.Component.extend({
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
       itemKey = decodeEachKey(items[itemIndex], '@identity');
-      pos = this.cellLayout.positionAt(itemIndex, this.width, this.height);
-      width = this.cellLayout.widthAt(itemIndex, this.width, this.height);
-      height = this.cellLayout.heightAt(itemIndex, this.width, this.height);
+      pos = this._cellLayout.positionAt(itemIndex, this._width, this._height);
+      width = this._cellLayout.widthAt(itemIndex, this._width, this._height);
+      height = this._cellLayout.heightAt(itemIndex, this._width, this._height);
       style = formatStyle(pos, width, height);
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
-      this.cells.pushObject(cell);
+      this._cells.pushObject(cell);
     }
-    this.cellMap = cellMap;
+    this._cellMap = cellMap;
+    return this._cells;
   },
   calculateBounds() {
     // make sure rendered before accessing style.
@@ -231,27 +233,27 @@ export default Ember.Component.extend({
     this.element.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
     this.element.style.position = 'relative';
     this.element.style.boxSizing = 'border-box';
-    if (this.width > 0) {
-      this.element.style.width = this.width + 'px';
+    if (this._width > 0) {
+      this.element.style.width = this._width + 'px';
     }
-    if (this.height > 0) {
-      this.element.style.height = this.height + 'px';
+    if (this._height > 0) {
+      this.element.style.height = this._height + 'px';
     }
   },
   calculateContentSize() {
-    var cellLayout = this.get('cellLayout');
-    if (cellLayout == null || this.width == null || this.height == null) { return; }
-    var contentWidth = cellLayout.contentWidth(this.width);
-    var contentHeight = cellLayout.contentHeight(this.width);
+    var cellLayout = this._cellLayout;
+    if (cellLayout == null || this._width == null || this._height == null) { return; }
+    var contentWidth = cellLayout.contentWidth(this._width);
+    var contentHeight = cellLayout.contentHeight(this._width);
     this.contentElement.style.width = contentWidth + 'px';
     this.contentElement.style.height = contentHeight + 'px';
   },
   initContentOffset() {
-    if (this.offsetX > 0) {
-      this.element.scrollLeft = this.offsetX;
+    if (this._offsetX > 0) {
+      this.element.scrollLeft = this._offsetX;
     }
-    if (this.offsetY > 0) {
-      this.element.scrollTop = this.offsetY;
+    if (this._offsetY > 0) {
+      this.element.scrollTop = this._offsetY;
     }
   }
 });
