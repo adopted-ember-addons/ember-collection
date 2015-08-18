@@ -5,7 +5,7 @@ function getRandomInt() {
 }
 export default Ember.Route.extend({
   model: function() {
-    var items = [];
+    var items = Ember.A();
     for (var i = 0; i < 1000; i++) {
       var width = getRandomInt();
       var height = getRandomInt();
