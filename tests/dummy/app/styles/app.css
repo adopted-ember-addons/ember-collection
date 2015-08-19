@@ -147,7 +147,7 @@
   background: black;
 }
 
-.pull-to-refresh-list .ember-list-container {
+.pull-to-refresh-list .ember-collection-container {
   -webkit-transform: translate3d(0px, 0px, 0);
 }
 
@@ -177,7 +177,7 @@
   left: 0;
 }
 
-.virtual .ember-list-container {
+.virtual .ember-collection-container {
   -webkit-transform: translate3d(0px, 0px, 0);
 }
 

@@ -9,7 +9,7 @@ var itemHeight = 40;
 var width = 500;
 var height = 400;
 
-moduleForComponent('ember-list', 'manipulate content', {
+moduleForComponent('ember-collection', 'manipulate content', {
   integration: true
 });
 
@@ -25,7 +25,7 @@ test("replacing the list content", function(assert) {
     assert.equal(this.$('.ember-list-item-view')
       .filter(function(){ return $(this).css('display') !== 'none'; })
       .length, 1, "The rendered list was updated");
-    assert.equal(this.$('.ember-list-container').height(), itemHeight, "The scrollable view has the correct height");
+    assert.equal(this.$('.ember-collection-container').height(), itemHeight, "The scrollable view has the correct height");
   });
 });
 
@@ -45,7 +45,7 @@ test("adding to the front of the list content", function(assert) {
     "Item -1", "The item has been inserted in the list");
   var expectedRows = Math.ceil((nItems + 1) / (width / itemWidth));
   assert.equal(
-    this.$('.ember-list-container').height(),
+    this.$('.ember-collection-container').height(),
     expectedRows * itemHeight,
     "The scrollable view has the correct height");
 });

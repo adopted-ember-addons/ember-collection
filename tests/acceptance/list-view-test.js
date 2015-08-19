@@ -57,7 +57,7 @@ test("should render an empty view when there is no content", function(assert) {
   this.render();
 
   assert.equal(view.get('element').style.height, "500px", "The list view height is correct");
-  assert.equal(this.$('.ember-list-container').height(), emptyViewHeight, "The scrollable view has the correct height");
+  assert.equal(this.$('.ember-collection-container').height(), emptyViewHeight, "The scrollable view has the correct height");
 
   assert.equal(this.$('.ember-list-item-view').length, 0, "The correct number of rows were rendered");
   assert.equal(this.$('.empty-view').length, 1, "The empty view rendered");
@@ -67,7 +67,7 @@ test("should render an empty view when there is no content", function(assert) {
   });
 
   assert.equal(view.get('element').style.height, "500px", "The list view height is correct");
-  assert.equal(this.$('.ember-list-container').height(), 500, "The scrollable view has the correct height");
+  assert.equal(this.$('.ember-collection-container').height(), 500, "The scrollable view has the correct height");
 
   assert.equal(this.$('.ember-list-item-view').length, 10, "The correct number of rows were rendered");
   assert.equal(this.$('.empty-view').length, 0, "The empty view is removed");
@@ -77,7 +77,7 @@ test("should render an empty view when there is no content", function(assert) {
   });
 
   assert.equal(view.get('element').style.height, "500px", "The list view height is correct");
-  assert.equal(this.$('.ember-list-container').height(), emptyViewHeight, "The scrollable view has the correct height");
+  assert.equal(this.$('.ember-collection-container').height(), emptyViewHeight, "The scrollable view has the correct height");
 
   assert.equal(this.$('.ember-list-item-view').length, 0, "The correct number of rows were rendered");
   assert.equal(this.$('.empty-view').length, 1, "The empty view rendered");
@@ -87,7 +87,7 @@ test("should render an empty view when there is no content", function(assert) {
   });
 
   assert.equal(view.get('element').style.height, "500px", "The list view height is correct");
-  assert.equal(this.$('.ember-list-container').height(), 500, "The scrollable view has the correct height");
+  assert.equal(this.$('.ember-collection-container').height(), 500, "The scrollable view has the correct height");
 
   assert.equal(this.$('.ember-list-item-view').length, 10, "The correct number of rows were rendered");
   assert.equal(this.$('.empty-view').length, 0, "The empty view has been removed");
@@ -114,7 +114,7 @@ test("should render a subset of the full content, based on the height, in the co
   this.render();
 
   assert.equal(view.get('element').style.height, "500px", "The list view height is correct");
-  assert.equal(this.$('.ember-list-container').height(), 5000, "The scrollable view has the correct height");
+  assert.equal(this.$('.ember-collection-container').height(), 5000, "The scrollable view has the correct height");
 
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
 
@@ -895,8 +895,8 @@ test("The list view is wrapped in an extra div to support JS-emulated scrolling"
   });
 
   this.render();
-  assert.equal(this.$('.ember-list-container').length, 1, "expected a ember-list-container wrapper div");
-  assert.equal(this.$('.ember-list-container > .ember-list-item-view').length, 0, "expected ember-list-items inside the wrapper div");
+  assert.equal(this.$('.ember-collection-container').length, 1, "expected a ember-collection-container wrapper div");
+  assert.equal(this.$('.ember-collection-container > .ember-list-item-view').length, 0, "expected ember-list-items inside the wrapper div");
 });
 
 test("When scrolled past the totalHeight, views should not be recycled in. This is to support overscroll", function(assert) {

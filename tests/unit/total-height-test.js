@@ -3,7 +3,7 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-moduleForComponent('ember-list', 'totalHeight', { integration: true });
+moduleForComponent('ember-collection', 'totalHeight', { integration: true });
 
 test("single column", function(assert) {
   var width = 50, height = 500, itemHeight = 50, itemWidth = 50;
@@ -14,7 +14,7 @@ test("single column", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-list-container').height(), 1000);
+  assert.equal(this.$('.ember-collection-container').height(), 1000);
 });
 
 test("even", function(assert) {
@@ -26,7 +26,7 @@ test("even", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-list-container').height(), 500);
+  assert.equal(this.$('.ember-collection-container').height(), 500);
 });
 
 test("odd", function(assert) {
@@ -38,5 +38,5 @@ test("odd", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-list-container').height(), 550);
+  assert.equal(this.$('.ember-collection-container').height(), 550);
 });
