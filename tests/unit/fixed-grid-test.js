@@ -3,7 +3,7 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent, sortElementsByPosition } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-moduleForComponent('ember-list', 'display in fixed grid', {integration: true});
+moduleForComponent('ember-collection', 'display in fixed grid', {integration: true});
 
 test('display 5 in 6', function(assert) {
   var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
@@ -17,7 +17,7 @@ test('display 5 in 6', function(assert) {
   var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
 
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The first item has not been hidden"
   );
 });

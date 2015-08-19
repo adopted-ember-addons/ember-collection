@@ -3,7 +3,7 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-moduleForComponent('ember-list', 'startingIndex', { integration: true });
+moduleForComponent('ember-collection', 'startingIndex', { integration: true });
 
 test("base case", function(assert){
   var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
