@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import {moduleForComponent} from 'ember-qunit';
-import {skip} from 'qunit';
-import {generateContent} from '../helpers/helpers';
+import { moduleForComponent } from 'ember-qunit';
+import { skip } from 'qunit';
+import { generateContent, findItems, findVisibleItems } from '../helpers/helpers';
 // import hbs from 'htmlbars-inline-precompile';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
@@ -62,7 +62,7 @@ skip("recycling complex views long list", function(assert){
   assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement");
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   innerViewInsertionCount = 0;
   innerViewDestroyCount = 0;
@@ -71,7 +71,7 @@ skip("recycling complex views long list", function(assert){
     view.scrollTo(50);
   });
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   assert.equal(innerViewInsertionCount, 1, "expected number of innerView's didInsertElement");
   assert.equal(innerViewDestroyCount, 1, "expected number of innerView's willDestroyElement");
@@ -86,7 +86,7 @@ skip("recycling complex views long list", function(assert){
     view.scrollTo(0);
   });
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   assert.equal(innerViewInsertionCount, 1, "expected number of innerView's didInsertElement");
   assert.equal(innerViewDestroyCount, 1, "expected number of innerView's willDestroyElement");
@@ -149,14 +149,14 @@ skip("recycling complex views short list", function(assert){
   assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   innerViewInsertionCount = 0;
   innerViewDestroyCount = 0;
 
   view.scrollTo(50);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
 
   assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 50)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 50)");
@@ -169,7 +169,7 @@ skip("recycling complex views short list", function(assert){
 
   view.scrollTo(0);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
 
   assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 0)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
@@ -251,7 +251,7 @@ skip("recycling complex views long list, with ReusableListItemView", function(as
   assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   listItemViewInsertionCount = 0;
   listItemViewDestroyCount = 0;
@@ -260,7 +260,7 @@ skip("recycling complex views long list, with ReusableListItemView", function(as
 
   view.scrollTo(50);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
 
   assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 50)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 50)");
@@ -274,7 +274,7 @@ skip("recycling complex views long list, with ReusableListItemView", function(as
 
   view.scrollTo(0);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
 
   assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 0)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 0)");
@@ -354,7 +354,7 @@ skip("recycling complex views short list, with ReusableListItemView", function(a
   assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
   listItemViewInsertionCount = 0;
   listItemViewDestroyCount = 0;
@@ -363,7 +363,7 @@ skip("recycling complex views short list, with ReusableListItemView", function(a
 
   view.scrollTo(50);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
 
   assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 50)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 50)");
@@ -377,7 +377,7 @@ skip("recycling complex views short list, with ReusableListItemView", function(a
 
   view.scrollTo(0);
 
-  assert.equal(this.$('.ember-list-item-view').length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+  assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
 
   assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 0)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 0)");
@@ -461,8 +461,8 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
   assert.equal(innerViewInsertionCount, 8, "expected number of innerView's didInsertElement (post-append)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
 
-  assert.equal(this.$('.ember-list-item-view').length, 8, "The correct number of items were rendered (post-append)");
-  assert.equal(this.$('.ember-list-item-view:visible').length, 8, "The number of items that are not hidden with display:none (post-append)");
+  assert.equal(findItems(this).length, 8, "The correct number of items were rendered (post-append)");
+  assert.equal(findVisibleItems(this).length, 8, "The number of items that are not hidden with display:none (post-append)");
 
   listItemViewInsertionCount = 0;
   listItemViewDestroyCount = 0;
@@ -471,8 +471,8 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
 
   view.scrollTo(350);
 
-  assert.equal(this.$('.ember-list-item-view').length, 8, "The correct number of items were rendered (post-scroll to 350)");
-  assert.equal(this.$('.ember-list-item-view:visible').length, 8, "The number of items that are not hidden with display:none (post-scroll to 350)");
+  assert.equal(findItems(this).length, 8, "The correct number of items were rendered (post-scroll to 350)");
+  assert.equal(findVisibleItems(this).length, 8, "The number of items that are not hidden with display:none (post-scroll to 350)");
 
   assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 350)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 350)");
@@ -488,12 +488,12 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
     view.set('width', 150);
   });
 
-  assert.equal(this.$('.ember-list-item-view').length, 12, "The correct number of items were rendered (post-expand to 3 columns)");
+  assert.equal(findItems(this).length, 12, "The correct number of items were rendered (post-expand to 3 columns)");
 
   assert.equal(listItemViewInsertionCount, 4, "expected number of listItemView's didInsertElement (post-expand to 3 columns)");
   assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-expand to 3 columns)");
   assert.equal(innerViewInsertionCount, 4, "expected number of innerView's didInsertElement (post-expand to 3 columns)");
   assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-expand to 3 columns)");
 
-  assert.equal(this.$('.ember-list-item-view:visible').length, 12, "The number of items that are not hidden with display:none (post-expand to 3 columns)");
+  assert.equal(findVisibleItems(this).length, 12, "The number of items that are not hidden with display:none (post-expand to 3 columns)");
 });

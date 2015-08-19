@@ -8,6 +8,19 @@ function generateContent(n) {
   }
   return content;
 }
+
+function findContainer(context) {
+  return context.$('.ember-collection div:first');
+}
+
+function findItems(context) {
+  return context.$('.ember-collection div:first > div');
+}
+
+function findVisibleItems(context) {
+  return context.$('.ember-collection div:first > div:visible');
+}
+
 function extractPositionFromTransform(string) {
   var matched, x, y, position;
 
@@ -28,6 +41,7 @@ function extractNumberFromPosition(string) {
   var number = string.replace(/px/g,'');
   return parseInt(number, 10);
 }
+
 function extractPosition(element) {
   var style, position, i;
 
@@ -44,10 +58,15 @@ function extractPosition(element) {
       var transPosition = extractPositionFromTransform(style[transformProp]);
       position.x += transPosition.x;
       position.y += transPosition.y;
-      break;      
+      break;
     }
   }
   return position;
+}
+
+function sortItemsByPosition(view) {
+  var items = findItems(view);
+  return sortElementsByPosition(items);
 }
 
 function sortElementsByPosition (elements) {
@@ -79,7 +98,7 @@ function sortByPosition (a, b) {
 }
 
 function itemPositions(view) {
-  return Ember.A(view.$('.ember-list-item-view').toArray()).map(function(e) {
+  return Ember.A(findItems(view).toArray()).map(function(e) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }
@@ -87,6 +106,9 @@ function itemPositions(view) {
 export {
   itemPositions,
   generateContent,
-  sortElementsByPosition,
   extractPosition,
-  compile };
+  compile,
+  findContainer,
+  findItems,
+  findVisibleItems,
+  sortItemsByPosition };

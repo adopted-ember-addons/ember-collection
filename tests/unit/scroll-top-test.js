@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import { generateContent, sortElementsByPosition } from '../helpers/helpers';
+import { generateContent, sortItemsByPosition } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
 var content = generateContent(5);
@@ -16,7 +16,7 @@ test("base case", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
   });
   assert.equal(this.$('.ember-collection').prop('scrollTop'), 0);
-  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  var positionSorted = sortItemsByPosition(this);
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The first item has not been hidden");
@@ -33,7 +33,7 @@ test("scroll but within content length", function(assert){
 
   Ember.run(() => {
     this.render(template);
-    this.setProperties({ 
+    this.setProperties({
       width, height, itemWidth, itemHeight, content, offsetY });
   });
   assert.equal(
@@ -43,9 +43,9 @@ test("scroll but within content length", function(assert){
   });
   assert.equal(
     this.$('.ember-collection').prop('scrollTop'), 0, 'No scroll with wider list.');
-  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  var positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The first item is not visible but in buffer.");
 });
 
@@ -55,16 +55,16 @@ test("scroll within content length, beyond buffer", function(assert){
 
   Ember.run(() => {
     this.render(template);
-    this.setProperties({ 
+    this.setProperties({
       width, height, itemWidth, itemHeight, offsetY,
       content: generateContent(10) });
   });
   Ember.run(()=>{ this.set('offsetY', 150);});
   assert.equal(
     this.$('.ember-collection').prop('scrollTop'), 150, 'scrolled to item 7');
-  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  var positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "", "The first 2 items have been dropped.");
 
   Ember.run(()=>{
@@ -72,9 +72,9 @@ test("scroll within content length, beyond buffer", function(assert){
   });
   assert.equal(
     this.$('.ember-collection').prop('scrollTop'), 50, 'Scrolled down one row.');
-  positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(), 
+    Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The first item is in buffer again.");
 });
 

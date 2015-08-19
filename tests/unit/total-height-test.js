@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import { generateContent } from '../helpers/helpers';
+import { generateContent, findContainer } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
 moduleForComponent('ember-collection', 'totalHeight', { integration: true });
@@ -14,7 +14,7 @@ test("single column", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-collection div:first').height(), 1000);
+  assert.equal(findContainer(this).height(), 1000);
 });
 
 test("even", function(assert) {
@@ -26,7 +26,7 @@ test("even", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-collection div:first').height(), 500);
+  assert.equal(findContainer(this).height(), 500);
 });
 
 test("odd", function(assert) {
@@ -38,5 +38,5 @@ test("odd", function(assert) {
     this.setProperties({ width, height, itemWidth, itemHeight, content });
   });
 
-  assert.equal(this.$('.ember-collection div:first').height(), 550);
+  assert.equal(findContainer(this).height(), 550);
 });
