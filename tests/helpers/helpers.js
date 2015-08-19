@@ -29,8 +29,7 @@ function extractNumberFromPosition(string) {
   return parseInt(number, 10);
 }
 function extractPosition(element) {
-  var style, position,
-    transformProp = 'transform';
+  var style, position, i;
 
   style = element.style;
 
@@ -39,10 +38,14 @@ function extractPosition(element) {
     position.x += extractNumberFromPosition(style.top);
     position.y += extractNumberFromPosition(style.left);
   }
-  if (style[transformProp]) {
-    var transPosition = extractPositionFromTransform(style[transformProp]);
-    position.x += transPosition.x;
-    position.y += transPosition.y;
+  for (i in Array.apply(null, style)) {
+    var transformProp = style[i];
+    if (/transform/.test(transformProp)) {
+      var transPosition = extractPositionFromTransform(style[transformProp]);
+      position.x += transPosition.x;
+      position.y += transPosition.y;
+      break;      
+    }
   }
   return position;
 }
