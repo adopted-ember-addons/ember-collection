@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
 import {generateContent, sortElementsByPosition} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import template from '../templates/fixed-grid';
 
 var nItems = 100;
 var itemWidth = 100;
@@ -9,14 +9,7 @@ var itemHeight = 40;
 var width = 500;
 var height = 400;
 
-var template = hbs`
-  {{#ember-collection items=content height=height width=width
-      cell-layout=(fixed-grid-layout itemWidth itemHeight)
-      as |item|}}
-    <div class="list-item">{{item.name}}</div>
-  {{/ember-collection}}`;
-
-moduleForComponent('ember-list', 'list-view integration - content', {
+moduleForComponent('ember-list', 'manipulate content', {
   integration: true
 });
 
