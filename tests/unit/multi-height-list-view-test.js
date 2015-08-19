@@ -5,7 +5,7 @@ import {sortElementsByPosition} from '../helpers/helpers';
 // import hbs from 'htmlbars-inline-precompile';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
-let compile, itemPositions, ListView, ListItemView, ReusableListItemView;
+let compile, itemPositions, ListItemView, ReusableListItemView;
 
 moduleForComponent('ember-list', 'multi-height', { integration: true });
 
@@ -205,124 +205,6 @@ skip("Correct height based on view", function(assert) {
     { x:0, y: 1150 }, // <-- in view
     { x:0, y: 1250 }  // <-- partially in view
   ], 'went beyond scroll max via overscroll');
-});
-
-skip("_numChildViewsForViewport + _startingIndex with multi-height", function(assert) {
-  var content = [
-    { id:  1, type: "cat",   name: "Andrew" },
-    { id:  3, type: "cat",   name: "Bruce" },
-    { id:  4, type: "other", name: "Xbar" },
-    { id:  5, type: "dog",   name: "Caroline" },
-    { id:  6, type: "cat",   name: "David" },
-    { id:  7, type: "other", name: "Xbar" },
-    { id:  8, type: "other", name: "Xbar" },
-    { id:  9, type: "dog",   name: "Edward" },
-    { id: 10, type: "dog",   name: "Francis" },
-    { id: 11, type: "dog",   name: "George" },
-    { id: 12, type: "other", name: "Xbar" },
-    { id: 13, type: "dog",   name: "Harry" },
-    { id: 14, type: "cat",   name: "Ingrid" },
-    { id: 15, type: "other", name: "Xbar" },
-    { id: 16, type: "cat",   name: "Jenn" },
-    { id: 17, type: "cat",   name: "Kelly" },
-    { id: 18, type: "other", name: "Xbar" },
-    { id: 19, type: "other", name: "Xbar" },
-    { id: 20, type: "cat",   name: "Larry" },
-    { id: 21, type: "other", name: "Xbar" },
-    { id: 22, type: "cat",   name: "Manny" },
-    { id: 23, type: "dog",   name: "Nathan" },
-    { id: 24, type: "cat",   name: "Ophelia" },
-    { id: 25, type: "dog",   name: "Patrick" },
-    { id: 26, type: "other", name: "Xbar" },
-    { id: 27, type: "other", name: "Xbar" },
-    { id: 28, type: "other", name: "Xbar" },
-    { id: 29, type: "other", name: "Xbar" },
-    { id: 30, type: "other", name: "Xbar" },
-    { id: 31, type: "cat",   name: "Quincy" },
-    { id: 32, type: "dog",   name: "Roger" },
-  ];
-
-  var view;
-  Ember.run(this, function(){
-    view = this.subject({
-      content: Ember.A(content),
-      height: 300,
-      width: 500,
-      rowHeight: 100,
-      itemViews: {
-        cat: ListItemView.extend({
-          rowHeight: 100,
-          template: compile("Meow says {{name}} expected: cat === {{type}} {{id}}")
-        }),
-        dog: ListItemView.extend({
-          rowHeight: 50,
-          template: compile("Woof says {{name}} expected: dog === {{type}} {{id}}")
-        }),
-        other: ListItemView.extend({
-          rowHeight: 150,
-          template: compile("Potato says {{name}} expected: other === {{type}} {{id}}")
-        })
-      },
-      itemViewForIndex: function(idx){
-        return this.itemViews[Ember.get(Ember.A(this.get('content')).objectAt(idx), 'type')];
-      },
-      heightForIndex: function(idx) {
-        // proto() is a quick hack, lets just store this on the class..
-        return this.itemViewForIndex(idx).proto().rowHeight;
-      }
-    });
-  });
-
-  this.render();
-
-  assert.equal(view._numChildViewsForViewport(), 4, 'expected _numChildViewsForViewport to be correct (before scroll)');
-  assert.equal(view._startingIndex(), 0, 'expected _startingIndex to be correct (before scroll)');
-
-  // entries: 1, 3, 4, 5
-
-  Ember.run(view, 'scrollTo', 1000);
-
-  // entries: 12, 13, 14, 15
-
-  assert.equal(view._numChildViewsForViewport(), 5, 'expected _numChildViewsForViewport to be correct (after scroll)');
-  assert.equal(view._startingIndex(), 10, 'expected _startingIndex to be correct (after scroll)');
-});
-
-skip("_cachedHeights is unique per instance", function(assert) {
-  var content = [ ];
-
-  var ParentClass = ListView.extend({
-    content: Ember.A(content),
-    height: 300,
-    width: 500,
-    rowHeight: 100,
-    itemViews: {
-      other: ListItemView.extend({
-        rowHeight: 150,
-        template: compile("Potato says {{name}} expected: other === {{type}} {{id}}")
-      })
-    },
-    itemViewForIndex: function(idx){
-      return this.itemViews[Ember.get(Ember.A(this.get('content')).objectAt(idx), 'type')];
-    },
-    heightForIndex: function(idx) {
-      // proto() is a quick hack, lets just store this on the class..
-      return this.itemViewForIndex(idx).proto().rowHeight;
-    }
-  });
-
-  var viewA, viewB;
-  Ember.run(function(){
-    viewA = ParentClass.create();
-    viewB = ParentClass.create();
-  });
-
-  assert.deepEqual(viewA._cachedHeights, viewB._cachedHeights);
-
-  viewA._cachedHeights.push(1);
-
-  assert.equal(viewA._cachedHeights.length, 2);
-  assert.equal(viewB._cachedHeights.length, 1, 'expected no addition cached heights, cache should not be shared between instances');
 });
 
 skip("handle bindable rowHeight with multi-height (only fallback case)", function(assert) {
