@@ -7,7 +7,7 @@ import {sortElementsByPosition} from '../helpers/helpers';
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
 let compile, itemPositions, ListItemView, ReusableListItemView;
 
-moduleForComponent('ember-list', 'multi-height', { integration: true });
+moduleForComponent('ember-collection', 'multi-height', { integration: true });
 
 skip("Correct height based on content", function(assert) {
   var content = [

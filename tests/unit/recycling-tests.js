@@ -7,7 +7,7 @@ import {generateContent} from '../helpers/helpers';
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
 let compile, ListItemView, ReusableListItemView;
 
-moduleForComponent('ember-list', 'View recycling', {integration: true});
+moduleForComponent('ember-collection', 'View recycling', {integration: true});
 
 skip("recycling complex views long list", function(assert){
   var content = generateContent(100),

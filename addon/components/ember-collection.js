@@ -24,7 +24,6 @@ function formatStyle(pos, width, height) {
 
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['ember-list'],
 
   init() {
     // State pulled from attrs is prefixed with an underscore

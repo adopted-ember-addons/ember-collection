@@ -9,7 +9,7 @@ var itemHeight = 40;
 var width = 500;
 var height = 400;
 
-moduleForComponent('ember-list', 'manipulate content', {
+moduleForComponent('ember-collection', 'manipulate content', {
   integration: true
 });
 
