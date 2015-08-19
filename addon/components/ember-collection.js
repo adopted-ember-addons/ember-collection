@@ -74,6 +74,8 @@ export default Ember.Component.extend({
     var items = this.getAttr('items');
     var contentWidth = this.getAttr('width');
     var contentHeight = this.getAttr('height');
+    var offsetX = this.getAttr('offset-x') | 0;
+    var offsetY = this.getAttr('offset-y') | 0;
     var calculateSize = false;
 
     if (this._cellLayout !== cellLayout || this._items !== items) {
@@ -81,9 +83,12 @@ export default Ember.Component.extend({
       this._cellLayout = cellLayout;
       calculateSize = true;
     }
-    if (contentWidth !== this._width || contentHeight !== this._height) {
+    if (contentWidth !== this._width || contentHeight !== this._height ||
+        offsetX !== this._offsetX || offsetY !== this._offsetY ) {
       this._width = contentWidth;
       this._height = contentHeight;
+      this._offsetX = offsetX;
+      this._offsetY = offsetY;
       this.calculateBounds();
       calculateSize = true;
     }
@@ -97,8 +102,6 @@ export default Ember.Component.extend({
     this.contentElement = this.element.firstElementChild;
     this.calculateBounds();
     this.calculateContentSize();
-    // content size
-    this.initContentOffset();
 
     let callback = () => {
       var element = this.element;
@@ -243,13 +246,15 @@ export default Ember.Component.extend({
     var contentHeight = cellLayout.contentHeight(this._width);
     this.contentElement.style.width = contentWidth + 'px';
     this.contentElement.style.height = contentHeight + 'px';
+    this.initContentOffset();
   },
   initContentOffset() {
     if (this._offsetX > 0) {
       this.element.scrollLeft = this._offsetX;
     }
-    if (this._offsetY > 0) {
-      this.element.scrollTop = this._offsetY;
+    if (this._offsetY > 0 && this._cellLayout != null) {
+      this.element.scrollTop = Math.min(
+        this._offsetY, this._cellLayout.maxScroll(this._width, this._height));
     }
   }
 });
