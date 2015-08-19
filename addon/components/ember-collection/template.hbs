@@ -1,4 +1,4 @@
-<div class="ember-list-container" >
+<div class="ember-collection-container" >
   {{~#each cells as |cell|~}}
     <div class="ember-list-item-view" style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
   {{~/each~}}
