@@ -154,8 +154,12 @@ export default Ember.Component.extend({
 
     var index = this._cellLayout.indexAt(this._offsetX, this._offsetY, this._width, this._height);
     var count = this._cellLayout.count(this._offsetX, this._offsetY, this._width, this._height);
+    this.currentIndex = index;
+    this.currentCount = count;
     var items = this._items;
-    index = Math.max(index - this._buffer, 0);
+    var bufferBefore = Math.min(index, this._buffer);
+    index -= bufferBefore;
+    count += bufferBefore;
     count = Math.min(count + this._buffer, Ember.get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
 
