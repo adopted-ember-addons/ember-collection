@@ -213,7 +213,7 @@ export default Ember.Component.extend({
       style = formatStyle(pos, width, height);
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
-      this._cells.pushObject(cell);
+      this._cells.push(cell);
     }
     this._cellMap = cellMap;
     return this._cells;
