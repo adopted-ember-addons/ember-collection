@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import { generateContent, sortItemsByPosition, findItems, findContainer } from '../helpers/helpers';
+import { 
+  generateContent, sortItemsByPosition, findItems, findContainer, 
+  checkContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
 var nItems = 100;
@@ -28,6 +30,7 @@ test("replacing the list content", function(assert) {
       .length, 1, "The rendered list was updated");
 
     assert.equal(findItems(this).height(), itemHeight, "The scrollable view has the correct height");
+    checkContent(this, assert, 0, 1);
   });
 });
 
@@ -44,7 +47,6 @@ test("adding to the front of the list content", function(assert) {
   });
 
   var positionSorted = sortItemsByPosition(this);
-
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
     "Item -1", "The item has been inserted in the list");
@@ -55,6 +57,7 @@ test("adding to the front of the list content", function(assert) {
     findContainer(this).height(),
     expectedRows * itemHeight,
     "The scrollable view has the correct height");
+    checkContent(this, assert, 0, 50);
 });
 
 test("inserting in the middle of visible content", function(assert) {
@@ -78,6 +81,8 @@ test("inserting in the middle of visible content", function(assert) {
   assert.equal(
     Ember.$(positionSorted[2]).text().trim(),
     "Item 2'", "The item has been inserted in the list");
+
+  checkContent(this, assert, 0, 50);
 });
 
 test("clearing the content", function(assert) {
@@ -120,4 +125,5 @@ test("deleting the first element", function(assert) {
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
     "Item 2", "Item 1 has been remove from the list.");
+    checkContent(this, assert, 0, 50);
 });
