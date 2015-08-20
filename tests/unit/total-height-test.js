@@ -3,7 +3,9 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent, findContainer } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-moduleForComponent('ember-collection', 'totalHeight', { integration: true });
+moduleForComponent('ember-collection', 'totalHeight', {
+  integration: true
+});
 
 test("single column", function(assert) {
   var width = 50, height = 500, itemHeight = 50, itemWidth = 50;

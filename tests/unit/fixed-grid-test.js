@@ -3,7 +3,9 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent, sortItemsByPosition } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-moduleForComponent('ember-collection', 'display in fixed grid', {integration: true});
+moduleForComponent('ember-collection', 'display in fixed grid', {
+  integration: true
+});
 
 test('display 5 in 6', function(assert) {
   var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
