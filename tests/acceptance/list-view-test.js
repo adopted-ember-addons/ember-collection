@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { module, skip } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
-module('Acceptance | list view', {
+module('Acceptance | ember collection', {
   beforeEach: function() {
     this.application = startApp();
   },

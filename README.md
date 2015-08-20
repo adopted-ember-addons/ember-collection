@@ -2,8 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/emberjs/ember-collection.svg?style=shield)](https://circleci.com/gh/emberjs/ember-collection)
 
-An efficient incremental rendering component for large lists.
-
+An efficient incremental rendering component with support for custom layouts and large lists.
 
 ### Table of Contents
 

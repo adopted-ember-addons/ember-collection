@@ -1,7 +1,7 @@
 {
   "name": "ember-collection",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An efficient incremental rendering component with custom layouts and support for large lists.",
   "directories": {
     "doc": "doc",
     "test": "tests"
