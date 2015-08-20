@@ -1,5 +1,5 @@
 <div>
   {{~#each cells as |cell|~}}
-    <div class="ember-list-item-view" style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
+    <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
   {{~/each~}}
 </div>

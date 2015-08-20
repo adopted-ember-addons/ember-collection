@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import { generateContent, sortElementsByPosition } from '../helpers/helpers';
+import { generateContent, sortItemsByPosition } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
 moduleForComponent('ember-collection', 'display in fixed grid', {integration: true});
@@ -14,7 +14,8 @@ test('display 5 in 6', function(assert) {
     this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
   });
-  var positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+
+  var positionSorted = sortItemsByPosition(this);
 
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
