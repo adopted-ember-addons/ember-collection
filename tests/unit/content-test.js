@@ -57,7 +57,7 @@ test("adding to the front of the list content", function(assert) {
     findContainer(this).height(),
     expectedRows * itemHeight,
     "The scrollable view has the correct height");
-    checkContent(this, assert, 0, 50);
+  checkContent(this, assert, 0, 50);
 });
 
 test("inserting in the middle of visible content", function(assert) {
@@ -81,7 +81,6 @@ test("inserting in the middle of visible content", function(assert) {
   assert.equal(
     Ember.$(positionSorted[2]).text().trim(),
     "Item 2'", "The item has been inserted in the list");
-
   checkContent(this, assert, 0, 50);
 });
 
@@ -125,5 +124,5 @@ test("deleting the first element", function(assert) {
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
     "Item 2", "Item 1 has been remove from the list.");
-    checkContent(this, assert, 0, 50);
+  checkContent(this, assert, 0, 50);
 });

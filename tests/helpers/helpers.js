@@ -103,6 +103,35 @@ function itemPositions(view) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }
+function checkContent(view, assert, expectedFirstItem, expectedCount) {
+  var elements = sortElementsByPosition(view.$('.ember-list-item-view'))
+    .filter(function(){ return $(this).css('display') !== 'none'; });
+  var content = view.get('content') || [];
+  assert.ok(
+    expectedFirstItem + expectedCount <= content.length,
+    'No more items than are in content are rendered.');
+  var buffer = view.get('buffer') | 5;
+  var width = view.get('width') | 0;
+  var itemWidth = view.get('itemWidth') || 1;
+  var istart = Math.max(expectedFirstItem - buffer, 0);
+  // TODO: padding is one extra row -- how to calculate with mixed grid
+  var padding = Math.floor(width / itemWidth);
+  // include buffer before
+  var scount = expectedCount + Math.min(expectedFirstItem, buffer);
+  // include padding (in case of non-integral scroll)
+  var pcount = scount + Math.min(Math.max(content.length - istart - scount, 0), padding);
+  // include buffer after
+  var count = pcount + Math.min(Math.max(content.length - istart - pcount, 0), buffer);
+  assert.equal(
+    elements.length, count, "Rendered expected number of elements.");
+  for (let i = 0; i < count; i++) {
+    let elt = elements[i];
+    let item = content[i + istart];
+    assert.equal(
+      $(elt).text().trim(), item.name, 
+      'Item ' + (i + 1) + ' rendered');
+  }
+}
 
 function checkContent(view, assert, expectedFirstItem, expectedCount) {
   var elements = sortItemsByPosition(view, true);

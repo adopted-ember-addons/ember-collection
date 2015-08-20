@@ -152,14 +152,14 @@ export default Ember.Component.extend({
     var priorMap = this._cellMap;
     var cellMap = Object.create(null);
 
-    var index = this._cellLayout.indexAt(this._offsetX, this._offsetY, this._width, this._height);
-    var count = this._cellLayout.count(this._offsetX, this._offsetY, this._width, this._height);
-    this.currentIndex = index;
-    this.currentCount = count;
+    var startingIndex = this._cellLayout.indexAt(
+      this._offsetX, this._offsetY, this._width, this._height);
+    var visibleCount = this._cellLayout.count(
+      this._offsetX, this._offsetY, this._width, this._height);
     var items = this._items;
-    var bufferBefore = Math.min(index, this._buffer);
-    index -= bufferBefore;
-    count += bufferBefore;
+    var bufferBefore = Math.min(startingIndex, this._buffer);
+    var index = startingIndex - bufferBefore;
+    var count = visibleCount + bufferBefore;
     count = Math.min(count + this._buffer, Ember.get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
 
@@ -218,6 +218,14 @@ export default Ember.Component.extend({
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
       this._cells.push(cell);
+    }
+    if (this._startingIndex !== startingIndex || this._visibleCount !== visibleCount) {
+      this._startingIndex = startingIndex;
+      this._visibleCount = visibleCount;
+      let listener = this.getAttr('sliceDidChange');
+      if (listener != null) {
+        listener(startingIndex, visibleCount);
+      }
     }
     this._cellMap = cellMap;
     return this._cells;
