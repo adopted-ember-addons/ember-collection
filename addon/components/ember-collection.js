@@ -24,6 +24,7 @@ function formatStyle(pos, width, height) {
 
 export default Ember.Component.extend({
   layout: layout,
+  classNames: ['ember-collection'],
 
   init() {
     // State pulled from attrs is prefixed with an underscore
@@ -227,15 +228,6 @@ export default Ember.Component.extend({
     if (this.element == null) { return; }
 
     // TODO measure clientWidth and clientHeight vs offsetWidth and offsetHeight
-    this.element.style.overflow = 'scroll';
-    this.element.style.webkitOverflowScrolling = 'touch';
-    this.element.style.webkitTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.mozTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.msTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.oTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.position = 'relative';
-    this.element.style.boxSizing = 'border-box';
     if (this._width > 0) {
       this.element.style.width = this._width + 'px';
     }
