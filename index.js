@@ -3,9 +3,10 @@
 
 module.exports = {
   name: 'ember-collection',
-  init: function(name) {
-    var assets_path = require('path').join('layout-bin-packer','index.js');
-    this.treePaths['vendor'] = require.resolve('layout-bin-packer').replace(assets_path, '');
+
+  treeForVendor: function() {
+		var assets_path = require('path').join('layout-bin-packer','index.js');
+    return require.resolve('layout-bin-packer').replace(assets_path, '');
   },
 
   included: function(app) {

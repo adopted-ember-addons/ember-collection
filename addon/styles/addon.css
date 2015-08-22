@@ -1,0 +1,11 @@
+.ember-collection {
+	  webkitTransform: translate3d(0px, 0px, 0px) scale(1);
+    mozTransform: translate3d(0px, 0px, 0px) scale(1);
+    msTransform: translate3d(0px, 0px, 0px) scale(1);
+    oTransform: translate3d(0px, 0px, 0px) scale(1);
+    transform: translate3d(0px, 0px, 0px) scale(1);
+    overflow: scroll;
+    webkitOverflowScrolling: touch;
+    position: relative;
+    boxSizing: border-box;
+}
