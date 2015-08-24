@@ -1,5 +1,7 @@
-<div>
-  {{~#each cells as |cell|~}}
-    <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
-  {{~/each~}}
-</div>
+{{#ember-native-scrollable scroll-left=_scrollLeft scroll-top=_scrollTop scrollChange=(action "scrollChange") clientSizeChange=(action "clientSizeChange")}}
+  <div style={{contentStyle}}>
+    {{~#each cells as |cell|~}}
+      <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
+    {{~/each~}}
+  </div>
+{{/ember-native-scrollable}}

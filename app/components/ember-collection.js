@@ -1,2 +1,1 @@
-import EmberCollection from 'ember-collection/components/ember-collection';
-export default EmberCollection;
+export { default } from 'ember-collection/components/ember-collection';

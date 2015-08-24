@@ -6,19 +6,18 @@ export default class MixedGrid
     this.bin = new Bin.ShelfFirst(content, width);
   }
 
-  contentWidth(width /*,height*/) {
-    return width;
-  }
-
-  contentHeight() {
-    return this.bin.height();
+  contentSize(clientSize) {
+    return {
+      width: clientSize.width,
+      height: this.bin.height(clientSize.width)
+    };
   }
 
   indexAt(offsetX, offsetY, width, height) {
     return this.bin.visibleStartingIndex(offsetY, width, height);
   }
 
-  positionAt(index, width /*,height*/) {
+  positionAt(index, width, height) {
     return this.bin.position(index, width);
   }
 
