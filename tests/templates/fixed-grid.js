@@ -7,6 +7,7 @@ export default hbs`<div style={{size-to-style width height}}>{{#ember-collection
     estimated-height=height
     scroll-left=offsetX
     scroll-top=offsetY
+    buffer=buffer
     class="ember-collection"
     as |item| ~}}
   <div class="list-item">{{item.name}}</div>

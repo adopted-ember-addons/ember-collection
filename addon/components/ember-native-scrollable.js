@@ -29,7 +29,7 @@ export default Ember.Component.extend({
     this.contentElement = undefined;
   },
   applyStyle() {
-    // TODO this should be auto when not usign overflowScrolling
+    // TODO this should be auto when not using overflowScrolling
     this.element.style.overflow = 'scroll';
     this.element.style.webkitOverflowScrolling = 'touch';
 
@@ -55,9 +55,11 @@ export default Ember.Component.extend({
   syncScrollFromAttr() {
     if (this._scrollTop > 0) {
       this.element.scrollTop = this._scrollTop;
+      this._scrollTop = this.element.scrollTop; // read it back in case our adjustment wasn't possible
     }
     if (this._scrollLeft > 0) {
       this.element.scrollLeft = this._scrollLeft;
+      this._scrollLeft = this.element.scrollLeft;
     }
   },
   startScrollCheck() {

@@ -29,7 +29,7 @@ test("replacing the list content", function(assert) {
       .filter(function(){ return $(this).css('display') !== 'none'; })
       .length, 1, "The rendered list was updated");
 
-    assert.equal(findItems(this).height(), itemHeight, "The scrollable view has the correct height");
+    assert.equal(findItems(this).height(), itemHeight, "The items have the correct height");
     checkContent(this, assert, 0, 1);
   });
 });

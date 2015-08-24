@@ -9,8 +9,12 @@ function generateContent(n) {
   return content;
 }
 
-function findContainer(context) {
+function findScrollable(context) {
   return context.$('.ember-collection > div:first'); // scrollable's element
+}
+
+function findContainer(context) {
+  return context.$('.ember-collection > div:first > div:first'); // scrollable's content element
 }
 
 function findItems(context) {
@@ -19,11 +23,6 @@ function findItems(context) {
 
 function findVisibleItems(context) {
   return context.$('.ember-collection > div:first > div:first > div:visible');
-}
-
-function extractNumberFromPosition(string) {
-  var number = string.replace(/px/g,'');
-  return parseInt(number, 10);
 }
 
 function extractPosition(element) {
@@ -61,7 +60,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   assert.ok(
     expectedFirstItem + expectedCount <= content.length,
     'No more items than are in content are rendered.');
-  var buffer = view.get('buffer') | 5;
+  var buffer = view.get('buffer') === undefined ? 5 : view.get('buffer');
 
   // TODO: we are recapitulating calculations done by fixed grid, as
   // we don't have access to the layout. This will not work with
@@ -99,6 +98,7 @@ export {
   extractPosition,
   compile,
   findContainer,
+  findScrollable,
   findItems,
   findVisibleItems,
   checkContent,
