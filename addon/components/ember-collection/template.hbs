@@ -1,5 +1,5 @@
-{{#ember-native-scrollable scroll-left=_scrollLeft scroll-top=_scrollTop scrollChange=(action "scrollChange") clientSizeChange=(action "clientSizeChange")}}
-  <div style={{contentStyle}}>
+{{#ember-native-scrollable content-size=_contentSize scroll-left=_scrollLeft scroll-top=_scrollTop scrollChange=(action "scrollChange") clientSizeChange=(action "clientSizeChange")}}
+  <div>
     {{~#each cells as |cell|~}}
       <div style={{{cell.style}}}>{{#unless cell.hidden}}{{yield cell.item cell.index }}{{/unless}}</div>
     {{~/each~}}

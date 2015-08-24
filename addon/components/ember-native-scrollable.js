@@ -10,13 +10,19 @@ export default Ember.Component.extend({
     this._super();
   },
   didReceiveAttrs() {
+    this._contentSize = this.getAttr('content-size');
     this._scrollLeft = this.getAttr('scroll-left');
     this._scrollTop = this.getAttr('scroll-top');
   },
   didInsertElement() {
-    this.applyStyle();
     this.contentElement = this.element.firstElementChild;
+    this.applyStyle();
+    this.applyContentSize();
+    this.syncScrollFromAttr();
     this.startScrollCheck();
+  },
+  didUpdate() {
+    this.applyContentSize();
   },
   willDestroyElement() {
     this.cancelScrollCheck();
@@ -40,6 +46,11 @@ export default Ember.Component.extend({
     this.element.style.bottom = 0;
     this.element.style.right = 0;
     this.element.style.boxSizing = 'border-box';
+  },
+  applyContentSize() {
+    this.contentElement.style.position = 'relative';
+    this.contentElement.style.width = this._contentSize.width + 'px';
+    this.contentElement.style.height = this._contentSize.height + 'px';
   },
   syncScrollFromAttr() {
     if (this._scrollTop > 0) {

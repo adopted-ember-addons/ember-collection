@@ -85,9 +85,8 @@ export default Ember.Component.extend({
     var cellLayout = this._cellLayout;
     console.log('before updateContentSize', JSON.stringify(this._contentSize), JSON.stringify(this._clientSize));
     var contentSize = cellLayout.contentSize(this._clientSize);
-    this._contentSize = contentSize;
+    this.set('_contentSize', contentSize);
     console.log('after updateContentSize', JSON.stringify(this._contentSize), JSON.stringify(this._clientSize));
-    this.set('contentStyle', Ember.String.htmlSafe(`width:${contentSize.width}px;height:${contentSize.height}px`));
   },
 
   cells: Ember.computed('_items.[]', function() {
@@ -99,7 +98,7 @@ export default Ember.Component.extend({
     this.updateContentSize();
     this.notifyPropertyChange('cells');
     // Do the browsers not do this already?
-    this._scrollTop = Math.min(this._scrollTop, this._cellLayout.maxScroll(this._clientSize.width, this._clientSize.height));
+    //this._scrollTop = Math.min(this._scrollTop, this._cellLayout.maxScroll(this._clientSize.width, this._clientSize.height));
   },
 
   updateCells() {
