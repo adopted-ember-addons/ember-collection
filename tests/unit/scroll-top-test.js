@@ -1,18 +1,19 @@
+/* global requestAnimationFrame */
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent, sortItemsByPosition, checkContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
-var Promise = Ember.RSVP.Promise;
+var RSVP = Ember.RSVP;
 
 var size;
 // lifted from antiscroll MIT license
 function scrollbarSize() {
   if (size === undefined) {
     var div = $(
-        '<div class="antiscroll-inner" style="width:50px;height:50px;overflow-y:scroll;'
-      + 'position:absolute;top:-200px;left:-200px;"><div style="height:100px;width:100%"/>'
-      + '</div>'
+      '<div class="antiscroll-inner" style="width:50px;height:50px;overflow-y:scroll;' +
+      'position:absolute;top:-200px;left:-200px;"><div style="height:100px;width:100%"/>' +
+      '</div>'
     );
 
     $('body').append(div);
@@ -24,7 +25,7 @@ function scrollbarSize() {
   }
 
   return size;
-};
+}
 
 var content = generateContent(5);
 
@@ -74,7 +75,7 @@ test("scroll but within content length", function(assert){
     this.set('width', 150+scrollbarSize());
   });
 
-  return new Promise(function (resolve) {
+  return new RSVP.Promise(function (resolve) {
     requestAnimationFrame(() => {
       Ember.run(resolve);
     });
@@ -110,7 +111,7 @@ test("scroll within content length, beyond buffer", function(assert){
 
   Ember.run(()=>{ this.set('offsetY', 150);});
   assert.equal(
-    this.$('.ember-collection').prop('scrollTop'), 150, 'scrolled to item 7');
+    findContainer(this).prop('scrollTop'), 150, 'scrolled to item 7');
 
   var positionSorted = sortItemsByPosition(this);
 
@@ -119,11 +120,17 @@ test("scroll within content length, beyond buffer", function(assert){
     "", "The first 2 items have been dropped.");
 
   Ember.run(()=>{
-    this.set('width', 200);
+    this.set('width', 200+scrollbarSize());
   });
-
   assert.equal(
     this.$('.ember-collection').prop('scrollTop'), 50, 'Scrolled down one row.');
+  let positionSorted = sortElementsByPosition(this.$('.ember-list-item-view'));
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(),
+    "Item 1", "The first item is in buffer again.");
+
+  assert.equal(
+    findContainer(this).prop('scrollTop'), 50, 'Scrolled down one row.');
 
   positionSorted = sortItemsByPosition(this);
 
