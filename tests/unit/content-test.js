@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
-import { 
-  generateContent, sortItemsByPosition, findItems, findContainer, 
+import {
+  generateContent, sortItemsByPosition, findItems, findContainer,
   checkContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
@@ -19,8 +19,8 @@ test("replacing the list content", function(assert) {
   var content = generateContent(nItems);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
     this.set('content', Ember.A([{name: 'The only item'}]));
   });
 
@@ -38,8 +38,8 @@ test("adding to the front of the list content", function(assert) {
   var content = generateContent(nItems);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
   });
 
   Ember.run(function() {
@@ -64,8 +64,8 @@ test("inserting in the middle of visible content", function(assert) {
   var content = generateContent(nItems);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
   });
 
   Ember.run(function() {
@@ -73,7 +73,6 @@ test("inserting in the middle of visible content", function(assert) {
   });
 
   var positionSorted = sortItemsByPosition(this);
-
   assert.equal(
     Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "The item has been inserted in the list");
@@ -89,8 +88,8 @@ test("clearing the content", function(assert) {
   var content = generateContent(nItems);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
   });
 
   Ember.run(function() {
@@ -106,8 +105,8 @@ test("deleting the first element", function(assert) {
   var content = generateContent(nItems);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
   });
 
   var positionSorted = sortItemsByPosition(this);

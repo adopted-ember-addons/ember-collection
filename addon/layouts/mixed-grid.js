@@ -18,7 +18,7 @@ export default class MixedGrid
   }
 
   positionAt(index, width, height) {
-    return this.bin.position(index, width);
+    return this.bin.position(index, width, height);
   }
 
   widthAt(index) {

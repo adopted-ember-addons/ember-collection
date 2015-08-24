@@ -14,8 +14,8 @@ test("base case", function(assert) {
   var offsetY = 0;
 
   Ember.run(() => {
-    this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+    this.render(template);
   });
 
   assert.equal(this.$('.ember-collection').prop('scrollTop'), 0);
