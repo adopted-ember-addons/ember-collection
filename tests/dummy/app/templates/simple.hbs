@@ -14,8 +14,8 @@ Item Width: {{itemWidth}}
 </p>
 <hr />
 
-<div class="simple-list">
-  {{#ember-collection items=model height=containerHeight width=containerWidth buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
+<div class="simple-list" style={{{concat 'position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>
+  {{#ember-collection items=model estimated-height=containerHeight estimated-width=containerWidth buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
     <div class="list-item">
       {{item.name}}
     </div>

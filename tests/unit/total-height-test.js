@@ -12,8 +12,8 @@ test("single column", function(assert) {
   var content = generateContent(20);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content });
+    this.render(template);
   });
 
   assert.equal(findContainer(this).height(), 1000);
@@ -24,8 +24,8 @@ test("even", function(assert) {
   var content = generateContent(20);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content });
+    this.render(template);
   });
 
   assert.equal(findContainer(this).height(), 500);
@@ -36,8 +36,8 @@ test("odd", function(assert) {
   var content = generateContent(21);
 
   Ember.run(()=>{
-    this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content });
+    this.render(template);
   });
 
   assert.equal(findContainer(this).height(), 550);

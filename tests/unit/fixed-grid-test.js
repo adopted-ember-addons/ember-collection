@@ -13,10 +13,9 @@ test('display 5 in 6', function(assert) {
   var content = generateContent(5);
 
   Ember.run(() => {
-    this.render(template);
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+    this.render(template);
   });
-
   var positionSorted = sortItemsByPosition(this);
 
   assert.equal(
