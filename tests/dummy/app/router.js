@@ -12,10 +12,6 @@ Router.map(function() {
   this.route('mobile-small-images');
   this.route('multi-height');
   this.route('multi-height-multi-view');
-  this.route('multi-height-virtual');
-  this.route('pull-to-refresh');
-  this.route('virtual');
-  this.route('virtual-strange-ratios');
   this.route('mixed');
 });
 
