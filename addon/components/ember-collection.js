@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
+const { get, set } = Ember;
 
 class Cell {
   constructor(key, item, index, style) {
@@ -96,10 +97,6 @@ export default Ember.Component.extend({
     console.log('after updateContentSize', JSON.stringify(this._contentSize), JSON.stringify(this._clientSize));
   },
 
-  // cells: Ember.computed('_items.[]', function() {
-  //   return this.updateCells();
-  // }),
-
   willRender: function() {
     this.updateCells();
     this.updateContentSize();
@@ -116,13 +113,11 @@ export default Ember.Component.extend({
 
     var index = this._cellLayout.indexAt(this._scrollLeft, this._scrollTop, this._clientSize.width, this._clientSize.height);
     var count = this._cellLayout.count(this._scrollLeft, this._scrollTop, this._clientSize.width, this._clientSize.height);
-    // this.currentIndex = index;
-    // this.currentCount = count;
     var items = this._items;
     var bufferBefore = Math.min(index, this._buffer);
     index -= bufferBefore;
     count += bufferBefore;
-    count = Math.min(count + this._buffer, Ember.get(items, 'length') - index);
+    count = Math.min(count + this._buffer, get(items, 'length') - index);
     var i, pos, width, height, style, itemIndex, itemKey, cell;
 
     var newItems = [];
@@ -138,9 +133,9 @@ export default Ember.Component.extend({
         width = this._cellLayout.widthAt(itemIndex, this._clientSize.width, this._clientSize.height);
         height = this._cellLayout.heightAt(itemIndex, this._clientSize.width, this._clientSize.height);
         style = formatStyle(pos, width, height);
-        Ember.set(cell, 'style', style);
-        Ember.set(cell, 'hidden', false);
-        Ember.set(cell, 'key', itemKey);
+        set(cell, 'style', style);
+        set(cell, 'hidden', false);
+        set(cell, 'key', itemKey);
         cellMap[itemKey] = cell;
       } else {
         newItems.push(itemIndex);
@@ -157,15 +152,15 @@ export default Ember.Component.extend({
           width = this._cellLayout.widthAt(itemIndex, this._clientSize.width, this._clientSize.height);
           height = this._cellLayout.heightAt(itemIndex, this._clientSize.width, this._clientSize.height);
           style = formatStyle(pos, width, height);
-          Ember.set(cell, 'style', style);
-          Ember.set(cell, 'key', itemKey);
-          Ember.set(cell, 'index', itemIndex);
-          Ember.set(cell, 'item', items[itemIndex]);
-          Ember.set(cell, 'hidden', false);
+          set(cell, 'style', style);
+          set(cell, 'key', itemKey);
+          set(cell, 'index', itemIndex);
+          set(cell, 'item', items[itemIndex]);
+          set(cell, 'hidden', false);
           cellMap[itemKey] = cell;
         } else {
-          Ember.set(cell, 'hidden', true);
-          Ember.set(cell, 'style', 'height: 0; display: none;');
+          set(cell, 'hidden', true);
+          set(cell, 'style', 'height: 0; display: none;');
         }
       }
     }
@@ -185,13 +180,12 @@ export default Ember.Component.extend({
   },
   actions: {
     scrollChange({scrollLeft, scrollTop}) {
-      this.set('_scrollLeft', scrollLeft);
-      this.set('_scrollTop', scrollTop);
+      set(this, '_scrollLeft', scrollLeft);
+      set(this, '_scrollTop', scrollTop);
       this.rerender();
     },
     clientSizeChange(clientSize) {
-      console.debug('clientSizeChange');
-      this._clientSize = clientSize;
+      set(this, '_clientSize', clientSize);
       this.rerender();
     }
   }
