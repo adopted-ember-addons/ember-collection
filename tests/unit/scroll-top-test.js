@@ -94,7 +94,7 @@ test("scroll but within content length", function(assert){
 });
 
 test("scroll within content length, beyond buffer", function(assert){
-  var width = 100+scrollbarSize(), height = 100+scrollbarSize(), itemWidth = 50, itemHeight = 50;
+  var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
   var offsetY = 0;
 
   Ember.run(() => {
@@ -142,7 +142,7 @@ test("scroll within content length, beyond buffer", function(assert){
 });
 
 test("scroll but beyond content length", function(assert) {
-  var width = 100+scrollbarSize(), height = 500+scrollbarSize(), itemWidth = 50, itemHeight = 50;
+  var width = 100+scrollbarSize(), height = 500, itemWidth = 50, itemHeight = 50;
   var offsetY = 1000;
 
   Ember.run(() => {
