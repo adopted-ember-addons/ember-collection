@@ -1,4 +1,8 @@
 import Ember from 'ember';
+import { translate } from 'ember-collection/utils/translate';
+import { styleProperty } from 'ember-collection/utils/style-properties';
+
+const overflowScrollingProp = styleProperty('overflowScrolling');
 
 export default Ember.Component.extend({
   init() {
@@ -29,16 +33,15 @@ export default Ember.Component.extend({
     this.contentElement = undefined;
   },
   applyStyle() {
-    // TODO this should be auto when not using overflowScrolling
-    this.element.style.overflow = 'scroll';
-    this.element.style.webkitOverflowScrolling = 'touch';
+    if (overflowScrollingProp) {
+      this.element.style.overflow = 'scroll';
+      this.element.style[overflowScrollingProp] = 'touch';
+    } else {
+      this.element.style.overflow = 'auto';
+    }
 
     // hack to force render buffer so outside doesn't repaint on scroll
-    this.element.style.webkitTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.mozTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.msTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.oTransform = 'translate3d(0px, 0px, 0px) scale(1)';
-    this.element.style.transform = 'translate3d(0px, 0px, 0px) scale(1)';
+    translate(this.element, 0, 0);
 
     this.element.style.position = 'absolute';
     this.element.style.left = 0;

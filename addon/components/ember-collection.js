@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
+import { translateCSS } from '../utils/translate';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
 
@@ -14,13 +15,10 @@ class Cell {
 }
 
 function formatStyle(pos, width, height) {
-  return 'position: absolute; top: 0; left: 0;' +
-    ' -webkit-transform: translate('+pos.x+'px, '+pos.y+'px);' +
-    ' -moz-transform: translate('+pos.x+'px, '+pos.y+'px);' +
-    ' -ms-transform: translate('+pos.x+'px, '+pos.y+'px);' +
-    ' -o-transform: translate('+pos.x+'px, '+pos.y+'px);' +
-    ' transform: translate('+pos.x+'px, '+pos.y+'px);' +
-    ' width: '+width+'px; height: '+height+'px;';
+  let css = 'position:absolute;top:0;left:0;';
+  css += translateCSS(pos.x, pos.y);
+  css += 'width:' + width + 'px;height:' + height + 'px;';
+  return css;
 }
 
 export default Ember.Component.extend({
@@ -34,8 +32,6 @@ export default Ember.Component.extend({
     this._items = undefined;
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
-    this._width = undefined;
-    this._height = undefined;
     this._clientSize = undefined;
 
     // this.firstCell = undefined;
