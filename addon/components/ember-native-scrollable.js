@@ -98,7 +98,6 @@ export default Ember.Component.extend({
     let clientSizeChanged = false;
     if (clientWidth !== this._clientWidth || clientHeight !== this._clientHeight) {
       clientSizeChanged = true;
-      console.debug('clientSizeChanged', clientWidth, clientHeight);
       this._clientWidth = clientWidth;
       this._clientHeight = clientHeight;
     }

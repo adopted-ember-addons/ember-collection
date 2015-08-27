@@ -133,7 +133,6 @@ test("scroll within content length, beyond buffer", function(assert){
     assert.equal(
       findScrollable(this).prop('scrollTop'), 50, 'Scrolled down one row.');
     let positionSorted = sortItemsByPosition(this, true);
-    console.log('positionSorted: ', positionSorted);
     assert.equal(
       Ember.$(positionSorted[0]).text().trim(),
       "Item 5", "The fifth item is first rendered.");
