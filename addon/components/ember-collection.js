@@ -177,13 +177,19 @@ export default Ember.Component.extend({
   },
   actions: {
     scrollChange({scrollLeft, scrollTop}) {
-      set(this, '_scrollLeft', scrollLeft);
-      set(this, '_scrollTop', scrollTop);
-      this.rerender();
+      if (scrollLeft !== this._scrollLeft ||
+          scrollTop !== this._scrollTop) {
+        set(this, '_scrollLeft', scrollLeft);
+        set(this, '_scrollTop', scrollTop);
+        this.rerender();
+      }
     },
     clientSizeChange(clientSize) {
-      set(this, '_clientSize', clientSize);
-      this.rerender();
+      if (clientSize.width !== this._clientSize.width ||
+          clientSize.height !== this._clientSize.height) {
+        set(this, '_clientSize', clientSize);
+        this.rerender();
+      }
     }
   }
 });
