@@ -33,6 +33,7 @@ export default Ember.Component.extend({
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
     this._clientSize = undefined;
+    this._contentSize = undefined;
 
     // this.firstCell = undefined;
     // this.lastCell = undefined;
@@ -88,7 +89,8 @@ export default Ember.Component.extend({
   updateContentSize() {
     var cellLayout = this._cellLayout;
     var contentSize = cellLayout.contentSize(this._clientSize);
-    if (contentSize.width !== this._contentSize.width ||
+    if (this._contentSize === undefined ||
+        contentSize.width !== this._contentSize.width ||
         contentSize.height !== this._contentSize.height) {
       this.set('_contentSize', contentSize);
     }
@@ -185,7 +187,8 @@ export default Ember.Component.extend({
       }
     },
     clientSizeChange(clientSize) {
-      if (clientSize.width !== this._clientSize.width ||
+      if (this._clientSize === undefined ||
+          clientSize.width !== this._clientSize.width ||
           clientSize.height !== this._clientSize.height) {
         set(this, '_clientSize', clientSize);
         this.rerender();
