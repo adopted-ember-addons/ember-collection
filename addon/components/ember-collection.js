@@ -88,7 +88,10 @@ export default Ember.Component.extend({
   updateContentSize() {
     var cellLayout = this._cellLayout;
     var contentSize = cellLayout.contentSize(this._clientSize);
-    this.set('_contentSize', contentSize);
+    if (contentSize.width !== this._clientSize.width ||
+        contentSize.height !== this._clientSize.height) {
+      this.set('_contentSize', contentSize);
+    }
   },
 
   willRender: function() {
