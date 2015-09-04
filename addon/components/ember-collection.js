@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 import { translateCSS } from '../utils/translate';
-import needsRevalidate from '../utils/needs-revalidate';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
 
@@ -40,7 +39,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
-    this._cells = Ember.A();
+    this._cells = [];
     this._cellMap = Object.create(null);
 
     // TODO: Super calls should always be at the top of the constructor.
@@ -76,13 +75,13 @@ export default Ember.Component.extend({
 
     if (this._items !== items) {
       if (this._items && this._items.removeObserver) {
-        this._items.removeObserver('[]', null, needsRevalidate, this);
+        this._items.removeObserver('[]', this, this.rerender);
       }
 
       this.set('_items', items);
 
       if (items && items.addObserver) {
-        items.addObserver('[]', null, needsRevalidate, this);
+        items.addObserver('[]', this, this.rerender);
       }
     }
   },
@@ -174,7 +173,7 @@ export default Ember.Component.extend({
       style = formatStyle(pos, width, height);
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
-      this._cells.pushObject(cell);
+      this._cells.push(cell);
     }
     this._cellMap = cellMap;
   },
@@ -184,7 +183,7 @@ export default Ember.Component.extend({
           scrollTop !== this._scrollTop) {
         set(this, '_scrollLeft', scrollLeft);
         set(this, '_scrollTop', scrollTop);
-        needsRevalidate(this);
+        this.rerender();
       }
     },
     clientSizeChange(clientSize) {
@@ -192,7 +191,7 @@ export default Ember.Component.extend({
           clientSize.width !== this._clientSize.width ||
           clientSize.height !== this._clientSize.height) {
         set(this, '_clientSize', clientSize);
-        needsRevalidate(this);
+        this.rerender();
       }
     }
   }
