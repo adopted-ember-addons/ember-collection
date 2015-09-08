@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 import { translateCSS } from '../utils/translate';
+import needsRevalidate from '../utils/needs-revalidate';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
 
@@ -64,6 +65,10 @@ export default Ember.Component.extend({
     };
   },
 
+  _needsRevalidate(){
+    needsRevalidate(this);
+  },
+
   didReceiveAttrs() {
     // Work around emberjs/ember.js#11992. Affects <=1.13.8 and <=2.0.0.
     // This will likely be patched in 1.13.9 and 2.0.1.
@@ -75,13 +80,13 @@ export default Ember.Component.extend({
 
     if (this._items !== items) {
       if (this._items && this._items.removeObserver) {
-        this._items.removeObserver('[]', this, this.rerender);
+        this._items.removeObserver('[]', this, this._needsRevalidate);
       }
 
       this.set('_items', items);
 
       if (items && items.addObserver) {
-        items.addObserver('[]', this, this.rerender);
+        items.addObserver('[]', this, this._needsRevalidate);
       }
     }
   },
@@ -183,7 +188,7 @@ export default Ember.Component.extend({
           scrollTop !== this._scrollTop) {
         set(this, '_scrollLeft', scrollLeft);
         set(this, '_scrollTop', scrollTop);
-        this.rerender();
+        needsRevalidate(this);
       }
     },
     clientSizeChange(clientSize) {
@@ -191,7 +196,7 @@ export default Ember.Component.extend({
           clientSize.width !== this._clientSize.width ||
           clientSize.height !== this._clientSize.height) {
         set(this, '_clientSize', clientSize);
-        this.rerender();
+        needsRevalidate(this);
       }
     }
   }
