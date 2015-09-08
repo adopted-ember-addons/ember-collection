@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
-    this._cells = [];
+    this._cells = Ember.A();
     this._cellMap = Object.create(null);
 
     // TODO: Super calls should always be at the top of the constructor.
@@ -173,7 +173,7 @@ export default Ember.Component.extend({
       style = formatStyle(pos, width, height);
       cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
       cellMap[itemKey] = cell;
-      this._cells.push(cell);
+      this._cells.pushObject(cell);
     }
     this._cellMap = cellMap;
   },

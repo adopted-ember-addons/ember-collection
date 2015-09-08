@@ -22,7 +22,7 @@ function shuffle(array) {
 export default Ember.Controller.extend({
   itemWidth: 100,
   itemHeight: 100,
-  containerWidth: 300,
+  containerWidth: 315,
   containerHeight: 600,
 
   actions: {

@@ -105,6 +105,11 @@ test("scroll within content length, beyond buffer", function(assert){
     this.render(template);
   });
 
+  let positionSorted = sortItemsByPosition(this);
+  assert.equal(
+    Ember.$(positionSorted[0]).text().trim(),
+    "Item 1", "The first cell should be the first item.");
+
   findScrollable(this).prop('scrollTop', 150);
   return new RSVP.Promise(function (resolve) {
     requestAnimationFrame(() => {
@@ -115,11 +120,11 @@ test("scroll within content length, beyond buffer", function(assert){
     assert.equal(
       findScrollable(this).prop('scrollTop'), 150, 'scrolled to item 7');
 
-    let positionSorted = sortItemsByPosition(this);
+    let positionSorted = sortItemsByPosition(this, true);
 
     assert.equal(
       Ember.$(positionSorted[0]).text().trim(),
-      "", "The first 2 items have been dropped.");
+      "Item 7", "The items before what is on screen is not visible.");
 
     Ember.run(()=>{
       this.set('width', 200+scrollbarSize());
