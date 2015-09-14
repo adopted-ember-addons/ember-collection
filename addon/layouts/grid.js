@@ -1,9 +1,10 @@
-/*global Bin*/
+import FixedGrid from 'layout-bin-packer/fixed-grid';
+
 export default class Grid
 {
   constructor(cellWidth, cellHeight) {
     this.length = 0;
-    this.bin = new Bin.FixedGrid(this, cellWidth, cellHeight);
+    this.bin = new FixedGrid(this, cellWidth, cellHeight);
   }
 
   contentSize(clientSize) {

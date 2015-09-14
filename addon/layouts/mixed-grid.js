@@ -1,9 +1,10 @@
-/*global Bin*/
+import ShelfFirst from 'layout-bin-packer/shelf-first';
+
 export default class MixedGrid
 {
   constructor(content, width) {
     this.content = content;
-    this.bin = new Bin.ShelfFirst(content, width);
+    this.bin = new ShelfFirst(content, width);
   }
 
   contentSize(clientSize) {
