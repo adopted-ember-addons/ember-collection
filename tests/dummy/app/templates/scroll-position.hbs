@@ -1,4 +1,4 @@
-<h3>Simple</h3>
+<h3>Scroll Position</h3>
 <button {{action 'makeSquare'}}>Square</button>
 <button {{action 'makeRow'}}>Row</button>
 <button {{action 'makeLongRect'}}>Long Rectangle</button>
@@ -26,7 +26,7 @@ Scroll Top: {{input value=scrollTop}}
       cell-layout=(fixed-grid-layout itemWidth itemHeight)
       scroll-left=scrollLeft
       scroll-top=scrollTop
-      scrollChange=(action "scrollChange")
+      scroll-change=(action "scrollChange")
       as |item index|}}
     <div class="list-item">
       {{item.name}}

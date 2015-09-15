@@ -63,6 +63,7 @@ export default Ember.Component.extend({
       width:  this.getAttr('estimated-width') | 0,
       height: this.getAttr('estimated-height') | 0
     };
+    this._scrollChange = this.getAttr('scroll-change');
   },
 
   _needsRevalidate(){
@@ -96,8 +97,7 @@ export default Ember.Component.extend({
   },
 
   updateScrollPosition(){
-    if (!this.scrollChange) { return; } // don't process bound scroll coords unless our action is being handled
-
+    if (!this._scrollChange) { return; } // don't process bound scroll coords unless our action is being handled
     let scrollLeftAttr = this.getAttr('scroll-left');
     if (scrollLeftAttr !== undefined) {
       scrollLeftAttr = parseInt(scrollLeftAttr, 10);
@@ -110,6 +110,7 @@ export default Ember.Component.extend({
     if (scrollTopAttr !== undefined) {
       scrollTopAttr = parseInt(scrollTopAttr, 10);
       if (this._scrollTop !== scrollTopAttr) {
+        // console.log('updateScrollPosition', this._scrollTop, scrollTopAttr);
         this.set('_scrollTop', scrollTopAttr);
       }
     }
@@ -208,8 +209,9 @@ export default Ember.Component.extend({
   },
   actions: {
     scrollChange({scrollLeft, scrollTop}) {
-      if (this.scrollChange) {
-        this.sendAction('scrollChange', scrollLeft, scrollTop);
+      if (this._scrollChange) {
+        // console.log('ember-collection sendAction scroll-change', scrollTop);
+        this.sendAction('scroll-change', scrollLeft, scrollTop);
       } else {
         if (scrollLeft !== this._scrollLeft ||
             scrollTop !== this._scrollTop) {
