@@ -27,6 +27,7 @@ export default Ember.Component.extend({
   },
   didUpdate() {
     this.applyContentSize();
+    this.syncScrollFromAttr();
   },
   willDestroyElement() {
     this.cancelScrollCheck();
@@ -56,13 +57,17 @@ export default Ember.Component.extend({
     this.contentElement.style.height = this._contentSize.height + 'px';
   },
   syncScrollFromAttr() {
-    if (this._scrollTop > 0) {
-      this.element.scrollTop = this._scrollTop;
-      this._scrollTop = this.element.scrollTop; // read it back in case our adjustment wasn't possible
+    if (this._appliedScrollTop !== this._scrollTop) {
+      this._appliedScrollTop = this._scrollTop;
+      if (this._scrollTop >= 0) {
+        this.element.scrollTop = this._scrollTop;
+      }
     }
-    if (this._scrollLeft > 0) {
-      this.element.scrollLeft = this._scrollLeft;
-      this._scrollLeft = this.element.scrollLeft;
+    if (this._appliedScrollLeft !== this._scrollLeft) {
+      this._appliedScrollLeft = this._scrollLeft;
+      if (this._scrollLeft >= 0) {
+        this.element.scrollLeft = this._scrollLeft;
+      }
     }
   },
   startScrollCheck() {
@@ -87,10 +92,10 @@ export default Ember.Component.extend({
     let scrollLeft = element.scrollLeft;
     let scrollTop = element.scrollTop;
     let scrollChanged = false;
-    if (scrollLeft !== this._scrollLeft || scrollTop !== this._scrollTop) {
+    if (scrollLeft !== this._appliedScrollLeft || scrollTop !== this._appliedScrollTop) {
       scrollChanged = true;
-      this._scrollLeft = scrollLeft;
-      this._scrollTop = scrollTop;
+      this._appliedScrollLeft = scrollLeft;
+      this._appliedScrollTop = scrollTop;
     }
 
     let clientWidth = element.clientWidth;
@@ -103,7 +108,7 @@ export default Ember.Component.extend({
     }
 
     if (scrollChanged || clientSizeChanged) {
-      Ember.run(() => {
+      Ember.run.join(this, function sendActionsFromScrollCheck(){
         if (scrollChanged) {
           this.sendScrollChange(scrollLeft, scrollTop);
         }
