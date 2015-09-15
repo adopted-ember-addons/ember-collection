@@ -74,8 +74,12 @@ export default Ember.Component.extend({
     // This will likely be patched in 1.13.9 and 2.0.1.
     this._super();
 
-    this._cellLayout = this.getAttr('cell-layout');
+    this.updateItems();
+    this.updateScrollPosition();
+  },
 
+  updateItems(){
+    this._cellLayout = this.getAttr('cell-layout');
     var items = this.getAttr('items');
 
     if (this._items !== items) {
@@ -87,6 +91,26 @@ export default Ember.Component.extend({
 
       if (items && items.addObserver) {
         items.addObserver('[]', this, this._needsRevalidate);
+      }
+    }
+  },
+
+  updateScrollPosition(){
+    if (!this.scrollChange) { return; } // don't process bound scroll coords unless our action is being handled
+
+    let scrollLeftAttr = this.getAttr('scroll-left');
+    if (scrollLeftAttr !== undefined) {
+      scrollLeftAttr = parseInt(scrollLeftAttr, 10);
+      if (this._scrollLeft !== scrollLeftAttr) {
+        this.set('_scrollLeft', scrollLeftAttr);
+      }
+    }
+
+    let scrollTopAttr = this.getAttr('scroll-top');
+    if (scrollTopAttr !== undefined) {
+      scrollTopAttr = parseInt(scrollTopAttr, 10);
+      if (this._scrollTop !== scrollTopAttr) {
+        this.set('_scrollTop', scrollTopAttr);
       }
     }
   },
@@ -184,11 +208,15 @@ export default Ember.Component.extend({
   },
   actions: {
     scrollChange({scrollLeft, scrollTop}) {
-      if (scrollLeft !== this._scrollLeft ||
-          scrollTop !== this._scrollTop) {
-        set(this, '_scrollLeft', scrollLeft);
-        set(this, '_scrollTop', scrollTop);
-        needsRevalidate(this);
+      if (this.scrollChange) {
+        this.sendAction('scrollChange', scrollLeft, scrollTop);
+      } else {
+        if (scrollLeft !== this._scrollLeft ||
+            scrollTop !== this._scrollTop) {
+          set(this, '_scrollLeft', scrollLeft);
+          set(this, '_scrollTop', scrollTop);
+          needsRevalidate(this);
+        }
       }
     },
     clientSizeChange(clientSize) {

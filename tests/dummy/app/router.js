@@ -7,12 +7,13 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('simple');
+  this.route('scroll-position');
+  this.route('mixed');
   this.route('mobile');
   this.route('mobile-large-images');
   this.route('mobile-small-images');
   this.route('multi-height');
   this.route('multi-height-multi-view');
-  this.route('mixed');
 });
 
 export default Router;
