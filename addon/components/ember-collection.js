@@ -4,6 +4,7 @@ import { translateCSS } from '../utils/translate';
 import needsRevalidate from '../utils/needs-revalidate';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
+const { htmlSafe } = Ember.String;
 
 class Cell {
   constructor(key, item, index, style) {
@@ -19,7 +20,7 @@ function formatStyle(pos, width, height) {
   let css = 'position:absolute;top:0;left:0;';
   css += translateCSS(pos.x, pos.y);
   css += 'width:' + width + 'px;height:' + height + 'px;';
-  return css;
+  return htmlSafe(css);
 }
 
 export default Ember.Component.extend({
