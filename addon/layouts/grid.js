@@ -7,10 +7,10 @@ export default class Grid
     this.bin = new FixedGrid(this, cellWidth, cellHeight);
   }
 
-  contentSize(clientSize) {
+  contentSize(clientWidth/*, clientHeight*/) {
     return {
-      width: clientSize.width,
-      height: this.bin.height(clientSize.width)
+      width: clientWidth,
+      height: this.bin.height(clientWidth)
     };
   }
 
