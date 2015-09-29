@@ -69,7 +69,7 @@ You must specify the `height`, `width` and `cell-layout` parameters because *Emb
 
 ## Build It
 
-1. `git clone https://github.com/emberjs/ember-colletion.git`
+1. `git clone https://github.com/emberjs/ember-collection.git`
 2. `cd ember-collection`
 3. `npm install` (implicitly runs `bower install` as a postinstall)
 5. `ember build`
