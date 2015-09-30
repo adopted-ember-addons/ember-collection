@@ -110,18 +110,12 @@ export default Ember.Component.extend({
     if (scrollChanged || clientSizeChanged) {
       Ember.run.join(this, function sendActionsFromScrollCheck(){
         if (scrollChanged) {
-          this.sendScrollChange(scrollLeft, scrollTop);
+          this.sendAction('scrollChange', scrollLeft, scrollTop);
         }
         if (clientSizeChanged) {
-          this.sendClientSizeChange(clientWidth, clientHeight);
+          this.sendAction('clientSizeChange', clientWidth, clientHeight);
         }
       });
     }
-  },
-  sendScrollChange(scrollLeft, scrollTop) {
-    this.sendAction('scrollChange', { scrollLeft, scrollTop });
-  },
-  sendClientSizeChange(width, height) {
-    this.sendAction('clientSizeChange', { width, height });
   }
 });
