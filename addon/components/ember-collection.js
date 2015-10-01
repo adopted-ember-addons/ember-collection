@@ -33,6 +33,7 @@ export default Ember.Component.extend({
     this._items = undefined;
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
+    this._scrollIndex = undefined;
     this._clientWidth = undefined;
     this._clientHeight = undefined;
     this._contentSize = undefined;
@@ -206,16 +207,37 @@ export default Ember.Component.extend({
     }
     this._cellMap = cellMap;
   },
+  getScrollIndex(scrollLeft, scrollTop) {
+    let itemWidth  = this._cellLayout.bin._elementWidth;
+    let itemHeight = this._cellLayout.bin._elementHeight;
+    let containerWidth  = this._clientWidth;
+    let containerHeight = this._clientHeight;
+
+    let itemsPerRow = Math.floor(containerWidth / itemWidth);
+    let itemsPerCol = Math.floor(containerHeight / itemHeight);
+
+    let colIndex = Math.ceil(scrollLeft / itemWidth);
+    let rowIndex = Math.ceil(scrollTop  / itemHeight);
+
+    let visibleItems = itemsPerRow * itemsPerCol;
+    let scrolledItems = (rowIndex * itemsPerRow) + (colIndex * itemsPerCol) - (rowIndex * colIndex);
+
+    return  scrolledItems + visibleItems - 1;
+  },
+
   actions: {
     scrollChange(scrollLeft, scrollTop) {
+      let scrollIndex = this.getScrollIndex(scrollLeft, scrollTop);
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);
-        this.sendAction('scroll-change', scrollLeft, scrollTop);
+        this.sendAction('scroll-change', scrollLeft, scrollTop, scrollIndex);
       } else {
         if (scrollLeft !== this._scrollLeft ||
-            scrollTop !== this._scrollTop) {
+            scrollTop !== this._scrollTop ||
+            scrollIndex !== this._scrollIndex) {
           set(this, '_scrollLeft', scrollLeft);
           set(this, '_scrollTop', scrollTop);
+          set(this, '_scrollIndex', scrollIndex);
           needsRevalidate(this);
         }
       }

@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   itemWidth: 100,
   itemHeight: 100,
+  scrollIndex: 0,
   containerWidth: 315,
   containerHeight: 600,
   scrollLeft: 0,
@@ -20,7 +21,7 @@ export default Ember.Controller.extend({
     makeSquare: function() {
       this.setProperties({
         itemWidth: 100,
-        itemHeight: 100,
+        itemHeight: 100
       });
     },
 
@@ -45,10 +46,11 @@ export default Ember.Controller.extend({
       });
     },
 
-    scrollChange: function(scrollLeft, scrollTop){
+    scrollChange: function(scrollLeft, scrollTop, scrollIndex){
       this.setProperties({
         scrollLeft: scrollLeft,
-        scrollTop: scrollTop
+        scrollTop: scrollTop,
+        scrollIndex: scrollIndex
       });
     }
   }
