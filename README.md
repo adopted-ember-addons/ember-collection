@@ -36,7 +36,7 @@ First, let's create a template:
   width=800
   cell-layout=(fixed-grid-layout 800 50) as |item index|
 }}
-  {{name}}
+  {{item.name}}
 {{/ember-collection}}
 ```
 
