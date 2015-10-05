@@ -33,7 +33,6 @@ export default Ember.Component.extend({
     this._items = undefined;
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
-    this._scrollIndex = undefined;
     this._clientWidth = undefined;
     this._clientHeight = undefined;
     this._contentSize = undefined;
@@ -42,6 +41,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
+    this.visibleStartingIndex = undefined;
     this._cells = Ember.A();
     this._cellMap = Object.create(null);
 
@@ -77,6 +77,7 @@ export default Ember.Component.extend({
 
     this.updateItems();
     this.updateScrollPosition();
+    this.sendAction('scroll-change', this._scrollLeft, this._scrollTop, this.visibleStartingIndex);
   },
 
   updateItems(){
@@ -94,6 +95,7 @@ export default Ember.Component.extend({
         items.addObserver('[]', this, this._needsRevalidate);
       }
     }
+    this._cellLayout.length = this._items.length;
   },
 
   updateScrollPosition(){
@@ -114,6 +116,7 @@ export default Ember.Component.extend({
         this.set('_scrollTop', scrollTopAttr);
       }
     }
+    this.set('visibleStartingIndex', this.getVisibleStartingIndex(this._scrollLeft, this._scrollTop));
   },
 
   updateContentSize() {
@@ -207,37 +210,24 @@ export default Ember.Component.extend({
     }
     this._cellMap = cellMap;
   },
-  getScrollIndex(scrollLeft, scrollTop) {
-    let itemWidth  = this._cellLayout.bin._elementWidth;
-    let itemHeight = this._cellLayout.bin._elementHeight;
-    let containerWidth  = this._clientWidth;
-    let containerHeight = this._clientHeight;
 
-    let itemsPerRow = Math.floor(containerWidth / itemWidth);
-    let itemsPerCol = Math.floor(containerHeight / itemHeight);
-
-    let colIndex = Math.ceil(scrollLeft / itemWidth);
-    let rowIndex = Math.ceil(scrollTop  / itemHeight);
-
-    let visibleItems = itemsPerRow * itemsPerCol;
-    let scrolledItems = (rowIndex * itemsPerRow) + (colIndex * itemsPerCol) - (rowIndex * colIndex);
-
-    return  scrolledItems + visibleItems - 1;
+  getVisibleStartingIndex(scrollLeft, scrollTop) {
+    return this._cellLayout.indexAt(scrollLeft, scrollTop, this._clientWidth, this._clientHeight);
   },
 
   actions: {
     scrollChange(scrollLeft, scrollTop) {
-      let scrollIndex = this.getScrollIndex(scrollLeft, scrollTop);
+      let visibleStartingIndex = this.getVisibleStartingIndex(scrollLeft, scrollTop);
       if (this._scrollChange) {
-        // console.log('ember-collection sendAction scroll-change', scrollTop);
-        this.sendAction('scroll-change', scrollLeft, scrollTop, scrollIndex);
+        // console.log('ember-collection sendAction scroll-change', scrollTop, visibleStartingIndex
+        this.sendAction('scroll-change', scrollLeft, scrollTop, visibleStartingIndex);
       } else {
         if (scrollLeft !== this._scrollLeft ||
             scrollTop !== this._scrollTop ||
-            scrollIndex !== this._scrollIndex) {
+            visibleStartingIndex !== this.visibleStartingIndex) {
           set(this, '_scrollLeft', scrollLeft);
           set(this, '_scrollTop', scrollTop);
-          set(this, '_scrollIndex', scrollIndex);
+          set(this, 'visibleStartingIndex', visibleStartingIndex);
           needsRevalidate(this);
         }
       }
