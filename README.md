@@ -28,12 +28,15 @@ It would help us greatly to help you and to improve ember collection.
 
 ## Usage
 
-First, let's create a template:
+The height of the collection is inferred from its nearest relative parent.
+This is so you can just use CSS to style the container.
+
+So, first make sure the collection has a parent with `position: relative`, and
+then render a template:
+
 ```handlebars
 {{#ember-collection
   items=model
-  height=500
-  width=800
   cell-layout=(fixed-grid-layout 800 50) as |item index|
 }}
   {{item.name}}
@@ -41,6 +44,7 @@ First, let's create a template:
 ```
 
 Next, let's feed our template with some data:
+
 ``` javascript
 // define index route and return some data from model
 export default Ember.Route.extend({
@@ -55,6 +59,12 @@ export default Ember.Route.extend({
 ```
 
 Shazam! You should be able to see a scrollable area with 10,000 items in it.
+
+## Estimating width/height
+
+You can pass `estimated-width` and `estimated-height` to the collection, for situations where the collection cannot infer its height from its parent (e.g., when there's no DOM in FastBoot).
+
+Once the collection has been rendered, `estimated-width` and `estimated-height` have no effect.
 
 ## Subclassing
 **TODO** - Example of extending the component and providing a new `layout`.
