@@ -87,7 +87,7 @@ export default Ember.Component.extend({
         this._items.removeObserver('[]', this, this._needsRevalidate);
       }
 
-      this.set('_items', items);
+      this.set('_items', Ember.A(items));
 
       if (items && items.addObserver) {
         items.addObserver('[]', this, this._needsRevalidate);
@@ -152,7 +152,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = decodeEachKey(items[itemIndex], '@identity');
+      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
       if (priorMap) {
         cell = priorMap[itemKey];
       }
@@ -175,7 +175,7 @@ export default Ember.Component.extend({
       if (!cellMap[cell.key]) {
         if (newItems.length) {
           itemIndex = newItems.pop();
-          itemKey = decodeEachKey(items[itemIndex], '@identity');
+          itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
           pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
           width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
           height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
@@ -183,7 +183,7 @@ export default Ember.Component.extend({
           set(cell, 'style', style);
           set(cell, 'key', itemKey);
           set(cell, 'index', itemIndex);
-          set(cell, 'item', items[itemIndex]);
+          set(cell, 'item', items.objectAt(itemIndex));
           set(cell, 'hidden', false);
           cellMap[itemKey] = cell;
         } else {
@@ -195,12 +195,12 @@ export default Ember.Component.extend({
 
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
-      itemKey = decodeEachKey(items[itemIndex], '@identity');
+      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
       pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
       width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
       height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
       style = formatStyle(pos, width, height);
-      cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
+      cell = new Cell(itemKey, items.objectAt(itemIndex), itemIndex, style);
       cellMap[itemKey] = cell;
       this._cells.pushObject(cell);
     }
