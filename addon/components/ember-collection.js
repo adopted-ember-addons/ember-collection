@@ -41,6 +41,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
+    this.visibleStartingIndex = undefined;
     this._cells = Ember.A();
     this._cellMap = Object.create(null);
 
@@ -76,6 +77,7 @@ export default Ember.Component.extend({
 
     this.updateItems();
     this.updateScrollPosition();
+    this.sendAction('scroll-change', this._scrollLeft, this._scrollTop, this.visibleStartingIndex);
   },
 
   updateItems(){
@@ -93,6 +95,7 @@ export default Ember.Component.extend({
         items.addObserver('[]', this, this._needsRevalidate);
       }
     }
+    this._cellLayout.length = this._items.length;
   },
 
   updateScrollPosition(){
@@ -113,6 +116,7 @@ export default Ember.Component.extend({
         this.set('_scrollTop', scrollTopAttr);
       }
     }
+    this.set('visibleStartingIndex', this.getVisibleStartingIndex(this._scrollLeft, this._scrollTop));
   },
 
   updateContentSize() {
@@ -206,16 +210,24 @@ export default Ember.Component.extend({
     }
     this._cellMap = cellMap;
   },
+
+  getVisibleStartingIndex(scrollLeft, scrollTop) {
+    return this._cellLayout.indexAt(scrollLeft, scrollTop, this._clientWidth, this._clientHeight);
+  },
+
   actions: {
     scrollChange(scrollLeft, scrollTop) {
+      let visibleStartingIndex = this.getVisibleStartingIndex(scrollLeft, scrollTop);
       if (this._scrollChange) {
-        // console.log('ember-collection sendAction scroll-change', scrollTop);
-        this.sendAction('scroll-change', scrollLeft, scrollTop);
+        // console.log('ember-collection sendAction scroll-change', scrollTop, visibleStartingIndex
+        this.sendAction('scroll-change', scrollLeft, scrollTop, visibleStartingIndex);
       } else {
         if (scrollLeft !== this._scrollLeft ||
-            scrollTop !== this._scrollTop) {
+            scrollTop !== this._scrollTop ||
+            visibleStartingIndex !== this.visibleStartingIndex) {
           set(this, '_scrollLeft', scrollLeft);
           set(this, '_scrollTop', scrollTop);
+          set(this, 'visibleStartingIndex', visibleStartingIndex);
           needsRevalidate(this);
         }
       }
