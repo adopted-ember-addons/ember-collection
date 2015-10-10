@@ -1,8 +1,9 @@
 import Ember from 'ember';
+const { get } = Ember;
 var compile = Ember.Handlebars.compile;
 
 function generateContent(n) {
-  var content = Ember.A();
+  var content = [];
   for (var i = 0; i < n; i++) {
     content.push({name: "Item " + (i+1)});
   }
@@ -58,7 +59,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   var elements = sortItemsByPosition(view, true);
   var content = view.get('content') || [];
   assert.ok(
-    expectedFirstItem + expectedCount <= content.length,
+    expectedFirstItem + expectedCount <= get(content, 'length'),
     'No more items than are in content are rendered.');
   var buffer = view.get('buffer') === undefined ? 5 : view.get('buffer');
 
@@ -78,14 +79,15 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   // include buffer before
   var scount = expectedCount + Math.min(expectedFirstItem, buffer);
   // include padding (in case of non-integral scroll)
-  var pcount = scount + Math.min(Math.max(content.length - istart - scount, 0), padding);
+  var numItems = get(content, 'length');
+  var pcount = scount + Math.min(Math.max(numItems - istart - scount, 0), padding);
   // include buffer after
-  var count = pcount + Math.min(Math.max(content.length - istart - pcount, 0), buffer);
+  var count = pcount + Math.min(Math.max(numItems - istart - pcount, 0), buffer);
   assert.equal(
     elements.length, count, "Rendered expected number of elements.");
   for (let i = 0; i < count; i++) {
     let elt = elements[i];
-    let item = content[i + istart];
+    let item = content.objectAt(i + istart);
     assert.equal(
       $(elt).text().trim(), item.name,
       'Item ' + (i + 1) + ' rendered');

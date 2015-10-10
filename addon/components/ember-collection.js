@@ -30,6 +30,7 @@ export default Ember.Component.extend({
     // so that there's no chance of shadowing the attrs proxy.
     this._buffer = undefined;
     this._cellLayout = undefined;
+    this._rawItems = undefined;
     this._items = undefined;
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
@@ -80,17 +81,24 @@ export default Ember.Component.extend({
 
   updateItems(){
     this._cellLayout = this.getAttr('cell-layout');
-    var items = this.getAttr('items');
+    var rawItems = this.getAttr('items');
 
-    if (this._items !== items) {
-      if (this._items && this._items.removeObserver) {
-        this._items.removeObserver('[]', this, this._needsRevalidate);
+    if (this._rawItems !== rawItems) {
+      if (this._items && this._items.removeArrayObserver) {
+        this._items.removeArrayObserver(this, {
+          willChange: Ember.K,
+          didChange: '_needsRevalidate'
+        });
       }
-
+      this._rawItems = rawItems;
+      var items = Ember.A(rawItems);
       this.set('_items', items);
 
-      if (items && items.addObserver) {
-        items.addObserver('[]', this, this._needsRevalidate);
+      if (items && items.addArrayObserver) {
+        items.addArrayObserver(this, {
+          willChange: Ember.K,
+          didChange: '_needsRevalidate'
+        });
       }
     }
   },
@@ -132,8 +140,9 @@ export default Ember.Component.extend({
 
   updateCells() {
     if (!this._items) { return; }
-    if (this._cellLayout.length !== this._items.length) {
-      this._cellLayout.length = this._items.length;
+    const numItems = get(this._items, 'length');
+    if (this._cellLayout.length !== numItems) {
+      this._cellLayout.length = numItems;
     }
 
     var priorMap = this._cellMap;
@@ -152,7 +161,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = decodeEachKey(items[itemIndex], '@identity');
+      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
       if (priorMap) {
         cell = priorMap[itemKey];
       }
@@ -175,7 +184,8 @@ export default Ember.Component.extend({
       if (!cellMap[cell.key]) {
         if (newItems.length) {
           itemIndex = newItems.pop();
-          itemKey = decodeEachKey(items[itemIndex], '@identity');
+          let item = items.objectAt(itemIndex);
+          itemKey = decodeEachKey(item, '@identity');
           pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
           width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
           height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
@@ -183,7 +193,7 @@ export default Ember.Component.extend({
           set(cell, 'style', style);
           set(cell, 'key', itemKey);
           set(cell, 'index', itemIndex);
-          set(cell, 'item', items[itemIndex]);
+          set(cell, 'item', item);
           set(cell, 'hidden', false);
           cellMap[itemKey] = cell;
         } else {
@@ -195,12 +205,13 @@ export default Ember.Component.extend({
 
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
-      itemKey = decodeEachKey(items[itemIndex], '@identity');
+      let item = items.objectAt(itemIndex);
+      itemKey = decodeEachKey(item, '@identity');
       pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
       width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
       height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
       style = formatStyle(pos, width, height);
-      cell = new Cell(itemKey, items[itemIndex], itemIndex, style);
+      cell = new Cell(itemKey, item, itemIndex, style);
       cellMap[itemKey] = cell;
       this._cells.pushObject(cell);
     }
