@@ -49,7 +49,6 @@ export default Ember.Component.extend({
     this.element.style.top = 0;
     this.element.style.bottom = 0;
     this.element.style.right = 0;
-    this.element.style.boxSizing = 'border-box';
   },
   applyContentSize() {
     this.contentElement.style.position = 'relative';
