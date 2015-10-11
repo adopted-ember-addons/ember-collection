@@ -126,3 +126,21 @@ test("deleting the first element", function(assert) {
     "Item 2", "Item 1 has been remove from the list.");
     checkContent(this, assert, 0, 50);
 });
+
+test("working with an ArrayProxy", function(assert) {
+  var content = Ember.ArrayProxy.create({content: Ember.A(generateContent(nItems)) });
+
+  Ember.run(()=>{
+    this.setProperties({height, width, itemHeight, itemWidth, content});
+    this.render(template);
+  });
+
+  Ember.run(()=>{
+    assert.equal(findItems(this)
+      .filter(function(){ return $(this).css('display') !== 'none'; })
+      .length, 60, "The rendered list was updated");
+
+    assert.equal(findItems(this).height(), itemHeight, "The items have the correct height");
+    checkContent(this, assert, 0, 50);
+  });
+});
