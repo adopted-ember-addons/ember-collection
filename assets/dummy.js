@@ -379,11 +379,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
+              "line": 6,
               "column": 8
             },
             "end": {
-              "line": 3,
+              "line": 6,
               "column": 33
             }
           },
@@ -413,11 +413,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 4,
+              "line": 7,
               "column": 8
             },
             "end": {
-              "line": 4,
+              "line": 7,
               "column": 35
             }
           },
@@ -447,11 +447,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 5,
+              "line": 8,
               "column": 8
             },
             "end": {
-              "line": 5,
+              "line": 8,
               "column": 33
             }
           },
@@ -481,11 +481,11 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
+              "line": 9,
               "column": 8
             },
             "end": {
-              "line": 6,
+              "line": 9,
               "column": 53
             }
           },
@@ -518,7 +518,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 16,
+            "line": 19,
             "column": 0
           }
         },
@@ -534,7 +534,27 @@ define('dummy/templates/application', ['exports'], function (exports) {
         var el2 = dom.createTextNode("Ember Collection Demos");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("p");
+        var el2 = dom.createTextNode("These are the demos for the ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"href","https://github.com/emberjs/ember-collection");
+        var el3 = dom.createTextNode("ember-collection");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode(" addon. Their source code is within the the repo's ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"href","https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app");
+        var el3 = dom.createTextNode("tests/dummy application");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode(".");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("ul");
         var el2 = dom.createTextNode("\n    ");
@@ -573,21 +593,21 @@ define('dummy/templates/application', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [2]);
+        var element0 = dom.childAt(fragment, [4]);
         var morphs = new Array(5);
         morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
         morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]),0,0);
         morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]),0,0);
         morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]),0,0);
-        morphs[4] = dom.createMorphAt(fragment,4,4,contextualElement);
+        morphs[4] = dom.createMorphAt(fragment,6,6,contextualElement);
         return morphs;
       },
       statements: [
-        ["block","link-to",["index"],[],0,null,["loc",[null,[3,8],[3,45]]]],
-        ["block","link-to",["simple"],[],1,null,["loc",[null,[4,8],[4,47]]]],
-        ["block","link-to",["mixed"],[],2,null,["loc",[null,[5,8],[5,45]]]],
-        ["block","link-to",["scroll-position"],[],3,null,["loc",[null,[6,8],[6,65]]]],
-        ["content","outlet",["loc",[null,[15,0],[15,10]]]]
+        ["block","link-to",["index"],[],0,null,["loc",[null,[6,8],[6,45]]]],
+        ["block","link-to",["simple"],[],1,null,["loc",[null,[7,8],[7,47]]]],
+        ["block","link-to",["mixed"],[],2,null,["loc",[null,[8,8],[8,45]]]],
+        ["block","link-to",["scroll-position"],[],3,null,["loc",[null,[9,8],[9,65]]]],
+        ["content","outlet",["loc",[null,[18,0],[18,10]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3]
