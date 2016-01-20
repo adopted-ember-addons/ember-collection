@@ -1,18 +1,25 @@
-<h2 id="title">Ember Collection Demos</h2>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Ember Collection</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+        {{#link-to 'index' tagName='li' href=false}} {{link-to 'Home' 'index'}} {{/link-to}}
+        {{#link-to 'simple' tagName='li' href=false}} {{link-to 'Fixed Grid' 'simple'}} {{/link-to}}
+        {{#link-to 'mixed' tagName='li' href=false}} {{link-to 'Mixed Grid' 'mixed'}} {{/link-to}}
+        {{#link-to 'scroll-position' tagName='li' href=false}} {{link-to 'Scroll Position' 'scroll-position'}}{{/link-to}}
+        </ul>
+    </div><!--/.navbar-collapse -->
+    </div>
+</nav>
 
-<p>These are the demos for the <a href="https://github.com/emberjs/ember-collection">ember-collection</a> addon. Their source code is within the the repo's <a href="https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app">tests/dummy application</a>.</p>
-
-<ul>
-    <li>{{#link-to 'index'}}Index{{/link-to}}</li>
-    <li>{{#link-to 'simple'}}Simple{{/link-to}}</li>
-    <li>{{#link-to 'mixed'}}Mixed{{/link-to}}</li>
-    <li>{{#link-to 'scroll-position'}}Scroll Position{{/link-to}}</li>
-    {{!--
-    <li>{{#link-to 'mobile'}}Mobile{{/link-to}} (TODO)</li>
-    <li>{{#link-to 'mobile-large-images'}}Mobile Large Images{{/link-to}} (TODO)</li>
-    <li>{{#link-to 'mobile-small-images'}}Mobile Small Images{{/link-to}} (TODO)</li>
-    <li>{{#link-to 'multi-height'}}Multi Height{{/link-to}} (TODO)</li>
-    <li>{{#link-to 'multi-height-multi-view'}}Multi Height - Multi View{{/link-to}} (TODO)</li>
-    --}}
-</ul>
-{{outlet}}
+<div class="container">
+    {{outlet}}
+</div>
