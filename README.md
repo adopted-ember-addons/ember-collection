@@ -77,6 +77,37 @@ Once the collection has been rendered, `estimated-width` and `estimated-height` 
 
 You must specify the `height`, `width` and `cell-layout` parameters because *EmberCollection* will try to fill visible area with items.
 
+### Actions
+
+#### scroll-change
+
+If you do not provide a `scroll-change` action name or closure action, scrolling will work normally.
+
+If you *do* specify `scroll-change`, ember-collection assumes that you want to handle the scroll-change action in a true data down, actions up manner. For this reason, ember-collection will not set `scroll-left` and `scroll-right` itself, but rather rely on you to update those properties based on action handling as you see fit.
+
+An example of specifying an action and keeping scrolling working normally looks like this:
+
+```hbs
+{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight)
+    scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
+    as |item index| }}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-collection}}
+```
+
+```js
+export default Ember.Controller.extend({
+  scrollLeft: 0,
+  scrollTop: 0,
+  actions: {
+    scrollChange(scrollLeft, scrollTop) {
+      this.set('scrollLeft', scrollLeft);
+      this.set('scrollTop', scrollTop);
+    }
+  }
+});
+```
+
 ## Build It
 
 1. `git clone https://github.com/emberjs/ember-collection.git`
