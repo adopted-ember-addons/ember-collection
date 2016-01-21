@@ -917,11 +917,11 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 21,
+              "line": 22,
               "column": 2
             },
             "end": {
-              "line": 34,
+              "line": 35,
               "column": 2
             }
           },
@@ -953,7 +953,7 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["content","item.name",["loc",[null,[32,6],[32,19]]]]
+          ["content","item.name",["loc",[null,[33,6],[33,19]]]]
         ],
         locals: ["item","index"],
         templates: []
@@ -969,7 +969,7 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 36,
+            "line": 37,
             "column": 0
           }
         },
@@ -1066,6 +1066,12 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createElement("p");
+        var el2 = dom.createTextNode("Note: The usage of this component remembers its scroll position. Try it by navigating away from this route and then returning.");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("hr");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -1091,7 +1097,7 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
         var element6 = dom.childAt(element4, [5]);
         var element7 = dom.childAt(fragment, [12]);
         var element8 = dom.childAt(fragment, [14]);
-        var element9 = dom.childAt(fragment, [18]);
+        var element9 = dom.childAt(fragment, [20]);
         var morphs = new Array(16);
         morphs[0] = dom.createElementMorph(element0);
         morphs[1] = dom.createElementMorph(element1);
@@ -1126,8 +1132,8 @@ define('dummy/templates/scroll-position', ['exports'], function (exports) {
         ["content","itemWidth",["loc",[null,[12,12],[12,25]]]],
         ["inline","input",[],["value",["subexpr","@mut",[["get","scrollLeft",["loc",[null,[15,27],[15,37]]]]],[],[]]],["loc",[null,[15,13],[15,39]]]],
         ["inline","input",[],["value",["subexpr","@mut",[["get","scrollTop",["loc",[null,[16,26],[16,35]]]]],[],[]]],["loc",[null,[16,12],[16,37]]]],
-        ["attribute","style",["subexpr","concat",["position:relative;width:",["get","containerWidth",["loc",[null,[20,68],[20,82]]]],"px;height:",["get","containerHeight",["loc",[null,[20,96],[20,111]]]],"px;"],[],["loc",[null,[20,31],[20,120]]]]],
-        ["block","ember-collection",[],["items",["subexpr","@mut",[["get","model",["loc",[null,[22,12],[22,17]]]]],[],[]],"estimated-height",["subexpr","@mut",[["get","containerHeight",["loc",[null,[23,23],[23,38]]]]],[],[]],"estimated-width",["subexpr","@mut",[["get","containerWidth",["loc",[null,[24,22],[24,36]]]]],[],[]],"buffer",10,"cell-layout",["subexpr","fixed-grid-layout",[["get","itemWidth",["loc",[null,[26,37],[26,46]]]],["get","itemHeight",["loc",[null,[26,47],[26,57]]]]],[],["loc",[null,[26,18],[26,58]]]],"scroll-left",["subexpr","@mut",[["get","scrollLeft",["loc",[null,[27,18],[27,28]]]]],[],[]],"scroll-top",["subexpr","@mut",[["get","scrollTop",["loc",[null,[28,17],[28,26]]]]],[],[]],"scroll-change",["subexpr","action",["scrollChange"],[],["loc",[null,[29,20],[29,43]]]]],0,null,["loc",[null,[21,2],[34,23]]]]
+        ["attribute","style",["subexpr","concat",["position:relative;width:",["get","containerWidth",["loc",[null,[21,68],[21,82]]]],"px;height:",["get","containerHeight",["loc",[null,[21,96],[21,111]]]],"px;"],[],["loc",[null,[21,31],[21,120]]]]],
+        ["block","ember-collection",[],["items",["subexpr","@mut",[["get","model",["loc",[null,[23,12],[23,17]]]]],[],[]],"estimated-height",["subexpr","@mut",[["get","containerHeight",["loc",[null,[24,23],[24,38]]]]],[],[]],"estimated-width",["subexpr","@mut",[["get","containerWidth",["loc",[null,[25,22],[25,36]]]]],[],[]],"buffer",10,"cell-layout",["subexpr","fixed-grid-layout",[["get","itemWidth",["loc",[null,[27,37],[27,46]]]],["get","itemHeight",["loc",[null,[27,47],[27,57]]]]],[],["loc",[null,[27,18],[27,58]]]],"scroll-left",["subexpr","@mut",[["get","scrollLeft",["loc",[null,[28,18],[28,28]]]]],[],[]],"scroll-top",["subexpr","@mut",[["get","scrollTop",["loc",[null,[29,17],[29,26]]]]],[],[]],"scroll-change",["subexpr","action",["scrollChange"],[],["loc",[null,[30,20],[30,43]]]]],0,null,["loc",[null,[22,2],[35,23]]]]
       ],
       locals: [],
       templates: [child0]
