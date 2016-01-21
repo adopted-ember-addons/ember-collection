@@ -227,11 +227,6 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('simple');
     this.route('scroll-position');
     this.route('mixed');
-    this.route('mobile');
-    this.route('mobile-large-images');
-    this.route('mobile-small-images');
-    this.route('multi-height');
-    this.route('multi-height-multi-view');
   });
 
   exports['default'] = Router;
@@ -262,75 +257,6 @@ define('dummy/routes/mixed', ['exports', 'ember'], function (exports, Ember) {
   });
 
 });
-define('dummy/routes/mobile-large-images', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default']()
-  });
-
-});
-define('dummy/routes/mobile-small-images', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default'](1000, 'smallImages')
-  });
-
-});
-define('dummy/routes/mobile', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default']()
-  });
-
-});
-define('dummy/routes/multi-height-multi-view', ['exports', 'ember', 'dummy/utils/fixtures'], function (exports, Ember, fixtures) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: function model() {
-      return fixtures.types;
-    }
-  });
-
-});
-define('dummy/routes/multi-height-virtual', ['exports', 'ember', 'dummy/utils/fixtures'], function (exports, Ember, fixtures) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: function model() {
-      return fixtures.types;
-    }
-  });
-
-});
-define('dummy/routes/multi-height', ['exports', 'ember', 'dummy/utils/fixtures'], function (exports, Ember, fixtures) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: function model() {
-      return fixtures.types;
-    }
-  });
-
-});
-define('dummy/routes/pull-to-refresh', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default']()
-  });
-
-});
 define('dummy/routes/scroll-position', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
 
   'use strict';
@@ -341,24 +267,6 @@ define('dummy/routes/scroll-position', ['exports', 'ember', 'dummy/utils/make-mo
 
 });
 define('dummy/routes/simple', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default']()
-  });
-
-});
-define('dummy/routes/virtual-strange-ratios', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].Route.extend({
-    model: makeModel['default'](15, 'strangeRatios')
-  });
-
-});
-define('dummy/routes/virtual', ['exports', 'ember', 'dummy/utils/make-model'], function (exports, Ember, makeModel) {
 
   'use strict';
 
@@ -379,12 +287,12 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
+              "line": 14,
               "column": 8
             },
             "end": {
-              "line": 6,
-              "column": 33
+              "line": 14,
+              "column": 80
             }
           },
           "moduleName": "dummy/templates/application.hbs"
@@ -394,13 +302,21 @@ define('dummy/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Index");
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() { return []; },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
         statements: [
-
+          ["inline","link-to",["Home","index"],[],["loc",[null,[14,53],[14,79]]]]
         ],
         locals: [],
         templates: []
@@ -413,12 +329,12 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 7,
+              "line": 15,
               "column": 8
             },
             "end": {
-              "line": 7,
-              "column": 35
+              "line": 15,
+              "column": 88
             }
           },
           "moduleName": "dummy/templates/application.hbs"
@@ -428,13 +344,21 @@ define('dummy/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Simple");
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() { return []; },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
         statements: [
-
+          ["inline","link-to",["Fixed Grid","simple"],[],["loc",[null,[15,54],[15,87]]]]
         ],
         locals: [],
         templates: []
@@ -447,12 +371,12 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 8,
+              "line": 16,
               "column": 8
             },
             "end": {
-              "line": 8,
-              "column": 33
+              "line": 16,
+              "column": 86
             }
           },
           "moduleName": "dummy/templates/application.hbs"
@@ -462,13 +386,21 @@ define('dummy/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Mixed");
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() { return []; },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
         statements: [
-
+          ["inline","link-to",["Mixed Grid","mixed"],[],["loc",[null,[16,53],[16,85]]]]
         ],
         locals: [],
         templates: []
@@ -481,12 +413,12 @@ define('dummy/templates/application', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 9,
+              "line": 17,
               "column": 8
             },
             "end": {
-              "line": 9,
-              "column": 53
+              "line": 17,
+              "column": 110
             }
           },
           "moduleName": "dummy/templates/application.hbs"
@@ -496,13 +428,20 @@ define('dummy/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Scroll Position");
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() { return []; },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
         statements: [
-
+          ["inline","link-to",["Scroll Position","scroll-position"],[],["loc",[null,[17,63],[17,110]]]]
         ],
         locals: [],
         templates: []
@@ -518,7 +457,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 19,
+            "line": 26,
             "column": 0
           }
         },
@@ -529,85 +468,131 @@ define('dummy/templates/application', ['exports'], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
-        dom.setAttribute(el1,"id","title");
-        var el2 = dom.createTextNode("Ember Collection Demos");
+        var el1 = dom.createElement("nav");
+        dom.setAttribute(el1,"class","navbar navbar-inverse navbar-fixed-top");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","container");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","navbar-header");
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4,"type","button");
+        dom.setAttribute(el4,"class","navbar-toggle collapsed");
+        dom.setAttribute(el4,"data-toggle","collapse");
+        dom.setAttribute(el4,"data-target","#navbar");
+        dom.setAttribute(el4,"aria-expanded","false");
+        dom.setAttribute(el4,"aria-controls","navbar");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5,"class","sr-only");
+        var el6 = dom.createTextNode("Toggle navigation");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5,"class","icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5,"class","icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("span");
+        dom.setAttribute(el5,"class","icon-bar");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("a");
+        dom.setAttribute(el4,"class","navbar-brand");
+        dom.setAttribute(el4,"href","#");
+        var el5 = dom.createTextNode("Ember Collection");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"id","navbar");
+        dom.setAttribute(el3,"class","navbar-collapse collapse");
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("ul");
+        dom.setAttribute(el4,"class","nav navbar-nav");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("/.navbar-collapse ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("p");
-        var el2 = dom.createTextNode("These are the demos for the ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/emberjs/ember-collection");
-        var el3 = dom.createTextNode("ember-collection");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode(" addon. Their source code is within the the repo's ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app");
-        var el3 = dom.createTextNode("tests/dummy application");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode(".");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("ul");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","container");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("li");
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("li");
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("li");
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("li");
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [4]);
+        var element0 = dom.childAt(fragment, [0, 1, 3, 1]);
         var morphs = new Array(5);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]),0,0);
-        morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]),0,0);
-        morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]),0,0);
-        morphs[4] = dom.createMorphAt(fragment,6,6,contextualElement);
+        morphs[0] = dom.createMorphAt(element0,1,1);
+        morphs[1] = dom.createMorphAt(element0,3,3);
+        morphs[2] = dom.createMorphAt(element0,5,5);
+        morphs[3] = dom.createMorphAt(element0,7,7);
+        morphs[4] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         return morphs;
       },
       statements: [
-        ["block","link-to",["index"],[],0,null,["loc",[null,[6,8],[6,45]]]],
-        ["block","link-to",["simple"],[],1,null,["loc",[null,[7,8],[7,47]]]],
-        ["block","link-to",["mixed"],[],2,null,["loc",[null,[8,8],[8,45]]]],
-        ["block","link-to",["scroll-position"],[],3,null,["loc",[null,[9,8],[9,65]]]],
-        ["content","outlet",["loc",[null,[18,0],[18,10]]]]
+        ["block","link-to",["index"],["tagName","li","href",false],0,null,["loc",[null,[14,8],[14,92]]]],
+        ["block","link-to",["simple"],["tagName","li","href",false],1,null,["loc",[null,[15,8],[15,100]]]],
+        ["block","link-to",["mixed"],["tagName","li","href",false],2,null,["loc",[null,[16,8],[16,98]]]],
+        ["block","link-to",["scroll-position"],["tagName","li","href",false],3,null,["loc",[null,[17,8],[17,122]]]],
+        ["content","outlet",["loc",[null,[24,4],[24,14]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3]
@@ -615,7 +600,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
   }()));
 
 });
-define('dummy/templates/cat', ['exports'], function (exports) {
+define('dummy/templates/index', ['exports'], function (exports) {
 
   'use strict';
 
@@ -630,11 +615,11 @@ define('dummy/templates/cat', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 2,
-            "column": 0
+            "line": 23,
+            "column": 1
           }
         },
-        "moduleName": "dummy/templates/cat.hbs"
+        "moduleName": "dummy/templates/index.hbs"
       },
       arity: 0,
       cachedFragment: null,
@@ -642,97 +627,176 @@ define('dummy/templates/cat', ['exports'], function (exports) {
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        var el2 = dom.createTextNode("Meow says ");
+        dom.setAttribute(el1,"class","jumbotron");
+        var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        var el2 = dom.createElement("h1");
+        var el3 = dom.createTextNode("Ember Collection Demos");
+        dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode(" expected: cat === ");
+        var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        var el2 = dom.createElement("p");
+        var el3 = dom.createTextNode("These are the demos for the ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3,"href","https://github.com/emberjs/ember-collection");
+        var el4 = dom.createTextNode("ember-collection");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" addon. Their source code is within the the repo's ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3,"href","https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app");
+        var el4 = dom.createTextNode("tests/dummy application");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(".");
+        dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode(" ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-md-4");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h2");
+        var el4 = dom.createTextNode("Fixed Grid Layout");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Use the ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("fixed-grid-layout");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" when all items are the same size. The width and height of each item are bound as is the width and height of the container. Ember collection will re-layout items when any of these items change.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-md-4");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h2");
+        var el4 = dom.createTextNode("Mixed Grid Layout");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Use the ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("mixed-grid-layout");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" when items can be a different size. The collection being itterated over is passed to the ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("mixed-grid-layout");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" helper. Each item in the collection must provide a ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("width");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" and ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("height");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" property of the item.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-md-4");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h2");
+        var el4 = dom.createTextNode("Scroll Position");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Use the ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("scroll-top");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" and ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("code");
+        var el5 = dom.createTextNode("scroll-left");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode(" attributes to programtically scroll to a specific location in the collection. This can also be used to set an initial scroll position.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n ");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var morphs = new Array(4);
-        morphs[0] = dom.createAttrMorph(element0, 'class');
-        morphs[1] = dom.createMorphAt(element0,1,1);
-        morphs[2] = dom.createMorphAt(element0,3,3);
-        morphs[3] = dom.createMorphAt(element0,5,5);
-        return morphs;
-      },
-      statements: [
-        ["attribute","class",["concat",["row ",["get","type",["loc",[null,[1,18],[1,22]]]]]]],
-        ["content","name",["loc",[null,[1,36],[1,44]]]],
-        ["content","type",["loc",[null,[1,63],[1,71]]]],
-        ["content","id",["loc",[null,[1,72],[1,78]]]]
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/dog', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/dog.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("Woof says ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode(" expected: dog === ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode(" ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [2]);
         var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
-        morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
-        morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 5]),0,0);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 5]),0,0);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [5, 5]),0,0);
         return morphs;
       },
       statements: [
-        ["content","name",["loc",[null,[1,10],[1,18]]]],
-        ["content","type",["loc",[null,[1,37],[1,45]]]],
-        ["content","id",["loc",[null,[1,46],[1,52]]]]
+        ["inline","link-to",["Demo","simple"],["class","btn btn-default"],["loc",[null,[10,11],[10,62]]]],
+        ["inline","link-to",["Demo","mixed"],["class","btn btn-default"],["loc",[null,[15,11],[15,61]]]],
+        ["inline","link-to",["Demo","scroll-position"],["class","btn btn-default"],["loc",[null,[20,11],[20,71]]]]
       ],
       locals: [],
       templates: []
@@ -837,418 +901,6 @@ define('dummy/templates/mixed', ['exports'], function (exports) {
       ],
       locals: [],
       templates: [child0]
-    };
-  }()));
-
-});
-define('dummy/templates/mobile-large-images', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 16,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/mobile-large-images.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Mobile Large Images");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/mobile-non-recycling', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 16,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/mobile-non-recycling.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Mobile Non Recycling");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/mobile-small-images', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 16,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/mobile-small-images.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Mobile Small Images");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/mobile', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 10,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/mobile.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Mobile List");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/multi-height-multi-view', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/multi-height-multi-view.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Multi Height - Multi View");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/multi-height-virtual', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/multi-height-virtual.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Multi Height Virtual");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/multi-height', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/multi-height.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Multi Height");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/other', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/other.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("Potato says ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode(" expected: other === ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode(" ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
-        morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
-        morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
-        return morphs;
-      },
-      statements: [
-        ["content","name",["loc",[null,[1,12],[1,20]]]],
-        ["content","type",["loc",[null,[1,41],[1,49]]]],
-        ["content","id",["loc",[null,[1,50],[1,56]]]]
-      ],
-      locals: [],
-      templates: []
-    };
-  }()));
-
-});
-define('dummy/templates/pull-to-refresh', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    return {
-      meta: {
-        "revision": "Ember@1.13.10",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 13,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/pull-to-refresh.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Pull to refresh");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nTODO\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() { return []; },
-      statements: [
-
-      ],
-      locals: [],
-      templates: []
     };
   }()));
 
@@ -1748,124 +1400,6 @@ define('dummy/utils/make-model', ['exports', 'dummy/utils/images'], function (ex
       return result;
     };
   }
-
-});
-define('dummy/views/multi-height-list', ['exports', 'ember-list-view', 'ember-list-view/list-item-view'], function (exports, ListView, ListItemView) {
-
-  'use strict';
-
-  exports['default'] = ListView['default'].extend({
-    height: 300,
-    width: 500,
-    rowHeight: 100,
-    itemViews: {
-      "cat": ListItemView['default'].extend({
-        rowHeight: 100,
-        templateName: 'cat'
-      }),
-      "dog": {
-        rowHeight: 50
-      },
-      "other": {
-        rowHeight: 150
-      }
-    },
-    heightForIndex: function heightForIndex(idx) {
-      // TODO: cleanup
-      var entry = this.get('content').objectAt(idx);
-      var type = this.itemViews[entry.type];
-
-      return type.rowHeight ? type.rowHeight : type.proto().rowHeight;
-    },
-    itemViewForIndex: function itemViewForIndex() {
-      return this.itemViews[this.get('content').objectAt(0).type];
-    }
-  });
-
-});
-define('dummy/views/multi-height-multi-list', ['exports', 'ember-list-view', 'ember-list-view/list-item-view'], function (exports, ListView, ListItemView) {
-
-  'use strict';
-
-  exports['default'] = ListView['default'].extend({
-    height: 300,
-    width: 500,
-    rowHeight: 100,
-    itemViews: {
-      "cat": ListItemView['default'].extend({
-        classNames: ['cat'],
-        rowHeight: 100,
-        templateName: 'cat'
-      }),
-      "dog": ListItemView['default'].extend({
-        classNames: ['dog'],
-        rowHeight: 50,
-        templateName: 'dog'
-      }),
-      "other": ListItemView['default'].extend({
-        classNames: ['other'],
-        rowHeight: 150,
-        templateName: 'other'
-      })
-    },
-    heightForIndex: function heightForIndex(idx) {
-      return this.itemViewForIndex(idx).proto().rowHeight;
-    },
-    itemViewForIndex: function itemViewForIndex(idx) {
-      return this.itemViews[this.get('content').objectAt(idx).type];
-    }
-  });
-
-});
-define('dummy/views/multi-height-virtual-list', ['exports', 'ember-list-view/virtual-list-view', 'ember-list-view/list-item-view'], function (exports, VirtualListView, ListItemView) {
-
-  'use strict';
-
-  exports['default'] = VirtualListView['default'].extend({
-    height: 300,
-    width: 500,
-    rowHeight: 100,
-    itemViews: {
-      "cat": ListItemView['default'].extend({
-        rowHeight: 100,
-        templateName: 'cat'
-      }),
-      "dog": {
-        rowHeight: 50
-      },
-      "other": {
-        rowHeight: 150
-      }
-    },
-    heightForIndex: function heightForIndex(idx) {
-      // TODO: cleanup
-      var entry = this.get('content').objectAt(idx);
-      var type = this.itemViews[entry.type];
-
-      return type.rowHeight ? type.rowHeight : type.proto().rowHeight;
-    },
-    itemViewForIndex: function itemViewForIndex() {
-      return this.itemViews[this.get('content').objectAt(0).type];
-    }
-  });
-
-});
-define('dummy/views/picture', ['exports', 'ember'], function (exports, Ember) {
-
-  'use strict';
-
-  exports['default'] = Ember['default'].View.extend({
-    tagName: 'a',
-    didInsertElement: function didInsertElement() {
-      this.$().on('dragstart', 'img', function (e) {
-        e.preventDefault();
-      });
-    },
-
-    willDestroyElement: function willDestroyElement() {
-      this.$().off('dragstart', 'img');
-    }
-  });
 
 });
 /* jshint ignore:start */
