@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
-import { translateCSS } from '../utils/translate';
 import needsRevalidate from '../utils/needs-revalidate';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
@@ -13,13 +12,6 @@ class Cell {
     this.index = index;
     this.style = style;
   }
-}
-
-function formatStyle(pos, width, height) {
-  let css = 'position:absolute;top:0;left:0;';
-  css += translateCSS(pos.x, pos.y);
-  css += 'width:' + width + 'px;height:' + height + 'px;';
-  return css;
 }
 
 export default Ember.Component.extend({
@@ -155,7 +147,7 @@ export default Ember.Component.extend({
     index -= bufferBefore;
     count += bufferBefore;
     count = Math.min(count + this._buffer, get(items, 'length') - index);
-    var i, pos, width, height, style, itemIndex, itemKey, cell;
+    var i, style, itemIndex, itemKey, cell;
 
     var newItems = [];
 
@@ -166,10 +158,7 @@ export default Ember.Component.extend({
         cell = priorMap[itemKey];
       }
       if (cell) {
-        pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
-        width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
-        height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
-        style = formatStyle(pos, width, height);
+        style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
         set(cell, 'style', style);
         set(cell, 'hidden', false);
         set(cell, 'key', itemKey);
@@ -186,10 +175,7 @@ export default Ember.Component.extend({
           itemIndex = newItems.pop();
           let item = items.objectAt(itemIndex);
           itemKey = decodeEachKey(item, '@identity');
-          pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
-          width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
-          height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
-          style = formatStyle(pos, width, height);
+          style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
           set(cell, 'style', style);
           set(cell, 'key', itemKey);
           set(cell, 'index', itemIndex);
@@ -207,10 +193,7 @@ export default Ember.Component.extend({
       itemIndex = newItems[i];
       let item = items.objectAt(itemIndex);
       itemKey = decodeEachKey(item, '@identity');
-      pos = this._cellLayout.positionAt(itemIndex, this._clientWidth, this._clientHeight);
-      width = this._cellLayout.widthAt(itemIndex, this._clientWidth, this._clientHeight);
-      height = this._cellLayout.heightAt(itemIndex, this._clientWidth, this._clientHeight);
-      style = formatStyle(pos, width, height);
+      style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
       cell = new Cell(itemKey, item, itemIndex, style);
       cellMap[itemKey] = cell;
       this._cells.pushObject(cell);
