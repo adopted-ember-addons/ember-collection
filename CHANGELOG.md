@@ -1,7 +1,7 @@
 # Change Log
 
 ## [v1.0.0-alpha.5](https://github.com/emberjs/ember-collection/tree/v1.0.0-alpha.5) (2016-01-20)
-[Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.5...v1.0.0-alpha.5)
+[Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.4...v1.0.0-alpha.5)
 
 - Update to use Ember.Array API... [\#66](https://github.com/emberjs/ember-collection/pull/66) ([lukemelia](https://github.com/lukemelia))
 - It's not necessary to set the box-sizing css property on the ember-native-scrollable [\#63](https://github.com/emberjs/ember-collection/pull/63) ([lukemelia](https://github.com/lukemelia))
