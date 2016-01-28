@@ -1,4 +1,5 @@
 import FixedGrid from 'layout-bin-packer/fixed-grid';
+import {formatPixelStyle} from '../utils/style-generators';
 
 export default class Grid
 {
@@ -36,5 +37,12 @@ export default class Grid
 
   maxScroll(width, height) {
     return this.bin.maxContentOffset(width, height);
+  }
+  
+  formatItemStyle(itemIndex, clientWidth, clientHeight) {
+    let pos = this.positionAt(itemIndex, clientWidth, clientHeight);
+    let width = this.widthAt(itemIndex, clientWidth, clientHeight);
+    let height = this.heightAt(itemIndex, clientWidth, clientHeight);
+    return formatPixelStyle(pos, width, height);
   }
 }

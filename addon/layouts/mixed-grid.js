@@ -1,4 +1,5 @@
 import ShelfFirst from 'layout-bin-packer/shelf-first';
+import {formatPixelStyle} from '../utils/style-generators';
 
 export default class MixedGrid
 {
@@ -33,7 +34,15 @@ export default class MixedGrid
   count(offsetX, offsetY, width, height) {
     return this.bin.numberVisibleWithin(offsetY, width, height, true);
   }
+  
   maxScroll(width, height) {
     return this.bin.maxContentOffset(width, height);
+  }
+  
+  formatItemStyle(itemIndex, clientWidth, clientHeight) {
+    let pos = this.positionAt(itemIndex, clientWidth, clientHeight);
+    let width = this.widthAt(itemIndex, clientWidth, clientHeight);
+    let height = this.heightAt(itemIndex, clientWidth, clientHeight);
+    return formatPixelStyle(pos, width, height);
   }
 }
