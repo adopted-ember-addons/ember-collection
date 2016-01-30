@@ -1,8 +1,14 @@
-/* global requestAnimationFrame */
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
 import { findScrollable, generateContent, sortItemsByPosition, checkContent } from '../helpers/helpers';
 import template from '../templates/fixed-grid';
+
+var raf = window.requestAnimationFrame;
+if (raf === undefined) {
+    raf = function(callback) {
+        setTimeout(callback, 16);
+    };
+}
 
 var RSVP = Ember.RSVP;
 
@@ -76,7 +82,7 @@ test("scroll but within content length", function(assert){
   });
 
   return new RSVP.Promise(function (resolve) {
-    requestAnimationFrame(() => {
+    raf(() => {
       Ember.run(resolve);
     });
   }).then(() => {
@@ -112,7 +118,7 @@ test("scroll within content length, beyond buffer", function(assert){
 
   findScrollable(this).prop('scrollTop', 150);
   return new RSVP.Promise(function (resolve) {
-    requestAnimationFrame(() => {
+    raf(() => {
       Ember.run(resolve);
     });
   }).then(() => {
@@ -130,7 +136,7 @@ test("scroll within content length, beyond buffer", function(assert){
       this.set('width', 200+scrollbarSize());
     });
     return new RSVP.Promise(function (resolve) {
-      requestAnimationFrame(() => {
+      raf(() => {
         Ember.run(resolve);
       });
     });
