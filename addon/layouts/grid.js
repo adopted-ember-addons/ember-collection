@@ -35,10 +35,6 @@ export default class Grid
     return this.bin.numberVisibleWithin(offsetY, width, height, true);
   }
 
-  maxScroll(width, height) {
-    return this.bin.maxContentOffset(width, height);
-  }
-  
   formatItemStyle(itemIndex, clientWidth, clientHeight) {
     let pos = this.positionAt(itemIndex, clientWidth, clientHeight);
     let width = this.widthAt(itemIndex, clientWidth, clientHeight);
