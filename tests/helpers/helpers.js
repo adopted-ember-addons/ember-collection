@@ -27,7 +27,14 @@ function findVisibleItems(context) {
 }
 
 function extractPosition(element) {
-  return element.getBoundingClientRect();
+    let parentRect = element.parentElement.getBoundingClientRect();
+    let elementRect = element.getBoundingClientRect();
+    return {
+        left: elementRect.left - parentRect.left,
+        top: elementRect.top - parentRect.top,
+        width: elementRect.width,
+        height: elementRect.height
+    };
 }
 
 function sortItemsByPosition(view, visibleOnly) {

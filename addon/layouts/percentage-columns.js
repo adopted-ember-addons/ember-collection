@@ -4,19 +4,21 @@ import Ember from 'ember';
 
 export default class MixedGrid
 {
-  // How this layout works is by creating a fake grid that is as wide as the number of columns.
-  // Each item's width is set to be 1px. The ShelfFirst lays out everything according to this fake grid.
-  // When ember-collection asks for the style in formatItemStyle we pull the percent property to use as the width
-  constructor(content, columns, height) {
+  // How this layout works is by creating a fake grid that is 100px wide.
+  // Each item's width is set to be the size of the column. The ShelfFirst lays out everything according to this fake grid.
+  // When ember-collection asks for the style in formatItemStyle we pull the percent property to use as the width.
+  constructor(itemCount, columns, height) {
     let total = columns.reduce(function(a, b) {
         return a+b;
     });
-    Ember.assert('All columns must total less than 100 ' + total, total <= 100);
+    // Assert that the columns add up to 100. We don't want to infoce that they are EXACTLY 100 in case the user wants to use percentages.
+    // for example [33.333, 66.666]
+    Ember.assert('All columns must total 100 ' + total, total > 99 && total <= 100 );
     let positions = [];
     var ci = 0;
-    for (var i = 0; i < content.length; i++) {
+    for (var i = 0; i < itemCount; i++) {
         positions.push({
-            width: 1,
+            width: columns[ci],
             height: height,
             percent: columns[ci]
         });
@@ -28,7 +30,7 @@ export default class MixedGrid
         }
     }
     this.positions = positions;
-    this.bin = new ShelfFirst(positions, columns.length);
+    this.bin = new ShelfFirst(positions, 100);
   }
 
   contentSize(clientWidth/*, clientHeight*/) {

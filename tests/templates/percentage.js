@@ -2,7 +2,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 export default hbs`<div style={{size-to-style width height}}>{{#ember-collection
     items=content
-    cell-layout=(percentage-columns-layout content columns itemHeight)
+    cell-layout=(percentage-columns-layout content.length columns itemHeight)
     estimated-width=width
     estimated-height=height
     scroll-left=offsetX
