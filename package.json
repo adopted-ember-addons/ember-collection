@@ -18,7 +18,7 @@
   "author": "Erik Bryn, Yapp Inc., and contributors.",
   "license": "MIT",
   "devDependencies": {
-    "ember-cli": "^2.3.0-beta.1",
+    "ember-cli": "ember-cli/ember-cli#a118a732",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-deploy": "0.5.1",
     "ember-cli-deploy-build": "0.1.0",
@@ -28,7 +28,9 @@
     "ember-cli-qunit": "^1.2.1",
     "ember-cli-release": "0.2.8",
     "ember-resolver": "^2.0.3",
-    "ember-try": "^0.1.1"
+    "ember-try": "kategengler/ember-try#444487",
+    "exists-sync": "0.0.3",
+    "mkdirp": "^0.5.1"
   },
   "keywords": [
     "ember-addon"
