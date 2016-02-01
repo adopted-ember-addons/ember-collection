@@ -2,6 +2,8 @@
   "framework": "qunit",
   "test_page": "tests/index.html?hidepassed",
   "disable_watching": true,
+  "xunit_intermediate_output": true,
+  "report_file": "test-results.xml",
   "launch_in_ci": [
     "Chrome",
     "Firefox",
