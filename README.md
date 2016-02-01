@@ -2,23 +2,26 @@
 
 [![Circle CI](https://circleci.com/gh/emberjs/ember-collection.svg?style=shield)](https://circleci.com/gh/emberjs/ember-collection)
 
+[![Ember Observer Score](http://emberobserver.com/badges/ember-collection.svg)](http://emberobserver.com/addons/ember-collection)
+
 An efficient incremental rendering component with support for custom layouts and large lists.
 
 ### Table of Contents
 
 1. [Installation](#installation)
 1. [Usage](#usage)
-1. [Subclassing](#subclassing)
+1. [Layouts](#layouts)
 1. [Build it](#build-it)
 1. [How it works](#how-it-works)
 1. [Run unit tests](#running-unit-tests)
-1. [Caveats](#caveats)
 
 ## Installation
-  **TODO** - Need to publish addon.
+  
   * `ember install ember-collection`
+
 ## Demo
-**TODO** - Create twiddles with examples. Needs the addon to be published first?
+
+Visit [http://emberjs.com/ember-collection](http://emberjs.com/ember-collection/) to see the [tests/dummy](https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app) application live.
 
 ## Submitting bugs
 
@@ -60,22 +63,16 @@ export default Ember.Route.extend({
 
 Shazam! You should be able to see a scrollable area with 10,000 items in it.
 
-## Estimating width/height
+### Required parameters
+
+You must specify `cell-layout` parameter so that *EmberCollection* can layout out your items. The provided layouts are described in the [Layouts](#layouts) section.
+
+### Estimating width/height
 
 You can pass `estimated-width` and `estimated-height` to the collection, for situations where the collection cannot infer its height from its parent (e.g., when there's no DOM in FastBoot).
 
 Once the collection has been rendered, `estimated-width` and `estimated-height` have no effect.
 
-## Subclassing
-**TODO** - Example of extending the component and providing a new `layout`.
-
-### Controlling the grid
-
-**TODO** - Talk about how the `width`, `height` and `cell-layout` properties will change the layout.
-
-### Required parameters
-
-You must specify the `height`, `width` and `cell-layout` parameters because *EmberCollection* will try to fill visible area with items.
 
 ### Actions
 
@@ -108,6 +105,101 @@ export default Ember.Controller.extend({
 });
 ```
 
+## Layouts
+
+### Fixed Grid Layout
+
+The `fixed-grid-layout` will arrange the items in a grid to to fill the content area. The arguments for the layout are:
+
+| Argument     | Description                 |
+| ------------ | --------------------------- |
+| `itemWidth`  | The width of each item      |
+| `itemHeight` | The height of each item     |
+
+```hbs
+{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight)
+    scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
+    as |item index| }}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-collection}}
+```
+
+### Mixed Grid Layout
+
+The `mixed-grid-layout` is used when each item has a known `width` and `height` and will arrange the items in rows from left to right fitting as many items in each row as possible. The arguments for the layout are:
+
+| Argument    | Description                 |
+| ----------- | --------------------------- |
+| `itemSizes` | A collection of objects having `width` and `height` properties. Used to lookup with size of the corresponding index in the collection.  |
+
+For example if you want the first element in `items` to have a size of `20x50` then the first element in `itemSizes` must be `{width: 20, height: 50}`. If the items have `width` and `height` properties you can use pass collection to `items` and `itemSizes`. 
+
+```hbs
+{{#ember-collection items=model cell-layout=(mixed-grid-layout itemSizes)
+    scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
+    as |item index| }}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-collection}}
+```
+
+### Percentage Columns Layout
+
+The `percentage-columns-layout` allows items to be laid out in a fixed number of columns sized using percentage widths with a fixed height in pixels. The arguments for the layout are:
+
+| Argument     | Description                                                                                                    |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `items`      | The array of items passed to the collection. This is used to calculate the number of items in the layout.      |
+| `columns`    | An array of numbers not totaling more than 100. e.g. `[33.333, 66.666]`, `[25, 50, 10, 15]`                    |
+| `itemHeight` | The height in pixels of each item.                                                                             |
+
+```hbs
+{{#ember-collection items=model cell-layout=(percentage-columns-layout model columns itemHeight)
+    scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
+    as |item index| }}
+  <div class="list-item">{{item.name}}</div>
+{{/ember-collection}}
+```
+
+### Creating your own layout
+
+If none of the built in layouts included with *EmberCollection* fit your needs you can create your own. A layout is simply an object returned from a helper that conforms to the following interface.
+
+```js
+import Ember from 'ember'
+
+export default Ember.Helper.helper(function(params, hash) {
+   return {
+    /**
+     * Return an object that describes the size of the content area
+     */
+    contentSize(clientWidth, clientHeight) {
+        return { width, height };
+    }
+    
+    /**
+     * Return the index of the first item shown.
+     */
+    indexAt(offsetX, offsetY, clientWidth, clientHeight) {
+        return Number;
+    }
+    
+    /**
+     *  Return the number of items to display
+     */
+    count(offsetX, offsetY, width, height) {
+        return Number;
+    }
+    
+    /**
+     * Return the css that should be used to set the size and position of the item.
+     */
+    formatItemStyle(itemIndex, clientWidth, clientHeight) {
+        return String;
+    }
+  } 
+});
+```
+
 ## Build It
 
 1. `git clone https://github.com/emberjs/ember-collection.git`
@@ -117,9 +209,7 @@ export default Ember.Controller.extend({
 
 ## How it works
 
-*EmberCollection* will create enough rows to fill the visible area (as defined by the `height` property). It reacts to scroll events and reuses/repositions the rows as scrolled.
-
-Please look at the [unit tests](https://github.com/emberjs/ember-collection/blob/master/tests/unit/content-test.js) for more information.
+*EmberCollection* will create enough rows to fill the visible area. It reacts to scroll events and reuses/repositions the rows as scrolled.
 
 ## Running unit tests
 
