@@ -14,9 +14,9 @@ test:
         PATH="./node_modules/.bin:$PATH";
 
         case $CIRCLE_NODE_INDEX in
-        0) ember try default ;;
-        1) ember try ember-release ;;
-        2) ember try ember-beta ;;
-        3) ember try ember-canary || echo "WARNING: Tests failed on canary." ;;
+        0) ember try:testall --config-path=config/ember-try.js ;;
+        1) ember try:testall --config-path=config/ember-try/channels.js ;;
+        2) ember try:testall --config-path=config/ember-try/releases.js ;;
+        3) ember try:testall --config-path=config/ember-try/allowed-failures.js || echo "WARNING: Tests failed for allowed failures." ;;
         esac
       : parallel: true
