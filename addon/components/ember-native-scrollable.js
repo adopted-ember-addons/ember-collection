@@ -76,13 +76,21 @@ export default Ember.Component.extend({
       nextStep();
     }
     function nextStep() {
-      component._animationFrame = requestAnimationFrame(step);
+      if (window.requestAnimationFrame) {
+        component._animationFrame = requestAnimationFrame(step);
+      } else {
+        component._animationFrame = setTimeout(step, 16);
+      }
     }
     nextStep();
   },
   cancelScrollCheck() {
     if (this._animationFrame) {
-      cancelAnimationFrame(this._animationFrame);
+      if (window.requestAnimationFrame) {
+        cancelAnimationFrame(this._animationFrame);
+      } else {
+        clearTimeout(this._animationFrame);
+      }
       this._animationFrame = undefined;
     }
   },
