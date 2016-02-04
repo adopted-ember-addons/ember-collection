@@ -29,7 +29,7 @@
     "ember-cli-release": "0.2.8",
     "ember-load-initializers": "^0.5.0",
     "ember-resolver": "^2.0.3",
-    "ember-try": "kategengler/ember-try#444487",
+    "ember-try": "^0.1.2",
     "exists-sync": "0.0.3",
     "loader.js": "^4.0.0",
     "mkdirp": "^0.5.1"
