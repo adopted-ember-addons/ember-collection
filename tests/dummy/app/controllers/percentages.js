@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
           this.set('columns', [20, 20, 40, 20]);
           break;
         case 3:
-          this.set('columns', [33, 33, 34]);
+          this.set('columns', [33.33, 33.33, 33.33]);
           break;
         case 4:
           this.set('columns', [50, 50]);
