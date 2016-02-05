@@ -1,9 +1,10 @@
 import Ember from 'ember';
+
 export default Ember.Controller.extend({
   columns: Ember.computed(function() {
     return [20, 60, 20];
   }),
-  
+
   actions: {
     changeColumn: function(col) {
       switch (col) {
@@ -14,7 +15,7 @@ export default Ember.Controller.extend({
           this.set('columns', [20, 20, 40, 20]);
           break;
         case 3:
-          this.set('columns', [33, 33, 33]);
+          this.set('columns', [33.33, 33.33, 33.33]);
           break;
         case 4:
           this.set('columns', [50, 50]);
