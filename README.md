@@ -148,12 +148,12 @@ The `percentage-columns-layout` allows items to be laid out in a fixed number of
 
 | Argument     | Description                                                                                                    |
 | ------------ | -------------------------------------------------------------------------------------------------------------- |
-| `items`      | The array of items passed to the collection. This is used to calculate the number of items in the layout.      |
+| `itemCount`      | The number of items passed to the collection. This is usually the number of items in the model (`model.length`).       |
 | `columns`    | An array of numbers not totaling more than 100. e.g. `[33.333, 66.666]`, `[25, 50, 10, 15]`                    |
 | `itemHeight` | The height in pixels of each item.                                                                             |
 
 ```hbs
-{{#ember-collection items=model cell-layout=(percentage-columns-layout model columns itemHeight)
+{{#ember-collection items=model cell-layout=(percentage-columns-layout itemCount columns itemHeight)
     scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
     as |item index| }}
   <div class="list-item">{{item.name}}</div>
