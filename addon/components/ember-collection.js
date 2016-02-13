@@ -196,8 +196,16 @@ export default Ember.Component.extend({
       style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
       cell = new Cell(itemKey, item, itemIndex, style);
       cellMap[itemKey] = cell;
-      this._cells.pushObject(cell);
     }
+    
+    // hack to keep things in the correct order
+    var cells = [];
+    for (i=0; i < count; i++) {
+      itemIndex = index+i;
+      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
+      cells.push(cellMap[itemKey]);
+    }
+    set(this, '_cells', cells);
     this._cellMap = cellMap;
   },
   actions: {
