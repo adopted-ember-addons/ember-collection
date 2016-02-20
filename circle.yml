@@ -14,9 +14,9 @@ test:
         PATH="./node_modules/.bin:$PATH";
 
         case $CIRCLE_NODE_INDEX in
-        0) SCENARIO_GROUP=default          ember try:testall --config-path=config/ember-try.js ;;
-        1) SCENARIO_GROUP=channels         ember try:testall --config-path=config/ember-try/channels.js ;;
-        2) SCENARIO_GROUP=releases         ember try:testall --config-path=config/ember-try/releases.js ;;
-        3) SCENARIO_GROUP=allowed-failures ember try:testall --config-path=config/ember-try/allowed-failures.js || echo "WARNING: Tests failed for allowed failures." ;;
+        0) SCENARIO_GROUP=default          ember try:each --config-path=config/ember-try.js ;;
+        1) SCENARIO_GROUP=channels         ember try:each --config-path=config/ember-try/channels.js ;;
+        2) SCENARIO_GROUP=releases         ember try:each --config-path=config/ember-try/releases.js ;;
+        3) SCENARIO_GROUP=allowed-failures ember try:each --config-path=config/ember-try/allowed-failures.js ;;
         esac
       : parallel: true

@@ -4,6 +4,7 @@ module.exports = {
   scenarios: [
     {
       name: 'ember-canary',
+      allowedToFail: true,
       dependencies: {
         'ember': 'canary'
       },
