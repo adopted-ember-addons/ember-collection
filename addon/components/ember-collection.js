@@ -143,10 +143,19 @@ export default Ember.Component.extend({
     var index = this._cellLayout.indexAt(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
     var count = this._cellLayout.count(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
     var items = this._items;
+
+    // Ideally we want to keep a constant number of elements in the list at all
+    // times to avoid initial renders during scroll.  To avoid inserting a
+    // bunch of elements as soon as the list is scrolled for the first time, we
+    // take the unused bufferBefore amount and add that to the bufferAfter.
+
     var bufferBefore = Math.min(index, this._buffer);
+    var unusedBufferBefore = this._buffer - bufferBefore;
+    var bufferAfter = this._buffer + unusedBufferBefore;
     index -= bufferBefore;
     count += bufferBefore;
-    count = Math.min(count + this._buffer, get(items, 'length') - index);
+    count = Math.min(count + bufferAfter, get(items, 'length') - index);
+
     var i, style, itemIndex, itemKey, cell;
 
     var newItems = [];
