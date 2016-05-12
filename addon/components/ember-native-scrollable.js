@@ -5,6 +5,9 @@ import { styleProperty } from 'ember-collection/utils/style-properties';
 const overflowScrollingProp = styleProperty('overflowScrolling');
 
 export default Ember.Component.extend({
+  classNameBindings: ['collectionClassName'],
+  collectionClassName: '',
+
   init() {
     this._clientWidth = 0;
     this._clientHeight = 0;

@@ -16,6 +16,7 @@ class Cell {
 
 export default Ember.Component.extend({
   layout: layout,
+  collectionClassName: 'ember-collection',
 
   init() {
     // State pulled from attrs is prefixed with an underscore
