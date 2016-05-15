@@ -1,3 +1,4 @@
+/*jshint multistr: true */
 import Ember from 'ember';
 
 function shuffle(array) {
@@ -25,6 +26,8 @@ export default Ember.Controller.extend({
   containerWidth: 315,
   containerHeight: 600,
 
+  testMarkdown: "var a = 13;",
+
   actions: {
     updateContainerWidth: function(value) {
       this.set('containerWidth', parseInt(value, 10));
@@ -35,7 +38,7 @@ export default Ember.Controller.extend({
     },
 
     shuffle: function() {
-        this.set('model', shuffle(this.get('model').slice(0)));
+      this.set('model', shuffle(this.get('model').slice(0)));
     },
 
     makeSquare: function() {
