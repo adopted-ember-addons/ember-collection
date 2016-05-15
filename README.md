@@ -170,33 +170,46 @@ import Ember from 'ember'
 export default Ember.Helper.helper(function(params, hash) {
    return {
     /**
-     * Return an object that describes the size of the content area
+     * Size of the content area
+     * @param {Number} containerWidth
+     * @param {Number} containerHeight
+     * @return {Object} contentSize
      */
     contentSize(clientWidth, clientHeight) {
-        return { width, height };
+      return { width, height };
     }
-    
+
     /**
-     * Return the index of the first item shown.
+     * Index of the first visible item
+     * @param {Number} offsetX
+     * @param {Number} offsetY
+     * @param {Number} containerWidth
+     * @param {Number} containerHeight
+     * @return {Number} indexAt
      */
-    indexAt(offsetX, offsetY, clientWidth, clientHeight) {
-        return Number;
+    indexAt(offsetX, offsetY, containerWidth, containerHeight) {
+      return Number;
     }
-    
+
     /**
-     *  Return the number of items to display
+     * Return the number of items to display
+     * @param {Number} offsetX
+     * @param {Number} offsetY
+     * @param {Number} containerWidth
+     * @param {Number} containerHeight
+     * @return {Number} count
      */
-    count(offsetX, offsetY, width, height) {
-        return Number;
+    count(offsetX, offsetY, containerWidth, containerHeight) {
+      return Number;
     }
-    
+
     /**
      * Return the css that should be used to set the size and position of the item.
      */
     formatItemStyle(itemIndex, clientWidth, clientHeight) {
         return String;
     }
-  } 
+  }
 });
 ```
 

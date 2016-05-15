@@ -10,21 +10,27 @@ class GridInterface extends Grid {
   }
 
   contentSize(w, h) {
-    let contentSize = Grid.prototype.contentSize.call(this, w, h);
-    console.log(`contentSize(${w}, ${h}) => `, contentSize);
-    return contentSize;
+    let result = Grid.prototype.contentSize.call(this, w, h);
+    let args = Array.prototype.slice.call(arguments);
+    Ember.set(this, '_contentSize', {args: args, result: result});
+    console.log(`contentSize(${w}, ${h}) => `, result);
+    return result;
   }
 
   indexAt(x, y, w, h) {
-    let indexAt = Grid.prototype.indexAt.call(this, x, y, w, h);
-    console.log(`indexAt(${x}, ${y}, ${w}, ${h}) => `, indexAt);
-    return indexAt;
+    let result = Grid.prototype.indexAt.call(this, x, y, w, h);
+    let args = Array.prototype.slice.call(arguments);
+    Ember.set(this, '_indexAt', {args: args, result: result});
+    console.log(`indexAt(${x}, ${y}, ${w}, ${h}) => `, result);
+    return result;
   }
 
   count(x, y, w, h) {
-    let count = Grid.prototype.count.call(this, x, y, w, h);
-    console.log(`count(${x}, ${y}, ${w}, ${h}) => `, count);
-    return count;
+    let result = Grid.prototype.count.call(this, x, y, w, h);
+    let args = Array.prototype.slice.call(arguments);
+    Ember.set(this, '_count', {args: args, result: result});
+    console.log(`count(${x}, ${y}, ${w}, ${h}) => `, result);
+    return result;
   }
 
   formatItemStyle(itemIndex, clientWidth, clientHeight) {
@@ -91,7 +97,7 @@ export default Ember.Controller.extend({
     return new GridInterface(this.get('itemWidth'), this.get('itemHeight'));
   }),
 
-  markdown: Ember.computed('grid.size', 'containerWidth', 'containerHeight', 'scrollLeft', 'scrollTop', function() {
+  markdown: Ember.computed('grid.size', 'grid._contentSize', 'grid._indexAt', 'grid._count', function() {
     if(this.get('grid.size') < 1){return '';}
     return this.getGridContentSize() + '\n' +
       this.getGridIndexAt() + '\n' +
@@ -104,52 +110,49 @@ export default Ember.Controller.extend({
   */
 
   getGridContentSize() {
-    let containerWidth = this.get('containerWidth');
-    let containerHeight = this.get('containerHeight');
-    let contentSize = Grid.prototype.contentSize.call(
-      this.get('grid'), containerWidth, containerHeight
+    let result = Grid.prototype.contentSize.apply(
+      this.get('grid'), this.get('grid._contentSize.args')
     );
     return `\n\
 /**
- * Return an object that describes the size of the content area
- * contentSize: function(clientWidth, clientHeight) {
+ * Size of the content area
+ *
+ * contentSize(containerWidth, containerHeight)
  */
- contentSize: function(${containerWidth}, ${containerHeight}) {
-   return { width: ${contentSize.width}, height: ${contentSize.height} };
+ contentSize: function(${this.get('grid._contentSize.args').join(', ')}) {
+   return ${this.toString(result)};
  }`;
   },
 
   getGridIndexAt() {
-    let offsetX = this.get('scrollLeft');
-    let offsetY = this.get('scrollTop');
-    let clientWidth = this.get('containerWidth');
-    let clientHeight = this.get('containerHeight');
-    let indexAt = Grid.prototype.indexAt.call(
-      this.get('grid'), offsetX, offsetY, clientWidth, clientHeight
+    let result = Grid.prototype.indexAt.apply(
+      this.get('grid'), this.get('grid._indexAt.args')
     );
     return `/**
- * Return the index of the first item shown.
- * indexAt(offsetX, offsetY, clientWidth, clientHeight)
+ * Index of the first visible item
+ *
+ * indexAt(offsetX, offsetY, containerWidth, containerHeight)
  */
- indexAt(${offsetX}, ${offsetY}, ${clientWidth}, ${clientHeight}) {
-   return ${indexAt};
+ indexAt: function(${this.get('grid._indexAt.args').join(', ')}) {
+   return ${this.toString(result)};
  }`;
   },
 
   getGridCount() {
-    let offsetX = this.get('scrollLeft');
-    let offsetY = this.get('scrollTop');
-    let width = this.get('containerWidth');
-    let height = this.get('containerHeight');
-    let count = Grid.prototype.count.call(
-      this.get('grid'), offsetX, offsetY, width, height
+    let result = Grid.prototype.count.apply(
+      this.get('grid'), this.get('grid._count.args')
     );
     return `/**
- *  Return the number of items to display
- *  count(offsetX, offsetY, width, height)
+ * Return the number of items to display
+ *
+ * count(offsetX, offsetY, containerWidth, containerHeight)
  */
- count(${offsetX}, ${offsetY}, ${width}, ${height}) {
-   return ${count};
+ count: function(${this.get('grid._count.args').join(', ')}) {
+   return ${this.toString(result)};
  }`;
+  },
+
+  toString(result) {
+    return JSON.stringify(result).replace(/:/g, ': ').replace(/"/g, '');
   }
 });
