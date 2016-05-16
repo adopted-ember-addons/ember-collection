@@ -1,13 +1,30 @@
+<h3>Percentage Column Widths</h3>
+<button {{action 'toggleLayout'}}>
+  {{#if showLayout}}
+    Hide Custom Layout Template
+  {{else}}
+    Show Custom Layout Template
+  {{/if}}
+</button>
+<hr />
 <button {{action 'changeColumn' 1}}>25-50-25</button>
 <button {{action 'changeColumn' 2}}>20-20-40-20</button>
 <button {{action 'changeColumn' 3}}>33-33-33</button>
 <button {{action 'changeColumn' 4}}>50-50</button>
 <button {{action 'changeColumn' 5}}>100</button>
 <hr />
-<div class="mixed" style="position:relative;height:500px;">
-  {{#ember-collection items=model estimated-height=800 estimated-width=1000 buffer=10 cell-layout=(percentage-columns-layout model.length columns 50) as |item index|}}
-    <div class="list-item">
-      {{item.name}}
+
+<div class="simple-wrapper" style="box-sizing:border-box;width:100%;">
+  {{#if showLayout}}
+    <div class="simple-layout" style="float:left;width:40%;margin-top:-12px;padding-right:20px;">
+      {{highlight-js code=markdown lang="javascript"}}
     </div>
-  {{/ember-collection}}
+  {{/if}}
+  <div class="percent" style="float:left;position:relative;height:500px;width:{{if showLayout "60%" "100%"}}">
+    {{#ember-collection items=model estimated-height=800 estimated-width=500 buffer=10 cell-layout=percentageGrid as |item index|}}
+      <div class="list-item">
+        {{item.name}}
+      </div>
+    {{/ember-collection}}
+  </div>
 </div>

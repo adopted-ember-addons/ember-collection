@@ -1,29 +1,43 @@
 <h3>Scroll Position</h3>
-<button {{action 'makeSquare'}}>Square</button>
-<button {{action 'makeRow'}}>Row</button>
-<button {{action 'makeLongRect'}}>Long Rectangle</button>
-<button {{action 'makeTallRect'}}>Tall Rectable</button>
+<button {{action 'toggleLayout'}}>
+  {{#if showLayout}}
+    Hide Custom Layout Template
+  {{else}}
+    Show Custom Layout Template
+  {{/if}}
+</button>
+<hr />
 
-  <p>
-    Container Width: <input type='range' min=200 max=600 value={{containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{containerWidth}}
-    Container Height: <input type='range' min=200 max=1000 value={{containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{containerHeight}}
+<div class="items-sizes" style="margin-bottom:20px">
+  <button {{action 'makeSquare'}}>Square</button>
+  <button {{action 'makeRow'}}>Row</button>
+  <button {{action 'makeLongRect'}}>Long Rectangle</button>
+  <button {{action 'makeTallRect'}}>Tall Rectable</button>
+  <p style="margin-top:5px">
+    <b>Item Height:</b> {{itemHeight}}
+    <b>Item Width:</b> {{itemWidth}}
   </p>
-  <p>
-    Item Height: {{itemHeight}}
-    Item Width: {{itemWidth}}
-  </p>
-  <p>
-    Scroll Left: {{input value=scrollLeft}}
-    Scroll Top: {{input value=scrollTop}}
-  </p>
-  <p>Note: The usage of this component remembers its scroll position. Try it by navigating away from this route and then returning.</p>
-  <hr />
+</div>
 
-<div class="wrapper" style="box-sizing:border-box;">
-  <div class="simple-layout" style="float:left;width:40%;margin-top:-12px;padding-right:20px;">
-    {{highlight-js code=markdown lang="javascript"}}
-  </div>
-  <div class="simple-list" style={{{concat 'float:left;width:60%;position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>
+<p>
+  Container Width: {{containerWidth}} <input type='range' min=200 max=650 value={{containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}>
+  Container Height: {{containerHeight}} <input type='range' min=200 max=1000 value={{containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}>
+</p>
+
+<p>
+  Scroll Left: {{input value=scrollLeft}}
+  Scroll Top: {{input value=scrollTop}}
+</p>
+<p>Note: The usage of this component remembers its scroll position. Try it by navigating away from this route and then returning.</p>
+<hr />
+
+<div class="simple-wrapper" style="box-sizing:border-box;width:100%;">
+  {{#if showLayout}}
+    <div class="simple-layout" style="float:left;width:40%;margin-top:-12px;padding-right:20px;">
+      {{highlight-js code=markdown lang="javascript"}}
+    </div>
+  {{/if}}
+  <div class="simple-list" style={{{concat 'float:left;position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>
     {{#ember-collection
        items=model
        estimated-height=containerHeight
@@ -39,5 +53,4 @@
       </div>
     {{/ember-collection}}
   </div>
-
 </div>

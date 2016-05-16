@@ -1,5 +1,5 @@
-/*jshint multistr: true */
 import Ember from 'ember';
+import { FixedGridInterface } from '../interface/grid-interface';
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -26,7 +26,19 @@ export default Ember.Controller.extend({
   containerWidth: 315,
   containerHeight: 600,
 
-  testMarkdown: "var a = 13;",
+  showLayout: false,
+
+  fixedGrid: Ember.computed('itemWidth', 'itemHeight', function() {
+    return new FixedGridInterface(this.get('itemWidth'), this.get('itemHeight'));
+  }),
+
+  markdown: Ember.computed('fixedGrid._size', 'fixedGrid._contentSize', 'fixedGrid._indexAt', 'fixedGrid._count', function() {
+    if(!(this.get('fixedGrid._size') || 0)){ return ''; }
+    return '\n' +
+      this.get('fixedGrid.markdownContentSize') + '\n' +
+      this.get('fixedGrid.markdownIndexAt') + '\n' +
+      this.get('fixedGrid.markdownCount');
+  }),
 
   actions: {
     updateContainerWidth: function(value) {
@@ -67,6 +79,10 @@ export default Ember.Controller.extend({
         itemWidth: 50,
         itemHeight: 100
       });
+    },
+
+    toggleLayout: function() {
+      this.toggleProperty('showLayout');
     }
   }
 });
