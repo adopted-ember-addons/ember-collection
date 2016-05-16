@@ -34,7 +34,7 @@
 <div class="simple-wrapper" style="box-sizing:border-box;width:100%;">
   {{#if showLayout}}
     <div class="simple-layout" style="float:left;width:40%;margin-top:-12px;padding-right:20px;">
-      {{highlight-js code=markdown lang="javascript" hasLineNumbers=false}}
+      {{md-text text=(concat "```javascript" code "```")}}
     </div>
   {{/if}}
   <div class="simple-list" style={{{concat 'float:left;position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>

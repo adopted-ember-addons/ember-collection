@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
   mixedGrid: Ember.computed('model', function() {
     return new MixedGridInterface(this.get('model'));
   }),
-  markdown: Ember.computed('mixedGrid._size', 'mixedGrid._contentSize', 'mixedGrid._indexAt', 'mixedGrid._count', function() {
+  code: Ember.computed('mixedGrid._size', 'mixedGrid._contentSize', 'mixedGrid._indexAt', 'mixedGrid._count', function() {
     if(!(this.get('mixedGrid._size') || 0)){ return ''; }
     return '\n' +
       this.get('mixedGrid.markdownContentSize') + '\n' +

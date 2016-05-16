@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
     return new FixedGridInterface(this.get('itemWidth'), this.get('itemHeight'));
   }),
 
-  markdown: Ember.computed('fixedGrid._size', 'fixedGrid._contentSize', 'fixedGrid._indexAt', 'fixedGrid._count', function() {
+  code: Ember.computed('fixedGrid._size', 'fixedGrid._contentSize', 'fixedGrid._indexAt', 'fixedGrid._count', function() {
     if(!(this.get('fixedGrid._size') || 0)){ return ''; }
     return '\n' +
       this.get('fixedGrid.markdownContentSize') + '\n' +

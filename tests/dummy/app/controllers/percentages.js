@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     return new PercentageColumnsInterface(this.get('model.length'), this.get('columns'), 50);
   }),
 
-  markdown: Ember.computed('percentageGrid._size', 'percentageGrid._contentSize', 'percentageGrid._indexAt', 'percentageGrid._count', function() {
+  code: Ember.computed('percentageGrid._size', 'percentageGrid._contentSize', 'percentageGrid._indexAt', 'percentageGrid._count', function() {
     if(!(this.get('percentageGrid._size') || 0)){ return ''; }
     return '\n' +
       this.get('percentageGrid.markdownContentSize') + '\n' +
