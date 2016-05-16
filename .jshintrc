@@ -14,7 +14,6 @@
   "forin": false,
   "immed": false,
   "laxbreak": false,
-  "multistr": true,
   "newcap": true,
   "noarg": true,
   "noempty": false,
