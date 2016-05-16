@@ -12,6 +12,10 @@ code {
     border-radius: 3px;
 }
 
+pre code {
+  white-space: pre;
+}
+
 .ember-list-view {
   overflow: auto;
   position: relative;
