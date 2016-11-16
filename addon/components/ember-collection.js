@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
+import identity from '../utils/identity';
 import needsRevalidate from '../utils/needs-revalidate';
-var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
 
 class Cell {
@@ -59,7 +59,11 @@ export default Ember.Component.extend({
   },
 
   _needsRevalidate(){
-    needsRevalidate(this);
+    if (this._isGlimmer2()) {
+      this.rerender();
+    } else {
+      needsRevalidate(this);
+    }
   },
 
   didReceiveAttrs() {
@@ -153,7 +157,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
+      itemKey = identity(items.objectAt(itemIndex));
       if (priorMap) {
         cell = priorMap[itemKey];
       }
@@ -174,7 +178,7 @@ export default Ember.Component.extend({
         if (newItems.length) {
           itemIndex = newItems.pop();
           let item = items.objectAt(itemIndex);
-          itemKey = decodeEachKey(item, '@identity');
+          itemKey = identity(item);
           style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
           set(cell, 'style', style);
           set(cell, 'key', itemKey);
@@ -192,7 +196,7 @@ export default Ember.Component.extend({
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
       let item = items.objectAt(itemIndex);
-      itemKey = decodeEachKey(item, '@identity');
+      itemKey = identity(item);
       style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
       cell = new Cell(itemKey, item, itemIndex, style);
       cellMap[itemKey] = cell;
@@ -200,6 +204,11 @@ export default Ember.Component.extend({
     }
     this._cellMap = cellMap;
   },
+
+  _isGlimmer2() {
+    return !this._renderNode;
+  },
+
   actions: {
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrollChange) {
@@ -210,7 +219,7 @@ export default Ember.Component.extend({
             scrollTop !== this._scrollTop) {
           set(this, '_scrollLeft', scrollLeft);
           set(this, '_scrollTop', scrollTop);
-          needsRevalidate(this);
+          this._needsRevalidate();
         }
       }
     },
@@ -219,7 +228,7 @@ export default Ember.Component.extend({
           this._clientHeight !== clientHeight) {
         set(this, '_clientWidth', clientWidth);
         set(this, '_clientHeight', clientHeight);
-        needsRevalidate(this);
+        this._needsRevalidate();
       }
     }
   }
