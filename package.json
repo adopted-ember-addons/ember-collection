@@ -1,6 +1,6 @@
 {
   "name": "ember-collection",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "An efficient incremental rendering component with custom layouts and support for large lists.",
   "directories": {
     "doc": "doc",
