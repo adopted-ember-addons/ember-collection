@@ -82,7 +82,7 @@ export default Ember.Component.extend({
     if (this._rawItems !== rawItems) {
       if (this._items && this._items.removeArrayObserver) {
         this._items.removeArrayObserver(this, {
-          willChange: Ember.K,
+          willChange() {},
           didChange: '_needsRevalidate'
         });
       }
@@ -92,7 +92,7 @@ export default Ember.Component.extend({
 
       if (items && items.addArrayObserver) {
         items.addArrayObserver(this, {
-          willChange: Ember.K,
+          willChange() {},
           didChange: '_needsRevalidate'
         });
       }
