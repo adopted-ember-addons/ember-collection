@@ -211,6 +211,12 @@ export default Component.extend({
   },
 
   actions: {
+    contentSizeUnknown(clientWidth, clientHeight){
+      set(this, '_clientWidth', clientWidth);
+      set(this, '_clientHeight', clientHeight);
+      this.updateContentSize();
+      return this.get('_contentSize');
+    },
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);

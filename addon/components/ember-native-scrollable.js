@@ -21,6 +21,9 @@ export default Component.extend({
   },
   didInsertElement() {
     this.contentElement = this.element.firstElementChild;
+    if (this._contentSize.width === 0 && this._contentSize.height === 0) {
+      this._contentSize = this.contentSizeUnknown(this.element.clientWidth, this.element.clientHeight);
+    }
     this.applyStyle();
     this.applyContentSize();
     this.syncScrollFromAttr();
