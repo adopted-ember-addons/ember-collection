@@ -77,6 +77,7 @@ Once the collection has been rendered, `estimated-width` and `estimated-height` 
 If you do not provide a `scroll-change` action name or closure action, scrolling will work normally.
 
 If you *do* specify `scroll-change`, ember-collection assumes that you want to handle the scroll-change action in a true data down, actions up manner. For this reason, ember-collection will not set `scroll-left` and `scroll-top` itself, but rather rely on you to update those properties based on action handling as you see fit.
+You can also specify a `scroll-index` if this is specified, then the corresponding item will be scrolled into view.
 
 An example of specifying an action and keeping scrolling working normally looks like this:
 
@@ -186,6 +187,27 @@ export default Ember.Helper.helper(function(params, hash) {
         return Number;
     }
     
+    /**
+     * Returns the position of the item
+     */
+    positionAt(itemIndex, clientWidth, clientHeight) {
+        return { x, y};
+    }
+
+    /**
+     * Returns the width of the item
+     */
+    widthAt(itemIndex, clientWidth, clientHeight) {
+        return Number;
+    }
+
+    /**
+     * Returns the height of the item
+     */
+    heightAt(itemIndex, clientWidth, clientHeight) {
+        return Number;
+    }
+
     /**
      * Return the css that should be used to set the size and position of the item.
      */
