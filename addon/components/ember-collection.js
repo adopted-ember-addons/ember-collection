@@ -193,7 +193,7 @@ export default Ember.Component.extend({
       }
     }
 
-    for (i=0; i<newItems.length; i++) {
+    for (i=newItems.length-1; i>-1; i--) {
       itemIndex = newItems[i];
       let item = items.objectAt(itemIndex);
       itemKey = identity(item);
