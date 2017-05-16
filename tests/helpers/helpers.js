@@ -102,6 +102,28 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   }
 }
 
+var size;
+// lifted from antiscroll MIT license
+function scrollbarSize() {
+  if (size === undefined) {
+    var div = $(
+      '<div class="antiscroll-inner" style="width:50px;height:50px;overflow-y:scroll;' +
+      'position:absolute;top:-200px;left:-200px;"><div style="height:100px;width:100%"/>' +
+      '</div>'
+    );
+
+    $('body').append(div);
+    var w1 = $(div)[0].offsetWidth;
+    var w2 = $('div', div)[0].offsetWidth;
+    $(div).remove();
+
+    size = w1 - w2;
+  }
+
+  return size;
+}
+
+
 export {
   itemPositions,
   generateContent,
@@ -112,4 +134,5 @@ export {
   findItems,
   findVisibleItems,
   checkContent,
-  sortItemsByPosition };
+  sortItemsByPosition,
+  scrollbarSize };

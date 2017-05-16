@@ -100,13 +100,23 @@ export default Component.extend({
     }
   },
 
+  useScrollIndex(scrollIndexAttr){
+    if (scrollIndexAttr === undefined) {
+      return false;
+    }
+    if (this._scrollIndex === scrollIndexAttr) {
+      return false;
+    }
+    return this._clientWidth || this._clientHeight;
+  },
+
   updateScrollPosition(){
     if (!this._scrollChange) { return; } // don't process bound scroll coords unless our action is being handled
     let scrollIndexAttr = this.getAttr('scroll-index');
     if (scrollIndexAttr !== undefined) {
       scrollIndexAttr = parseInt(scrollIndexAttr, 10);
     }
-    if (this._scrollIndex !== scrollIndexAttr && (this._clientWidth || this._clientHeight)) {
+    if (this.useScrollIndex(scrollIndexAttr)) {
       let cellLayout = this._cellLayout;
       let position = cellLayout.positionAt(scrollIndexAttr, this._clientWidth, this._clientHeight);
       let width = cellLayout.widthAt(scrollIndexAttr, this._clientWidth, this._clientHeight);

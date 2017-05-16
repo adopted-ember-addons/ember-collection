@@ -108,13 +108,14 @@ export default Ember.Controller.extend({
 
 The `fixed-grid-layout` will arrange the items in a grid to to fill the content area. The arguments for the layout are:
 
-| Argument     | Description                 |
-| ------------ | --------------------------- |
-| `itemWidth`  | The width of each item      |
-| `itemHeight` | The height of each item     |
+| Argument     | Description                                                                                                      |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `itemWidth`  | The width of each item                                                                                           |
+| `itemHeight` | The height of each item                                                                                          |
+| `itemCount`  | The number of items passed to the collection. This is usually the number of items in the model (`model.length`). |
 
 ```hbs
-{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight)
+{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight itemCount)
     scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
     as |item index| }}
   <div class="list-item">{{item.name}}</div>
@@ -191,7 +192,7 @@ export default Ember.Helper.helper(function(params, hash) {
      * Returns the position of the item
      */
     positionAt(itemIndex, clientWidth, clientHeight) {
-        return { x, y};
+        return {x, y};
     }
 
     /**
