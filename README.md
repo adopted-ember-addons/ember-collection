@@ -19,10 +19,6 @@ An efficient incremental rendering component with support for custom layouts and
   
   * `ember install ember-collection`
 
-## Demo
-
-Visit [http://emberjs.com/ember-collection](http://emberjs.com/ember-collection/) to see the [tests/dummy](https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app) application live.
-
 ## Submitting bugs
 
 **TODO** - Create a base ember twiddle with *EmberCollection* setup.
