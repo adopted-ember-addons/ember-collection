@@ -49,7 +49,6 @@
     "layout-bin-packer": "^1.2.0"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "demoURL": "http://emberjs.com/ember-collection/"
+    "configPath": "tests/dummy/config"
   }
 }
