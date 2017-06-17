@@ -46,9 +46,10 @@ export default Ember.Component.extend({
     //   2. Set a property on `this` that is both not in the
     //      initial attrs hash and not on the prototype.
     this._super();
+    this.updateAttrs();
   },
 
-  didInitAttrs() {
+  updateAttrs() {
     let buffer = this.getAttr('buffer'); // getIntAttr('buffer', 5)
     this._buffer = (typeof buffer === 'number') ? buffer : 5;
     this._scrollLeft = this.getAttr('scroll-left') | 0;
