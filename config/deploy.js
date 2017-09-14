@@ -2,8 +2,11 @@
 
 module.exports = function(deployTarget) {
   var ENV = {
-    build: {}
+    build: {},
     // include other plugin configuration that applies to all deploy targets here
+    ghpages : {
+      gitRemoteUrl : 'git@github.emberjs/ember-collection.git'
+    }
   };
 
   if (deployTarget === 'development') {
