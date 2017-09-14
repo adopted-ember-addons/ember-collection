@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import { test, moduleForComponent } from 'ember-qunit';
 import {
-  generateContent, sortItemsByPosition, findItems, findContainer,
+  generateContent, sortItemsByPosition, findItems, findVisibleItems, findContainer,
   checkContent } from '../helpers/helpers';
-import template from '../templates/fixed-grid';
+import fixedGridTemplate from '../templates/fixed-grid';
+import indexedTemplate from '../templates/indexed';
+
 
 var nItems = 100;
 var itemWidth = 100;
@@ -20,7 +22,7 @@ test("replacing the list content", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
     this.set('content', Ember.A([{name: 'The only item'}]));
   });
 
@@ -39,7 +41,7 @@ test("adding to the front of the list content", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   Ember.run(function() {
@@ -65,7 +67,7 @@ test("inserting in the middle of visible content", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   Ember.run(function() {
@@ -89,7 +91,7 @@ test("clearing the content", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   Ember.run(function() {
@@ -106,7 +108,7 @@ test("deleting the first element", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   var positionSorted = sortItemsByPosition(this);
@@ -132,7 +134,7 @@ test("working with an ArrayProxy", function(assert) {
 
   Ember.run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   Ember.run(()=>{
@@ -144,3 +146,34 @@ test("working with an ArrayProxy", function(assert) {
     checkContent(this, assert, 0, 50);
   });
 });
+
+test("indexes update correctly", function(assert) {
+  var content = generateContent(30);
+  var filterIndexes  = [];
+
+  Ember.run(()=>{
+    this.setProperties({height, width, itemHeight, itemWidth, content, filterIndexes});
+    this.render(indexedTemplate);
+  });
+
+  Ember.run(()=>{
+    this.set('content', [content[1], content[3], content[7], content[13]]);
+  });
+
+  Ember.run(()=>{
+    assert.equal(
+      findVisibleItems(this).text().split(':').sort().join(":"), ":0:1:2:3", "The indexes updated correctly"
+    );
+  });
+
+  Ember.run(()=>{
+    this.set('content', [content[1], content[3], content[7], content[13], content[27]]);
+  });
+
+  Ember.run(()=>{
+    assert.equal(
+      findVisibleItems(this).text().split(':').sort().join(":"), ":0:1:2:3:4", "The indexes updated correctly"
+    );
+  });
+});
+

@@ -165,6 +165,7 @@ export default Ember.Component.extend({
         set(cell, 'style', style);
         set(cell, 'hidden', false);
         set(cell, 'key', itemKey);
+        set(cell, 'index', itemIndex);
         cellMap[itemKey] = cell;
       } else {
         newItems.push(itemIndex);
