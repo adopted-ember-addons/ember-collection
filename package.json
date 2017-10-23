@@ -13,7 +13,7 @@
   },
   "repository": "https://github.com/emberjs/ember-collection",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "^4.5 || 6.* || >= 7.*"
   },
   "author": "Erik Bryn, Yapp Inc., and contributors.",
   "license": "MIT",
