@@ -21,7 +21,25 @@ var options = {
     "Chrome",
     "Firefox",
     "Safari",
-  ]
+  ],
+  browser_args: {
+    Chrome: {
+      mode: 'ci',
+      args: [
+        '--disable-gpu',
+        '--headless',
+        '--remote-debugging-port=0',
+        '--window-size=1440,900'
+      ]
+    },
+    Firefox: {
+      mode: 'ci',
+      args: [
+        '--headless',
+        '--window-size=1440,900'
+      ]
+    },
+  }
 };
 
 if (isCI) {
