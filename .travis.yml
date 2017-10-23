@@ -1,0 +1,56 @@
+---
+language: node_js
+node_js:
+  # we recommend testing addons with the same minimum supported node version as Ember CLI
+  # so that your addon works for all apps
+  - "4"
+
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+  firefox: latest
+
+cache:
+  directories:
+    - $HOME/.cache # includes bower's cache
+    - $HOME/.npm
+
+env:
+  - SCENARIO_GROUP=default
+  - SCENARIO_GROUP=channels
+  - SCENARIO_GROUP=releases
+  - SCENARIO_GROUP=allowed-failures
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: SCENARIO_GROUP=allowed-failures
+
+before_install:
+  - npm config set spin false
+  - npm install -g npm@4
+  - npm --version
+  - npm install -g bower
+
+install:
+  - npm install
+  - bower install
+
+script:
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - if [ "$SCENARIO_GROUP" = "default" ]; then
+      node_modules/.bin/ember try:each --config-path=config/ember-try.js ;
+
+    elif [ "$SCENARIO_GROUP" = "channels" ]; then
+      node_modules/.bin/ember try:each --config-path=config/ember-try/channels.js ;
+
+    elif [ "$SCENARIO_GROUP" = "releases" ]; then
+      node_modules/.bin/ember try:each --config-path=config/ember-try/releases.js ;
+
+    elif [ "$SCENARIO_GROUP" = "allowed-failures" ]; then
+      node_modules/.bin/ember try:each --config-path=config/ember-try/allowed-failures.js ;
+
+    fi

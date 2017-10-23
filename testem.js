@@ -42,7 +42,7 @@ var options = {
   }
 };
 
-if (isCI) {
+if (isCI && !process.env['TRAVIS']) {
   var testReportsPath = path.join(process.env['CIRCLE_TEST_REPORTS'], process.env.SCENARIO_GROUP);
 
   if (!existsSync(testReportsPath)) {
