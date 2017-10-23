@@ -16,13 +16,11 @@ var options = {
   "launch_in_ci": [
     "Chrome",
     "Firefox",
-    "PhantomJS"
   ],
   "launch_in_dev": [
     "Chrome",
     "Firefox",
     "Safari",
-    "PhantomJS"
   ]
 };
 
