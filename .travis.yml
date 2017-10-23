@@ -18,15 +18,15 @@ cache:
     - $HOME/.npm
 
 env:
-  - SCENARIO_GROUP=default
-  - SCENARIO_GROUP=channels
-  - SCENARIO_GROUP=releases
-  - SCENARIO_GROUP=allowed-failures
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/channels.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/releases.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/allowed-failures.js
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: SCENARIO_GROUP=allowed-failures
+    - env: SCENARIO_GROUP_CONFIG_PATH=config/ember-try/allowed-failures.js
 
 before_install:
   - npm config set spin false
@@ -41,16 +41,4 @@ install:
 script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
-  - if [ "$SCENARIO_GROUP" = "default" ]; then
-      node_modules/.bin/ember try:each --config-path=config/ember-try.js ;
-
-    elif [ "$SCENARIO_GROUP" = "channels" ]; then
-      node_modules/.bin/ember try:each --config-path=config/ember-try/channels.js ;
-
-    elif [ "$SCENARIO_GROUP" = "releases" ]; then
-      node_modules/.bin/ember try:each --config-path=config/ember-try/releases.js ;
-
-    elif [ "$SCENARIO_GROUP" = "allowed-failures" ]; then
-      node_modules/.bin/ember try:each --config-path=config/ember-try/allowed-failures.js ;
-
-    fi
+  node_modules/.bin/ember try:each --config-path=$SCENARIO_GROUP_CONFIG_PATH
