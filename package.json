@@ -37,9 +37,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-load-initializers": "^0.5.0",
     "ember-resolver": "^2.0.3",
-    "exists-sync": "0.0.3",
-    "loader.js": "^4.0.0",
-    "mkdirp": "^0.5.1"
+    "loader.js": "^4.0.0"
   },
   "keywords": [
     "ember-addon"
