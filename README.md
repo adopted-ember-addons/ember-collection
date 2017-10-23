@@ -1,6 +1,6 @@
 # Ember Collection
 
-[![Circle CI](https://circleci.com/gh/emberjs/ember-collection.svg?style=shield)](https://circleci.com/gh/emberjs/ember-collection)
+[![Build Status](https://travis-ci.org/emberjs/ember-collection.svg?branch=master)](https://travis-ci.org/emberjs/ember-collection)
 
 [![Ember Observer Score](http://emberobserver.com/badges/ember-collection.svg)](http://emberobserver.com/addons/ember-collection)
 
