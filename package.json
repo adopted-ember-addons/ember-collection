@@ -36,6 +36,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-load-initializers": "^0.5.0",
+    "ember-remarkable": "3.1.0",
     "ember-resolver": "^2.0.3",
     "loader.js": "^4.0.0"
   },
@@ -45,7 +46,9 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "^1.0.1",
-    "layout-bin-packer": "^1.2.0"
+    "layout-bin-packer": "^1.2.0",
+    "broccoli-stew": "^1.2.0",
+    "ember-cli-github-pages": "0.0.8"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

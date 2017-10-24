@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { FixedGridInterface } from '../interface/grid-interface';
 
 export default Ember.Controller.extend({
   itemWidth: 100,
@@ -7,6 +8,20 @@ export default Ember.Controller.extend({
   containerHeight: 600,
   scrollLeft: 0,
   scrollTop: 0,
+
+  showLayout: false,
+
+  fixedGrid: Ember.computed('itemWidth', 'itemHeight', function() {
+    return new FixedGridInterface(this.get('itemWidth'), this.get('itemHeight'));
+  }),
+
+  code: Ember.computed('fixedGrid._size', 'fixedGrid._contentSize', 'fixedGrid._indexAt', 'fixedGrid._count', function() {
+    if(!(this.get('fixedGrid._size') || 0)){ return ''; }
+    return '\n' +
+      this.get('fixedGrid.markdownContentSize') + '\n' +
+      this.get('fixedGrid.markdownIndexAt') + '\n' +
+      this.get('fixedGrid.markdownCount');
+  }),
 
   actions: {
     updateContainerWidth: function(value) {
@@ -20,7 +35,7 @@ export default Ember.Controller.extend({
     makeSquare: function() {
       this.setProperties({
         itemWidth: 100,
-        itemHeight: 100,
+        itemHeight: 100
       });
     },
 
@@ -50,6 +65,10 @@ export default Ember.Controller.extend({
         scrollLeft: scrollLeft,
         scrollTop: scrollTop
       });
+    },
+
+    toggleLayout: function() {
+      this.toggleProperty('showLayout');
     }
   }
 });

@@ -1,8 +1,21 @@
 import Ember from 'ember';
+import { PercentageColumnsInterface } from '../interface/grid-interface';
 
 export default Ember.Controller.extend({
   columns: Ember.computed(function() {
     return [20, 60, 20];
+  }),
+  showLayout: false,
+  percentageGrid: Ember.computed('model.length', 'columns', function() {
+    return new PercentageColumnsInterface(this.get('model.length'), this.get('columns'), 50);
+  }),
+
+  code: Ember.computed('percentageGrid._size', 'percentageGrid._contentSize', 'percentageGrid._indexAt', 'percentageGrid._count', function() {
+    if(!(this.get('percentageGrid._size') || 0)){ return ''; }
+    return '\n' +
+      this.get('percentageGrid.markdownContentSize') + '\n' +
+      this.get('percentageGrid.markdownIndexAt') + '\n' +
+      this.get('percentageGrid.markdownCount');
   }),
   actions: {
     changeColumn: function(col) {
@@ -26,6 +39,9 @@ export default Ember.Controller.extend({
           this.set('columns', [50, 50]);
           break;
         }
+    },
+    toggleLayout: function() {
+      this.toggleProperty('showLayout');
     }
   }
 });
