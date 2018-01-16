@@ -8,8 +8,9 @@
   },
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
-    "test": "ember try:testall"
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "start": "ember serve",
+    "test": "ember try:each"
   },
   "repository": "https://github.com/emberjs/ember-collection",
   "engines": {
@@ -25,6 +26,7 @@
     "ember-cli-deploy-build": "^1.1.0",
     "ember-cli-deploy-ghpages": "^0.2.0",
     "ember-cli-deploy-git": "^0.1.0",
+    "ember-cli-eslint": "^4.2.3",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-qunit": "^4.1.1",
@@ -38,6 +40,8 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "^2.18.0",
     "ember-source-channel-url": "^1.0.1",
+    "eslint-plugin-ember": "^5.0.3",
+    "eslint-plugin-node": "^5.2.1",
     "loader.js": "^4.2.3"
   },
   "keywords": [
