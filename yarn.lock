@@ -2342,20 +2342,6 @@ ember-cli-qunit@^4.1.1:
     ember-cli-babel "^6.8.1"
     ember-qunit "^3.2.2"
 
-ember-cli-release@0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/ember-cli-release/-/ember-cli-release-0.2.8.tgz#e9fddd06058c0f3bc2ea57ab2667e9611f8fb205"
-  dependencies:
-    chalk "^1.0.0"
-    git-tools "^0.1.4"
-    make-array "^0.1.2"
-    merge "^1.2.0"
-    moment-timezone "^0.3.0"
-    nopt "^3.0.3"
-    rsvp "^3.0.17"
-    semver "^4.3.1"
-    silent-error "^1.0.0"
-
 ember-cli-shims@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ember-cli-shims/-/ember-cli-shims-1.2.0.tgz#0f53aff0aab80b5f29da3a9731bac56169dd941f"
@@ -3316,12 +3302,6 @@ gift@^0.7.0:
 git-repo-info@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-1.4.1.tgz#2a072823254aaf62fcf0766007d7b6651bd41943"
-
-git-tools@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/git-tools/-/git-tools-0.1.4.tgz#5e43e59443b8a5dedb39dba663da49e79f943978"
-  dependencies:
-    spawnback "~1.0.0"
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -4557,10 +4537,6 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-make-array@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/make-array/-/make-array-0.1.2.tgz#335e36ebb0c5a43154d21213a1ecaeae2a1bb3ef"
-
 make-dir@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.1.0.tgz#19b4369fe48c116f53c2af95ad102c0e39e85d51"
@@ -4648,7 +4624,7 @@ merge-trees@^1.0.1:
     rimraf "^2.4.3"
     symlink-or-copy "^1.0.0"
 
-merge@^1.1.3, merge@^1.2.0:
+merge@^1.1.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
 
@@ -4754,16 +4730,6 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1:
 mktemp@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/mktemp/-/mktemp-0.4.0.tgz#6d0515611c8a8c84e484aa2000129b98e981ff0b"
-
-moment-timezone@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.3.1.tgz#3ef47856b02d53b718a10a5ec2023aa299e07bf5"
-  dependencies:
-    moment ">= 2.6.0"
-
-"moment@>= 2.6.0":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
 
 morgan@^1.8.1:
   version "1.9.0"
@@ -4892,7 +4858,7 @@ node-pre-gyp@^0.6.39:
     tar "^2.2.1"
     tar-pack "^3.4.0"
 
-nopt@^3.0.3, nopt@^3.0.6:
+nopt@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
   dependencies:
@@ -5676,10 +5642,6 @@ semver@5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
-semver@^4.3.1:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
-
 semver@^5.1.0, semver@^5.1.1, semver@^5.3.0, semver@^5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
@@ -5964,10 +5926,6 @@ sourcemap-validator@^1.0.5:
 spawn-args@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/spawn-args/-/spawn-args-0.2.0.tgz#fb7d0bd1d70fd4316bd9e3dec389e65f9d6361bb"
-
-spawnback@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/spawnback/-/spawnback-1.0.0.tgz#f73662f7e54d95367eca74d6426c677dd7ea686f"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
