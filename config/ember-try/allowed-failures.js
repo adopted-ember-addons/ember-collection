@@ -1,5 +1,3 @@
-/* jshint node:true */
-
 const getChannelURL = require('ember-source-channel-url');
 
 module.exports = function() {

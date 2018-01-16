@@ -1,5 +1,3 @@
-/* jshint node:true */
-
 var options = {
   "framework": "qunit",
   "test_page": "tests/index.html?hidepassed",

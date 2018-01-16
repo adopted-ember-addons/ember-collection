@@ -1,5 +1,3 @@
-/* jshint node:true */
-
 'use strict';
 
 const getChannelURL = require('ember-source-channel-url');
