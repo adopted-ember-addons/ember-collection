@@ -19,6 +19,7 @@ var options = {
       args: [
         '--disable-gpu',
         '--headless',
+        '--no-sandbox',
         '--remote-debugging-port=0',
         '--window-size=1440,900'
       ]
