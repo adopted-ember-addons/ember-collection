@@ -14,8 +14,6 @@ addons:
 
 cache:
   yarn: true
-  directories:
-    - $HOME/.cache # includes bower's cache
 
 env:
   - SCENARIO_GROUP_CONFIG_PATH=config/ember-try.js
@@ -31,11 +29,9 @@ matrix:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add bower
 
 install:
   - yarn install --no-lockfile --non-interactive
-  - bower install
 
 script:
   # Usually, it's ok to finish the test scenario without reverting
