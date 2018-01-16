@@ -1,5 +1,5 @@
 import ShelfFirst from 'layout-bin-packer/shelf-first';
-import {formatPixelStyle} from '../utils/style-generators';
+import { formatPixelStyle } from '../utils/style-generators';
 
 export default class MixedGrid
 {

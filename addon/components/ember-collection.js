@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 import layout from './ember-collection/template';
 import identity from '../utils/identity';
 import needsRevalidate from '../utils/needs-revalidate';
-const { get, set } = Ember;
 
 class Cell {
   constructor(key, item, index, style) {
@@ -14,7 +15,7 @@ class Cell {
   }
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout: layout,
 
   init() {
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
-    this._cells = Ember.A();
+    this._cells = A();
     this._cellMap = Object.create(null);
 
     // TODO: Super calls should always be at the top of the constructor.
@@ -86,7 +87,7 @@ export default Ember.Component.extend({
         });
       }
       this._rawItems = rawItems;
-      var items = Ember.A(rawItems);
+      var items = A(rawItems);
       this.set('_items', items);
 
       if (items && items.addArrayObserver) {

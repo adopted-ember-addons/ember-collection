@@ -1,4 +1,5 @@
-import Ember from 'ember';
-export default Ember.Helper.helper(function ([width, height]) {
-  return Ember.String.htmlSafe(`position: relative; width: ${width}px; height: ${height}px;`);
+import { htmlSafe } from '@ember/string';
+import { helper } from '@ember/component/helper';
+export default helper(function ([width, height]) {
+  return htmlSafe(`position: relative; width: ${width}px; height: ${height}px;`);
 });

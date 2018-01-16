@@ -1,5 +1,6 @@
+import { A } from '@ember/array';
+import { get } from '@ember/object';
 import Ember from 'ember';
-const { get } = Ember;
 var compile = Ember.Handlebars.compile;
 
 function generateContent(n) {
@@ -57,7 +58,7 @@ function sortByPosition(a, b) {
 }
 
 function itemPositions(view) {
-  return Ember.A(findItems(view).toArray()).map(function(e) {
+  return A(findItems(view).toArray()).map(function(e) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { guidFor } from '@ember/object/internals';
 
 export default function identity(item) {
   let key;
@@ -7,7 +7,7 @@ export default function identity(item) {
   if (type === 'string' || type === 'number') {
     key = item;
   } else {
-    key = Ember.guidFor(item);
+    key = guidFor(item);
   }
 
   return key;

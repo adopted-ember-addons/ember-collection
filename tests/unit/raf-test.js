@@ -1,6 +1,9 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { test, moduleForComponent } from 'ember-qunit';
-import { generateContent, sortItemsByPosition } from '../helpers/helpers';
+import {
+  generateContent,
+  sortItemsByPosition
+} from '../helpers/helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 let originalRaf = window.requestAnimationFrame;
@@ -43,7 +46,7 @@ test('works without requestAnimationFrame', function(assert) {
   var positionSorted = sortItemsByPosition(this);
 
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 1", "We rendered without requestAnimationFrame"
   );
   
