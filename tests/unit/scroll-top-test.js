@@ -23,13 +23,13 @@ function scrollbarSize() {
     );
 
     $('body').append(div);
-    var w1 = $(div).innerWidth();
-    var w2 = $('div', div).innerWidth();
+    var w1 = $(div)[0].offsetWidth;
+    var w2 = $('div', div)[0].offsetWidth;
     $(div).remove();
 
     size = w1 - w2;
   }
-
+  
   return size;
 }
 
@@ -65,7 +65,7 @@ test("base case", function(assert) {
 });
 
 test("scroll but within content length", function(assert){
-  var width = 100+scrollbarSize(), height = 100+scrollbarSize(), itemWidth = 50, itemHeight = 50;
+  var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
   var offsetY = 100;
 
   Ember.run(() => {
