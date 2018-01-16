@@ -1,6 +1,6 @@
+import { assert } from '@ember/debug';
 import ShelfFirst from 'layout-bin-packer/shelf-first';
-import {formatPercentageStyle} from '../utils/style-generators';
-import Ember from 'ember';
+import { formatPercentageStyle } from '../utils/style-generators';
 
 export default class PercentageColumns
 {
@@ -13,7 +13,7 @@ export default class PercentageColumns
     });
     // Assert that the columns add up to 100. We don't want to enforce that they are EXACTLY 100 in case the user wants to use percentages.
     // for example [33.333, 66.666]
-    Ember.assert('All columns must total 100 ' + total, total > 99 && total <= 100 );
+    assert('All columns must total 100 ' + total, total > 99 && total <= 100 );
     let positions = [];
     var ci = 0;
     for (var i = 0; i < itemCount; i++) {

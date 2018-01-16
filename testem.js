@@ -1,5 +1,3 @@
-/* jshint node:true */
-
 var options = {
   "framework": "qunit",
   "test_page": "tests/index.html?hidepassed",
@@ -19,6 +17,7 @@ var options = {
       args: [
         '--disable-gpu',
         '--headless',
+        '--no-sandbox',
         '--remote-debugging-port=0',
         '--window-size=1440,900'
       ]

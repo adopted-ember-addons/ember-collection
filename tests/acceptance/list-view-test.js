@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { module, skip } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
@@ -8,7 +8,7 @@ module('Acceptance | ember collection', {
   },
 
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    run(this.application, 'destroy');
   }
 });
 
@@ -25,7 +25,12 @@ skip('visiting /list-view', function(assert) {
 import Ember from 'ember';
 import { test } from 'ember-qunit';
 import moduleForView from '../helpers/module-for-view';
-import {compile, generateContent, sortElementsByPosition, itemPositions} from '../helpers/helpers';
+import {
+  compile,
+  generateContent,
+  sortElementsByPosition,
+  itemPositions
+} from '../helpers/helpers';
 
 moduleForView("list-view", "acceptance", {});
 

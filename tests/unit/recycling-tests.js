@@ -1,7 +1,12 @@
+import { run } from '@ember/runloop';
 import Ember from 'ember';
 import { moduleForComponent } from 'ember-qunit';
 import { skip } from 'qunit';
-import { generateContent, findItems, findVisibleItems } from '../helpers/helpers';
+import {
+  generateContent,
+  findItems,
+  findVisibleItems
+} from '../helpers/helpers';
 // import hbs from 'htmlbars-inline-precompile';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
@@ -35,7 +40,7 @@ skip("recycling complex views long list", function(assert){
   innerViewDestroyCount = 0;
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
       content: content,
       height: height,
@@ -67,7 +72,7 @@ skip("recycling complex views long list", function(assert){
   innerViewInsertionCount = 0;
   innerViewDestroyCount = 0;
 
-  Ember.run(function() {
+  run(function() {
     view.scrollTo(50);
   });
 
@@ -82,7 +87,7 @@ skip("recycling complex views long list", function(assert){
   innerViewInsertionCount = 0;
   innerViewDestroyCount = 0;
 
-  Ember.run(function() {
+  run(function() {
     view.scrollTo(0);
   });
 
@@ -122,7 +127,7 @@ skip("recycling complex views short list", function(assert){
   innerViewDestroyCount = 0;
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
       content: content,
       height: height,
@@ -217,7 +222,7 @@ skip("recycling complex views long list, with ReusableListItemView", function(as
   innerViewDestroyCount = 0;
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
       content: content,
       height: height,
@@ -320,7 +325,7 @@ skip("recycling complex views short list, with ReusableListItemView", function(a
   innerViewDestroyCount = 0;
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
       content: content,
       height: height,
@@ -425,7 +430,7 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
   innerViewDestroyCount = 0;
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
       content: content,
       height: height,
@@ -484,7 +489,7 @@ skip("recycling complex views with ReusableListItemView, handling empty slots at
   innerViewInsertionCount = 0;
   innerViewDestroyCount = 0;
 
-  Ember.run(function() {
+  run(function() {
     view.set('width', 150);
   });
 

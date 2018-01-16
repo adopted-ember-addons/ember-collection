@@ -1,4 +1,7 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { get } from '@ember/object';
+import { A } from '@ember/array';
+import { run } from '@ember/runloop';
 import { moduleForComponent } from 'ember-qunit';
 import { skip } from 'qunit';
 import { sortItemsByPosition, findItems } from '../helpers/helpers';
@@ -45,9 +48,9 @@ skip("Correct height based on content", function(assert) {
   ];
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
-      content: Ember.A(content),
+      content: A(content),
       height: 300,
       width: 500,
       rowHeight: 100,
@@ -63,10 +66,10 @@ skip("Correct height based on content", function(assert) {
         })
       },
       itemViewForIndex: function(idx) {
-        return this.itemViews[Ember.A(this.get('content')).objectAt(idx).type];
+        return this.itemViews[A(this.get('content')).objectAt(idx).type];
       },
       heightForIndex: function(idx) {
-        return Ember.get(Ember.A(this.get('content')).objectAt(idx), 'height');
+        return get(A(this.get('content')).objectAt(idx), 'height');
       }
     });
   });
@@ -78,10 +81,10 @@ skip("Correct height based on content", function(assert) {
   var positionSorted = sortItemsByPosition(this);
   assert.equal(findItems(this).length, 4);
 
-  assert.equal(Ember.$(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
-  assert.equal(Ember.$(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
-  assert.equal(Ember.$(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
-  assert.equal(Ember.$(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
+  assert.equal($(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
+  assert.equal($(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
+  assert.equal($(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
+  assert.equal($(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
 
   assert.deepEqual(itemPositions(view), [
     { x:0, y:    0 }, // <-- in view
@@ -90,13 +93,13 @@ skip("Correct height based on content", function(assert) {
     { x:0, y:  350 }  // <-- buffer
   ], 'went beyond scroll max via overscroll');
 
-  Ember.run(view, 'scrollTo', 1000);
+  run(view, 'scrollTo', 1000);
   positionSorted = sortItemsByPosition(this);
 
-  assert.equal(Ember.$(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
-  assert.equal(Ember.$(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
-  assert.equal(Ember.$(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
-  assert.equal(Ember.$(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
+  assert.equal($(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
+  assert.equal($(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
+  assert.equal($(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
+  assert.equal($(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
 
   assert.deepEqual(itemPositions(view), [
     { x:0, y: 950 }, // <-- partially in view
@@ -142,9 +145,9 @@ skip("Correct height based on view", function(assert) {
   ];
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
-      content: Ember.A(content),
+      content: A(content),
       height: 300,
       width: 500,
       rowHeight: 100,
@@ -163,7 +166,7 @@ skip("Correct height based on view", function(assert) {
         })
       },
       itemViewForIndex: function(idx){
-        return this.itemViews[Ember.get(Ember.A(this.get('content')).objectAt(idx), 'type')];
+        return this.itemViews[get(A(this.get('content')).objectAt(idx), 'type')];
       },
       heightForIndex: function(idx) {
         // proto() is a quick hack, lets just store this on the class..
@@ -179,10 +182,10 @@ skip("Correct height based on view", function(assert) {
   var positionSorted = sortItemsByPosition(this);
   assert.equal(findItems(this).length, 4);
 
-  assert.equal(Ember.$(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
-  assert.equal(Ember.$(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
-  assert.equal(Ember.$(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
-  assert.equal(Ember.$(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
+  assert.equal($(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
+  assert.equal($(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
+  assert.equal($(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
+  assert.equal($(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
 
   assert.deepEqual(itemPositions(view), [
     { x:0, y:    0 }, // <-- in view
@@ -191,13 +194,13 @@ skip("Correct height based on view", function(assert) {
     { x:0, y:  350 }  // <-- buffer
   ], 'went beyond scroll max via overscroll');
 
-  Ember.run(view, 'scrollTo', 1000);
+  run(view, 'scrollTo', 1000);
   positionSorted = sortItemsByPosition(this);
 
-  assert.equal(Ember.$(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
-  assert.equal(Ember.$(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
-  assert.equal(Ember.$(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
-  assert.equal(Ember.$(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
+  assert.equal($(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
+  assert.equal($(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
+  assert.equal($(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
+  assert.equal($(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
 
   assert.deepEqual(itemPositions(view), [
     { x:0, y:  950 }, // <-- partially in view
@@ -243,9 +246,9 @@ skip("handle bindable rowHeight with multi-height (only fallback case)", functio
   ];
 
   var view;
-  Ember.run(this, function(){
+  run(this, function(){
     view = this.subject({
-      content: Ember.A(content),
+      content: A(content),
       height: 300,
       width: 500,
       rowHeight: 100,
@@ -256,7 +259,7 @@ skip("handle bindable rowHeight with multi-height (only fallback case)", functio
         })
       },
       itemViewForIndex: function(idx){
-        return this.itemViews[Ember.get(Ember.A(this.get('content')).objectAt(idx), 'type')] || ReusableListItemView;
+        return this.itemViews[get(A(this.get('content')).objectAt(idx), 'type')] || ReusableListItemView;
       },
 
       heightForIndex: function(idx) {
@@ -269,7 +272,6 @@ skip("handle bindable rowHeight with multi-height (only fallback case)", functio
 
   this.render();
 
-  var positionSorted = sortItemsByPosition(this);
   assert.equal(findItems(this).length, 4);
   assert.equal(view.get('totalHeight'), 3750);
 
@@ -301,9 +303,8 @@ skip("handle bindable rowHeight with multi-height (only fallback case)", functio
     { x:0, y: 350 }  // <- buffer
   ] , "inDOM views are correctly positioned: before rowHeight change");
 
-  Ember.run(view, 'set', 'rowHeight', 200);
+  run(view, 'set', 'rowHeight', 200);
 
-  positionSorted = sortItemsByPosition(this);
   assert.equal(findItems(this).length, 3);
   assert.equal(view.get('totalHeight'), 5550);
 
