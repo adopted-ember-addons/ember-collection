@@ -97,7 +97,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
     let elt = elements[i];
     let item = content.objectAt(i + istart);
     assert.equal(
-      $(elt).text().trim(), item.name,
+      elt.textContent.trim(), item.name,
       'Item ' + (i + 1) + ' rendered');
   }
 }
