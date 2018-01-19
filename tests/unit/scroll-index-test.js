@@ -1,4 +1,6 @@
-import Ember from "ember";
+import $ from 'jquery';
+import { run } from '@ember/runloop';
+import RSVP from 'rsvp';
 import {moduleForComponent, test} from "ember-qunit";
 import {checkContent, findScrollable, generateContent, scrollbarSize, sortItemsByPosition} from "../helpers/helpers";
 import hbs from "htmlbars-inline-precompile";
@@ -32,8 +34,6 @@ if (raf === undefined) {
   };
 }
 
-const RSVP = Ember.RSVP;
-
 const content = generateContent(12);
 
 moduleForComponent('ember-collection', 'scrollIndex', {
@@ -44,7 +44,7 @@ test("base case", function (assert) {
   let width = 100, height = 500, itemWidth = 50, itemHeight = 50;
   let scrollIndex = 0;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({width, height, itemWidth, itemHeight, content, scrollIndex, scrollChangeAction});
     this.render(template);
   });
@@ -53,9 +53,9 @@ test("base case", function (assert) {
 
   let positionSorted = sortItemsByPosition(this);
 
-  assert.equal(Ember.$(positionSorted[0]).text().trim(), "Item 1", "The first item has not been hidden");
+  assert.equal($(positionSorted[0]).text().trim(), "Item 1", "The first item has not been hidden");
 
-  Ember.run(() => {
+  run(() => {
     this.set('width', 150);
   });
 
@@ -67,27 +67,27 @@ test("scroll but within content length", function (assert) {
   let width = 100 + scrollbarSize(), height = 100 + scrollbarSize(), itemWidth = 50, itemHeight = 50;
   let scrollIndex = 8;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({width, height, itemWidth, itemHeight, content, scrollIndex, scrollChangeAction});
     this.render(template);
   });
 
   assert.equal(findScrollable(this).prop('scrollTop'), 135, 'Scrolled one row.');
 
-  Ember.run(() => {
+  run(() => {
     this.set('width', 300 + scrollbarSize());
   });
 
   return new RSVP.Promise(function (resolve) {
     raf(() => {
-      Ember.run(resolve);
+      run(resolve);
     });
   }).then(() => {
     assert.equal(findScrollable(this).prop('scrollTop'), 0, 'No scroll with wider list.');
 
     let positionSorted = sortItemsByPosition(this);
 
-    assert.equal(Ember.$(positionSorted[0]).text().trim(), "Item 1", "The first item is not visible but in buffer.");
+    assert.equal($(positionSorted[0]).text().trim(), "Item 1", "The first item is not visible but in buffer.");
     checkContent(this, assert, 0, 5);
   });
 });
