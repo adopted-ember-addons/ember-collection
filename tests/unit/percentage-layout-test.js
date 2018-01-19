@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { test, moduleForComponent } from 'ember-qunit';
 import {
   generateContent, sortItemsByPosition, itemPositions } from '../helpers/helpers';
@@ -25,12 +25,12 @@ test("cells have correct width", function(assert) {
   let columns = [25, 50, 15, 10];
   let content = generateContent(8);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
     this.render(template);
   });
 
-  Ember.run(()=>{
+  run(()=>{
     let items = sortItemsByPosition(this);
     let positions = extractTopLeft(itemPositions(this));
     
@@ -65,12 +65,12 @@ test("columns can use decimals", function(assert) {
   let columns = [33.333, 66.666];
   let content = generateContent(6);
   
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
     this.render(template);
   });
 
-  Ember.run(()=>{
+  run(()=>{
     let items = sortItemsByPosition(this);
     let positions = extractTopLeft(itemPositions(this));
     

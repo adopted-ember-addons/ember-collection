@@ -1,5 +1,38 @@
 # Change Log
 
+## [v1.0.0-alpha.8](https://github.com/emberjs/ember-collection/tree/v1.0.0-alpha.8) (2018-01-16)
+[Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.7...v1.0.0-alpha.8)
+
+**Closed issues:**
+
+- Single js file version [\#165](https://github.com/emberjs/ember-collection/issues/165)
+- URL leads to 404 Error [\#147](https://github.com/emberjs/ember-collection/issues/147)
+- scroll to item [\#144](https://github.com/emberjs/ember-collection/issues/144)
+- Fill gaps in Mixed Grid Layout [\#134](https://github.com/emberjs/ember-collection/issues/134)
+- Glimmer 2 Compatibility [\#126](https://github.com/emberjs/ember-collection/issues/126)
+
+**Merged pull requests:**
+
+- Cleanup... [\#166](https://github.com/emberjs/ember-collection/pull/166) ([rwjblue](https://github.com/rwjblue))
+- Fix tests broken in browsers that have visible scrollbars [\#164](https://github.com/emberjs/ember-collection/pull/164) ([raytiley](https://github.com/raytiley))
+- Clean up Bower dependencies [\#162](https://github.com/emberjs/ember-collection/pull/162) ([Turbo87](https://github.com/Turbo87))
+- \[BREAKING\] Bump minimum Node version to 4.5 [\#161](https://github.com/emberjs/ember-collection/pull/161) ([Turbo87](https://github.com/Turbo87))
+- Update "ember-cli" to v2.16.2 [\#160](https://github.com/emberjs/ember-collection/pull/160) ([Turbo87](https://github.com/Turbo87))
+- Use yarn instead of npm [\#159](https://github.com/emberjs/ember-collection/pull/159) ([Turbo87](https://github.com/Turbo87))
+- README: Use TravisCI badge instead of CircleCI [\#158](https://github.com/emberjs/ember-collection/pull/158) ([Turbo87](https://github.com/Turbo87))
+- Use TravisCI instead of CircleCI [\#157](https://github.com/emberjs/ember-collection/pull/157) ([Turbo87](https://github.com/Turbo87))
+- testem: Run Chrome and Firefox in headless mode [\#156](https://github.com/emberjs/ember-collection/pull/156) ([Turbo87](https://github.com/Turbo87))
+- testem: Remove "PhantomJS" target [\#155](https://github.com/emberjs/ember-collection/pull/155) ([Turbo87](https://github.com/Turbo87))
+- Bump node to version 6 [\#153](https://github.com/emberjs/ember-collection/pull/153) ([raytiley](https://github.com/raytiley))
+- Automated demo deploy via ember-cli-deploy-ghpages [\#151](https://github.com/emberjs/ember-collection/pull/151) ([lolmaus](https://github.com/lolmaus))
+- Fix spelling and naming mistake [\#149](https://github.com/emberjs/ember-collection/pull/149) ([Alonski](https://github.com/Alonski))
+- Removed ember-try from dependencies [\#148](https://github.com/emberjs/ember-collection/pull/148) ([Alonski](https://github.com/Alonski))
+- style prefix fix [\#146](https://github.com/emberjs/ember-collection/pull/146) ([mival](https://github.com/mival))
+- Fix readme scroll-right reference [\#139](https://github.com/emberjs/ember-collection/pull/139) ([jubar](https://github.com/jubar))
+- Remove deprecated Ember.K [\#136](https://github.com/emberjs/ember-collection/pull/136) ([cibernox](https://github.com/cibernox))
+- Prevent `didInitAttrs` deprecation. [\#133](https://github.com/emberjs/ember-collection/pull/133) ([rwjblue](https://github.com/rwjblue))
+- Clear cells and cellMap when items changes [\#110](https://github.com/emberjs/ember-collection/pull/110) ([paddyobrien](https://github.com/paddyobrien))
+
 ## [v1.0.0-alpha.7](https://github.com/emberjs/ember-collection/tree/v1.0.0-alpha.7) (2016-11-17)
 [Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.6...v1.0.0-alpha.7)
 

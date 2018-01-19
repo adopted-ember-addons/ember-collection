@@ -1,27 +1,32 @@
-/* jshint node:true */
+'use strict';
 
-module.exports = {
-  scenarios: [
-    {
-      name: 'ember-release',
-      bower: {
-        dependencies: {
-          'ember': 'release'
+const getChannelURL = require('ember-source-channel-url');
+
+module.exports = function() {
+  return Promise.all([
+    getChannelURL('release'),
+    getChannelURL('beta'),
+  ]).then((urls) => {
+    return {
+      useYarn: true,
+      scenarios: [
+        {
+          name: 'ember-release',
+          npm: {
+            devDependencies: {
+              'ember-source': urls[0]
+            }
+          }
         },
-
-        resolutions: {
-          'ember': 'release'
-        }
-      }
-    },
-    {
-      name: 'ember-beta',
-      dependencies: {
-        'ember': 'beta'
-      },
-      resolutions: {
-        'ember': 'beta'
-      }
-    }
-  ]
+        {
+          name: 'ember-beta',
+          npm: {
+            devDependencies: {
+              'ember-source': urls[1]
+            }
+          }
+        },
+      ]
+    };
+  });
 };

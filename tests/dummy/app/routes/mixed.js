@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
 function getRandomInt() {
   return Math.floor(Math.random() * (251) + 75);
 }
-export default Ember.Route.extend({
+export default Route.extend({
   model: function() {
     var items = [];
     for (var i = 0; i < 1000; i++) {

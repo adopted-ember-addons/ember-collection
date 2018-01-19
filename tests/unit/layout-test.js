@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import { test, moduleForComponent } from 'ember-qunit';
 import { generateContent } from '../helpers/helpers';
@@ -41,12 +41,12 @@ test("ember-collection calls formatItemStyle", function(assert) {
   <div class="list-item">{{item.name}}</div>
 {{~/ember-collection~}}</div>`;
   
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content, columns, fakeLayout});
     this.render(template);
   });
 
-  Ember.run(()=>{
+  run(()=>{
     assert.equal(callCount, nItems, 'formatItemStyle is called for each rendered item');
   });
 });

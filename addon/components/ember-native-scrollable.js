@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { join } from '@ember/runloop';
+import Component from '@ember/component';
 import { translate } from 'ember-collection/utils/translate';
 import { styleProperty } from 'ember-collection/utils/style-properties';
 
 const overflowScrollingProp = styleProperty('overflowScrolling');
 
-export default Ember.Component.extend({
+export default Component.extend({
   init() {
     this._clientWidth = 0;
     this._clientHeight = 0;
@@ -115,11 +116,15 @@ export default Ember.Component.extend({
     }
 
     if (scrollChanged || clientSizeChanged) {
-      Ember.run.join(this, function sendActionsFromScrollCheck(){
+      join(this, function sendActionsFromScrollCheck(){
         if (scrollChanged) {
+          // TODO: Migrate to closure actions...
+          // eslint-disable-next-line
           this.sendAction('scrollChange', scrollLeft, scrollTop);
         }
         if (clientSizeChanged) {
+          // TODO: Migrate to closure actions...
+          // eslint-disable-next-line
           this.sendAction('clientSizeChange', clientWidth, clientHeight);
         }
       });

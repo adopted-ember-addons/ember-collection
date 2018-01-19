@@ -1,0 +1,39 @@
+---
+language: node_js
+node_js:
+  # we recommend testing addons with the same minimum supported node version as Ember CLI
+  # so that your addon works for all apps
+  - "4"
+
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+  firefox: latest
+
+cache:
+  yarn: true
+
+env:
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/channels.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/releases.js
+  - SCENARIO_GROUP_CONFIG_PATH=config/ember-try/allowed-failures.js
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: SCENARIO_GROUP_CONFIG_PATH=config/ember-try/allowed-failures.js
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --no-lockfile --non-interactive
+
+script:
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  node_modules/.bin/ember try:each --config-path=$SCENARIO_GROUP_CONFIG_PATH

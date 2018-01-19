@@ -1,9 +1,14 @@
-import Ember from 'ember';
+import ArrayProxy from '@ember/array/proxy';
+import $ from 'jquery';
+import { A } from '@ember/array';
+import { run } from '@ember/runloop';
 import { test, moduleForComponent } from 'ember-qunit';
 import {
-  generateContent, sortItemsByPosition, findItems, findContainer,
+  generateContent, sortItemsByPosition, findItems, findVisibleItems, findContainer,
   checkContent } from '../helpers/helpers';
-import template from '../templates/fixed-grid';
+import fixedGridTemplate from '../templates/fixed-grid';
+import indexedTemplate from '../templates/indexed';
+
 
 var nItems = 100;
 var itemWidth = 100;
@@ -18,13 +23,13 @@ moduleForComponent('ember-collection', 'manipulate content', {
 test("replacing the list content", function(assert) {
   var content = generateContent(nItems);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
-    this.set('content', Ember.A([{name: 'The only item'}]));
+    this.render(fixedGridTemplate);
+    this.set('content', A([{name: 'The only item'}]));
   });
 
-  Ember.run(()=>{
+  run(()=>{
     assert.equal(findItems(this)
       .filter(function(){ return $(this).css('display') !== 'none'; })
       .length, 1, "The rendered list was updated");
@@ -37,18 +42,18 @@ test("replacing the list content", function(assert) {
 test("adding to the front of the list content", function(assert) {
   var content = generateContent(nItems);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
-  Ember.run(function() {
+  run(function() {
     content.unshiftObject({name: "Item -1"});
   });
 
   var positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item -1", "The item has been inserted in the list");
 
   var expectedRows = Math.ceil((nItems + 1) / (width / itemWidth));
@@ -63,22 +68,22 @@ test("adding to the front of the list content", function(assert) {
 test("inserting in the middle of visible content", function(assert) {
   var content = generateContent(nItems);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
-  Ember.run(function() {
+  run(function() {
     content.insertAt(2, {name: "Item 2'"});
   });
 
   var positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 1", "The item has been inserted in the list");
 
   assert.equal(
-    Ember.$(positionSorted[2]).text().trim(),
+    $(positionSorted[2]).text().trim(),
     "Item 2'", "The item has been inserted in the list");
 
   checkContent(this, assert, 0, 50);
@@ -87,12 +92,12 @@ test("inserting in the middle of visible content", function(assert) {
 test("clearing the content", function(assert) {
   var content = generateContent(nItems);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
-  Ember.run(function() {
+  run(function() {
     content.clear();
   });
 
@@ -104,38 +109,38 @@ test("clearing the content", function(assert) {
 test("deleting the first element", function(assert) {
   var content = generateContent(nItems);
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
   var positionSorted = sortItemsByPosition(this);
 
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 1", "Item 1 has not been removed from the list.");
 
-  Ember.run(function() {
+  run(function() {
     content.removeAt(0);
   });
 
   positionSorted = sortItemsByPosition(this);
 
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 2", "Item 1 has been remove from the list.");
     checkContent(this, assert, 0, 50);
 });
 
 test("working with an ArrayProxy", function(assert) {
-  var content = Ember.ArrayProxy.create({content: Ember.A(generateContent(nItems)) });
+  var content = ArrayProxy.create({content: A(generateContent(nItems)) });
 
-  Ember.run(()=>{
+  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content});
-    this.render(template);
+    this.render(fixedGridTemplate);
   });
 
-  Ember.run(()=>{
+  run(()=>{
     assert.equal(findItems(this)
       .filter(function(){ return $(this).css('display') !== 'none'; })
       .length, 60, "The rendered list was updated");
@@ -144,3 +149,34 @@ test("working with an ArrayProxy", function(assert) {
     checkContent(this, assert, 0, 50);
   });
 });
+
+test("indexes update correctly", function(assert) {
+  var content = generateContent(30);
+  var filterIndexes  = [];
+
+  run(()=>{
+    this.setProperties({height, width, itemHeight, itemWidth, content, filterIndexes});
+    this.render(indexedTemplate);
+  });
+
+  run(()=>{
+    this.set('content', [content[1], content[3], content[7], content[13]]);
+  });
+
+  run(()=>{
+    assert.equal(
+      findVisibleItems(this).text().split(':').sort().join(":"), ":0:1:2:3", "The indexes updated correctly"
+    );
+  });
+
+  run(()=>{
+    this.set('content', [content[1], content[3], content[7], content[13], content[27]]);
+  });
+
+  run(()=>{
+    assert.equal(
+      findVisibleItems(this).text().split(':').sort().join(":"), ":0:1:2:3:4", "The indexes updated correctly"
+    );
+  });
+});
+

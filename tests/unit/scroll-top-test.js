@@ -1,6 +1,13 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
+import RSVP from 'rsvp';
 import { test, moduleForComponent } from 'ember-qunit';
-import { findScrollable, generateContent, sortItemsByPosition, checkContent } from '../helpers/helpers';
+import {
+  findScrollable,
+  generateContent,
+  sortItemsByPosition,
+  checkContent
+} from '../helpers/helpers';
 import template from '../templates/fixed-grid';
 
 var raf = window.requestAnimationFrame;
@@ -9,8 +16,6 @@ if (raf === undefined) {
         setTimeout(callback, 16);
     };
 }
-
-var RSVP = Ember.RSVP;
 
 var size;
 // lifted from antiscroll MIT license
@@ -23,13 +28,13 @@ function scrollbarSize() {
     );
 
     $('body').append(div);
-    var w1 = $(div).innerWidth();
-    var w2 = $('div', div).innerWidth();
+    var w1 = $(div)[0].offsetWidth;
+    var w2 = $('div', div)[0].offsetWidth;
     $(div).remove();
 
     size = w1 - w2;
   }
-
+  
   return size;
 }
 
@@ -43,7 +48,7 @@ test("base case", function(assert) {
   var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
   var offsetY = 0;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
     this.render(template);
   });
@@ -53,10 +58,10 @@ test("base case", function(assert) {
   var positionSorted = sortItemsByPosition(this);
 
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 1", "The first item has not been hidden");
 
-  Ember.run(() => {
+  run(() => {
     this.set('width', 150);
   });
 
@@ -65,10 +70,10 @@ test("base case", function(assert) {
 });
 
 test("scroll but within content length", function(assert){
-  var width = 100+scrollbarSize(), height = 100+scrollbarSize(), itemWidth = 50, itemHeight = 50;
+  var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
   var offsetY = 100;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({
       width, height, itemWidth, itemHeight, content, offsetY });
     this.render(template);
@@ -77,13 +82,13 @@ test("scroll but within content length", function(assert){
   assert.equal(
     findScrollable(this).prop('scrollTop'), 50, 'Scrolled one row.');
 
-  Ember.run(()=>{
+  run(()=>{
     this.set('width', 150+scrollbarSize());
   });
 
   return new RSVP.Promise(function (resolve) {
     raf(() => {
-      Ember.run(resolve);
+      run(resolve);
     });
   }).then(() => {
     assert.equal(
@@ -92,7 +97,7 @@ test("scroll but within content length", function(assert){
     var positionSorted = sortItemsByPosition(this);
 
     assert.equal(
-      Ember.$(positionSorted[0]).text().trim(),
+      $(positionSorted[0]).text().trim(),
       "Item 1", "The first item is not visible but in buffer.");
     checkContent(this, assert, 0, 5);
   });
@@ -103,7 +108,7 @@ test("scroll within content length, beyond buffer", function(assert){
   var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
   var offsetY = 0;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({
       width, height, itemWidth, itemHeight, offsetY,
       buffer: 0,
@@ -113,13 +118,13 @@ test("scroll within content length, beyond buffer", function(assert){
 
   let positionSorted = sortItemsByPosition(this);
   assert.equal(
-    Ember.$(positionSorted[0]).text().trim(),
+    $(positionSorted[0]).text().trim(),
     "Item 1", "The first cell should be the first item.");
 
   findScrollable(this).prop('scrollTop', 150);
   return new RSVP.Promise(function (resolve) {
     raf(() => {
-      Ember.run(resolve);
+      run(resolve);
     });
   }).then(() => {
 
@@ -129,15 +134,15 @@ test("scroll within content length, beyond buffer", function(assert){
     let positionSorted = sortItemsByPosition(this, true);
 
     assert.equal(
-      Ember.$(positionSorted[0]).text().trim(),
+      $(positionSorted[0]).text().trim(),
       "Item 7", "The items before what is on screen is not visible.");
 
-    Ember.run(()=>{
+    run(()=>{
       this.set('width', 200+scrollbarSize());
     });
     return new RSVP.Promise(function (resolve) {
       raf(() => {
-        Ember.run(resolve);
+        run(resolve);
       });
     });
   }).then(() => {
@@ -145,7 +150,7 @@ test("scroll within content length, beyond buffer", function(assert){
       findScrollable(this).prop('scrollTop'), 50, 'Scrolled down one row.');
     let positionSorted = sortItemsByPosition(this, true);
     assert.equal(
-      Ember.$(positionSorted[0]).text().trim(),
+      $(positionSorted[0]).text().trim(),
       "Item 5", "The fifth item is first rendered.");
     checkContent(this, assert, 4, 5);
   });
@@ -155,14 +160,14 @@ test("scroll but beyond content length", function(assert) {
   var width = 100+scrollbarSize(), height = 500, itemWidth = 50, itemHeight = 50;
   var offsetY = 1000;
 
-  Ember.run(() => {
+  run(() => {
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
     this.render(template);
   });
 
   assert.equal(findScrollable(this).prop('scrollTop'), 0);
 
-  Ember.run(() => {
+  run(() => {
     this.set('width', 150+scrollbarSize());
   });
 

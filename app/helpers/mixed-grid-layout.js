@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import MixedGrid from 'ember-collection/layouts/mixed-grid';
 
-export default Ember.Helper.helper(function (params, hash) {
+export default helper(function (params) {
   return new MixedGrid(params[0]);
 });
