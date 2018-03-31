@@ -36,7 +36,6 @@ export default Component.extend({
     // this.cellCount = undefined;
     this.contentElement = undefined;
     this._cells = A();
-    this._cellMap = Object.create(null);
 
     // TODO: Super calls should always be at the top of the constructor.
     // I had to move the super call after the properties were defined to
@@ -141,9 +140,6 @@ export default Component.extend({
       this._cellLayout.length = numItems;
     }
 
-    var priorMap = this._cellMap;
-    var cellMap = Object.create(null);
-
     var index = this._cellLayout.indexAt(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
     var count = this._cellLayout.count(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
     var items = this._items;
@@ -157,40 +153,24 @@ export default Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = identity(items.objectAt(itemIndex));
-      if (priorMap) {
-        cell = priorMap[itemKey];
-      }
-      if (cell) {
-        style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
-        set(cell, 'style', style);
-        set(cell, 'hidden', false);
-        set(cell, 'key', itemKey);
-        set(cell, 'index', itemIndex);
-        cellMap[itemKey] = cell;
-      } else {
-        newItems.push(itemIndex);
-      }
+      newItems.push(itemIndex);
     }
 
     for (i=0; i<this._cells.length; i++) {
       cell = this._cells[i];
-      if (!cellMap[cell.key]) {
-        if (newItems.length) {
-          itemIndex = newItems.pop();
-          let item = items.objectAt(itemIndex);
-          itemKey = identity(item);
-          style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
-          set(cell, 'style', style);
-          set(cell, 'key', itemKey);
-          set(cell, 'index', itemIndex);
-          set(cell, 'item', item);
-          set(cell, 'hidden', false);
-          cellMap[itemKey] = cell;
-        } else {
-          set(cell, 'hidden', true);
-          set(cell, 'style', 'height: 0; display: none;');
-        }
+      if (newItems.length) {
+        itemIndex = newItems.pop();
+        let item = items.objectAt(itemIndex);
+        itemKey = identity(item);
+        style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
+        set(cell, 'style', style);
+        set(cell, 'key', itemKey);
+        set(cell, 'index', itemIndex);
+        set(cell, 'item', item);
+        set(cell, 'hidden', false);
+      } else {
+        set(cell, 'hidden', true);
+        set(cell, 'style', 'height: 0; display: none;');
       }
     }
 
@@ -200,10 +180,8 @@ export default Component.extend({
       itemKey = identity(item);
       style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
       cell = new Cell(itemKey, item, itemIndex, style);
-      cellMap[itemKey] = cell;
       this._cells.pushObject(cell);
     }
-    this._cellMap = cellMap;
   },
 
   _isGlimmer2() {
