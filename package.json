@@ -49,7 +49,7 @@
   "dependencies": {
     "ember-cli-babel": "^6.8.2",
     "ember-cli-htmlbars": "^2.0.1",
-    "layout-bin-packer": "^1.2.0"
+    "layout-bin-packer": "^1.4.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
