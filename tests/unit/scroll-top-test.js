@@ -78,17 +78,23 @@ test("scroll but within content length", function(assert){
       width, height, itemWidth, itemHeight, content, offsetY });
     this.render(template);
   });
-
-  assert.equal(
-    findScrollable(this).prop('scrollTop'), 50, 'Scrolled one row.');
-
-  run(()=>{
-    this.set('width', 150+scrollbarSize());
-  });
-
   return new RSVP.Promise(function (resolve) {
     raf(() => {
       run(resolve);
+    });
+  }).then(() => {
+    assert.equal(
+      findScrollable(this).prop('scrollTop'), 50, 'Scrolled one row.');
+
+    run(()=>{
+      this.set('width', 150+scrollbarSize());
+    });
+
+  }).then(() => {
+    return new RSVP.Promise(function (resolve) {
+      raf(() => {
+        run(resolve);
+      });
     });
   }).then(() => {
     assert.equal(
