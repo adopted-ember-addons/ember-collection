@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.0.0-alpha.9](https://github.com/emberjs/ember-collection/tree/1.0.0-alpha.9) (2018-08-02)
+[Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.8...1.0.0-alpha.9)
+
+**Closed issues:**
+
+- Publish alpha 8 [\#171](https://github.com/emberjs/ember-collection/issues/171)
+- Publish v1.0.0-alpha.8 to NPM Repository [\#168](https://github.com/emberjs/ember-collection/issues/168)
+- didInitAttrs and Ember.k DEPRECATION warnings for ember 2.13.1 [\#150](https://github.com/emberjs/ember-collection/issues/150)
+
+**Merged pull requests:**
+
+- Fix test that fails in recent Firefox & Safari versions under some circumstances [\#174](https://github.com/emberjs/ember-collection/pull/174) ([lukemelia](https://github.com/lukemelia))
+- Remove arrayObserver when the component is destroyed [\#173](https://github.com/emberjs/ember-collection/pull/173) ([pieter-v](https://github.com/pieter-v))
+- Upgrade `layout-bin-packer` [\#172](https://github.com/emberjs/ember-collection/pull/172) ([alexlafroscia](https://github.com/alexlafroscia))
+
 ## [v1.0.0-alpha.8](https://github.com/emberjs/ember-collection/tree/v1.0.0-alpha.8) (2018-01-16)
 [Full Changelog](https://github.com/emberjs/ember-collection/compare/v1.0.0-alpha.7...v1.0.0-alpha.8)
 
