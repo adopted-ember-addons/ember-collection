@@ -6,7 +6,7 @@
 <hr />
 <div class="mixed" style="position:relative;height:500px;">
   {{#ember-collection items=model estimated-height=800 estimated-width=1000 buffer=10 cell-layout=(percentage-columns-layout model.length columns 50) as |item index|}}
-    <div class="list-item">
+    <div class="list-item" tabindex=0>
       {{item.name}}
     </div>
   {{/ember-collection}}
