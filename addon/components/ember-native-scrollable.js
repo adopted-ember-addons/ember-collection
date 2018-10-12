@@ -1,5 +1,6 @@
 import { join } from '@ember/runloop';
 import Component from '@ember/component';
+import { get } from '@ember/object';
 import { translate } from 'ember-collection/utils/translate';
 import { styleProperty } from 'ember-collection/utils/style-properties';
 
@@ -118,14 +119,16 @@ export default Component.extend({
     if (scrollChanged || clientSizeChanged) {
       join(this, function sendActionsFromScrollCheck(){
         if (scrollChanged) {
-          // TODO: Migrate to closure actions...
-          // eslint-disable-next-line
-          this.sendAction('scrollChange', scrollLeft, scrollTop);
+          let scrollChangeAction = get(this, 'scrollChange');
+          if (scrollChangeAction) {
+            scrollChangeAction(scrollLeft, scrollTop);
+          }
         }
         if (clientSizeChanged) {
-          // TODO: Migrate to closure actions...
-          // eslint-disable-next-line
-          this.sendAction('clientSizeChange', clientWidth, clientHeight);
+          let clientSizeChangeAction = get(this, 'clientSizeChange');
+          if (clientSizeChangeAction) {
+            clientSizeChangeAction(clientWidth, clientHeight);
+          }
         }
       });
     }
