@@ -16,7 +16,7 @@
 </p>
 <hr>
 <div class="simple-list"
-  style={{htmlSafe (concat "position:relative;width:" containerWidth "px;height:" containerHeight "px;")}}>
+  style={{html-safe (concat "position:relative;width:" containerWidth "px;height:" containerHeight "px;")}}>
   {{#ember-collection items=model buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item index|}}
     <div class="list-item">
       {{index}} - {{item.name}}

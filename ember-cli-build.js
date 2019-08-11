@@ -1,8 +1,11 @@
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var EmberAddon = require("ember-cli/lib/broccoli/ember-addon");
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     // Add options here
+    "ember-cli-string-helpers": {
+      only: ["html-safe"]
+    }
   });
 
   /*
