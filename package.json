@@ -42,7 +42,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "https://github.com/emberjs/ember-collection",
+  "repository": "https://github.com/adopted-ember-addons/ember-collection",
   "license": "MIT",
   "author": "Erik Bryn, Yapp Inc., and contributors.",
   "directories": {

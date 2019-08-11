@@ -1,5 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = {
-  extends: 'recommended'
+  extends: "recommended",
+  rules: {
+    "no-inline-styles": { allowDynamicStyles: true }
+  }
 };

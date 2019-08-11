@@ -1,0 +1,33 @@
+{
+  "eslint.autoFixOnSave": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/tmp": true,
+    "**/assets": true,
+    "**/dist": true,
+    "**/prod": true,
+    "**/vendor": true
+  },
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "html.format.enable": true,
+  "html.format.indentHandlebars": true,
+  "html.format.maxPreserveNewLines": 0,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/tmp": true,
+    "**/.watchmanconfig": true,
+    "**/.npmignore": true,
+    "**/.travis.yml": true,
+    "**/LICENSE.md": true
+  },
+  "[html]": {
+    "editor.formatOnSave": false
+  }
+}
