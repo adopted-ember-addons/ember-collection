@@ -117,15 +117,11 @@ export default Component.extend({
 
     if (scrollChanged || clientSizeChanged) {
       join(this, function sendActionsFromScrollCheck() {
-        if (scrollChanged) {
-          // TODO: Migrate to closure actions...
-          // eslint-disable-next-line
-          this.sendAction('scrollChange', scrollLeft, scrollTop);
+        if (scrollChanged && this.scrollChange) {
+          this.scrollChange(scrollLeft, scrollTop);
         }
-        if (clientSizeChanged) {
-          // TODO: Migrate to closure actions...
-          // eslint-disable-next-line
-          this.sendAction('clientSizeChange', clientWidth, clientHeight);
+        if (clientSizeChanged && this.clientSizeChange) {
+          this.clientSizeChange(clientWidth, clientHeight);
         }
       });
     }
