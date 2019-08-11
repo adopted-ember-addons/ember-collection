@@ -9,6 +9,6 @@ export default hbs`<div style={{size-to-style width height}}>{{#ember-collection
     scroll-top=offsetY
     buffer=buffer
     class="ember-collection"
-    as |item| ~}}
+    as |item|}}
   <div class="list-item">{{item.name}}</div>
-{{~/ember-collection~}}</div>`;
+{{/ember-collection~}}</div>`;
