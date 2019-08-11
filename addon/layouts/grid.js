@@ -1,14 +1,13 @@
-import FixedGrid from 'layout-bin-packer/fixed-grid';
-import { formatPixelStyle } from '../utils/style-generators';
+import FixedGrid from "layout-bin-packer/fixed-grid";
+import { formatPixelStyle } from "../utils/style-generators";
 
-export default class Grid
-{
+export default class Grid {
   constructor(cellWidth, cellHeight) {
     this.length = 0;
     this.bin = new FixedGrid(this, cellWidth, cellHeight);
   }
 
-  contentSize(clientWidth/*, clientHeight*/) {
+  contentSize(clientWidth /*, clientHeight*/) {
     return {
       width: clientWidth,
       height: this.bin.height(clientWidth)

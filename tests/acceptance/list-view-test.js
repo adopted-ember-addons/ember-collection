@@ -1,14 +1,14 @@
-import { setupApplicationTest } from 'ember-qunit';
-import { module, skip } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { setupApplicationTest } from "ember-qunit";
+import { module, skip } from "qunit";
+import { currentURL, visit } from "@ember/test-helpers";
 
-module('Acceptance | ember collection', function(hooks) {
+module("Acceptance | ember collection", function(hooks) {
   setupApplicationTest(hooks);
 
-  skip('visiting /list-view', async function(assert) {
-    await visit('/list-view');
+  skip("visiting /list-view", async function(assert) {
+    await visit("/list-view");
 
-    assert.equal(currentURL(), '/list-view');
+    assert.equal(currentURL(), "/list-view");
   });
 
   /* FOLLOWING IS OLD ACCEPTANCE TEST CODE THAT NEEDS TO BE REWRITTEN */

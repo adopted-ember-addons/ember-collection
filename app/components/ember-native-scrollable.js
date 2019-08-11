@@ -1,1 +1,1 @@
-export { default } from 'ember-collection/components/ember-native-scrollable';
+export { default } from "ember-collection/components/ember-native-scrollable";

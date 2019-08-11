@@ -1,11 +1,12 @@
-import Controller from '@ember/controller';
+import Controller from "@ember/controller";
 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex ;
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -27,21 +28,21 @@ export default Controller.extend({
 
   actions: {
     updateContainerWidth: function(value) {
-      this.set('containerWidth', parseInt(value, 10));
+      this.set("containerWidth", parseInt(value, 10));
     },
 
     updateContainerHeight: function(value) {
-      this.set('containerHeight', parseInt(value, 10));
+      this.set("containerHeight", parseInt(value, 10));
     },
 
     shuffle: function() {
-        this.set('model', shuffle(this.get('model').slice(0)));
+      this.set("model", shuffle(this.get("model").slice(0)));
     },
 
     makeSquare: function() {
       this.setProperties({
         itemWidth: 100,
-        itemHeight: 100,
+        itemHeight: 100
       });
     },
 

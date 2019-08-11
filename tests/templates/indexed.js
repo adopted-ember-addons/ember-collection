@@ -1,4 +1,4 @@
-import hbs from 'htmlbars-inline-precompile';
+import hbs from "htmlbars-inline-precompile";
 
 export default hbs`<div style={{size-to-style width height}}>{{#ember-collection
     items=content

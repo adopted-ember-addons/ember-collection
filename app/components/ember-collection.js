@@ -1,1 +1,1 @@
-export { default } from 'ember-collection/components/ember-collection';
+export { default } from "ember-collection/components/ember-collection";

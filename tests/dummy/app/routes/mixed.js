@@ -1,7 +1,7 @@
-import Route from '@ember/routing/route';
+import Route from "@ember/routing/route";
 
 function getRandomInt() {
-  return Math.floor(Math.random() * (251) + 75);
+  return Math.floor(Math.random() * 251 + 75);
 }
 export default Route.extend({
   model: function() {
@@ -10,7 +10,7 @@ export default Route.extend({
       var width = getRandomInt();
       var height = getRandomInt();
       items.push({
-        name: 'Item ' + (i + 1) + '(' + width + 'x' + height + ')',
+        name: "Item " + (i + 1) + "(" + width + "x" + height + ")",
         width: width,
         height: height
       });

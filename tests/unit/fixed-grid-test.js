@@ -1,31 +1,41 @@
-import $ from 'jquery';
-import { run } from '@ember/runloop';
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import {
-  generateContent,
-  sortItemsByPosition
-} from '../helpers/helpers';
-import template from '../templates/fixed-grid';
+import $ from "jquery";
+import { run } from "@ember/runloop";
+import { module, test } from "qunit";
+import { setupRenderingTest } from "ember-qunit";
+import { render } from "@ember/test-helpers";
+import { generateContent, sortItemsByPosition } from "../helpers/helpers";
+import template from "../templates/fixed-grid";
 
-module('display in fixed grid', function(hooks) {
+module("display in fixed grid", function(hooks) {
   setupRenderingTest(hooks);
 
-  test('display 5 in 6', function(assert) {
-    var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
+  test("display 5 in 6", function(assert) {
+    var width = 150,
+      height = 500,
+      itemWidth = 50,
+      itemHeight = 50;
     var offsetY = 100;
     var content = generateContent(5);
 
     run(async () => {
-      this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+      this.setProperties({
+        width,
+        height,
+        itemWidth,
+        itemHeight,
+        content,
+        offsetY
+      });
       await render(template);
     });
     var positionSorted = sortItemsByPosition(this);
 
     assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The first item has not been hidden"
+      $(positionSorted[0])
+        .text()
+        .trim(),
+      "Item 1",
+      "The first item has not been hidden"
     );
   });
 });

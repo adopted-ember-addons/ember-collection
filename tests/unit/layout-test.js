@@ -1,9 +1,9 @@
-import { run } from '@ember/runloop';
-import hbs from 'htmlbars-inline-precompile';
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import { generateContent } from '../helpers/helpers';
+import { run } from "@ember/runloop";
+import hbs from "htmlbars-inline-precompile";
+import { module, test } from "qunit";
+import { setupRenderingTest } from "ember-qunit";
+import { render } from "@ember/test-helpers";
+import { generateContent } from "../helpers/helpers";
 
 var nItems = 5;
 var itemWidth = 100;
@@ -12,23 +12,27 @@ var width = 500;
 var height = 400;
 var columns = [25, 50, 15, 10];
 
-module('Basic layout tests', function(hooks) {
+module("Basic layout tests", function(hooks) {
   setupRenderingTest(hooks);
 
   test("ember-collection calls formatItemStyle", function(assert) {
     var content = generateContent(nItems);
     var callCount = 0;
     var fakeLayout = {
-        indexAt: function() { return 0; },
-        count: function() { return nItems; },
-        contentSize: function() {
-            return {width, height};
-        },
-        formatItemStyle: function() {
-            callCount++;
-        }
+      indexAt: function() {
+        return 0;
+      },
+      count: function() {
+        return nItems;
+      },
+      contentSize: function() {
+        return { width, height };
+      },
+      formatItemStyle: function() {
+        callCount++;
+      }
     };
-    
+
     var template = hbs`<div style={{size-to-style width height}}>{{#ember-collection
       items=content
       cell-layout=fakeLayout
@@ -41,14 +45,22 @@ module('Basic layout tests', function(hooks) {
       as |item| ~}}
     <div class="list-item">{{item.name}}</div>
   {{~/ember-collection~}}</div>`;
-    
+
     run(async () => {
-      this.setProperties({height, width, itemHeight, itemWidth, content, columns, fakeLayout});
+      this.setProperties({
+        height,
+        width,
+        itemHeight,
+        itemWidth,
+        content,
+        columns,
+        fakeLayout
+      });
       await render(template);
     });
 
-    run(()=>{
-      assert.equal(callCount, nItems, 'formatItemStyle is called for each rendered item');
+    run(() => {
+      assert.equal(callCount, nItems, "formatItemStyle is called for each rendered item");
     });
   });
 });

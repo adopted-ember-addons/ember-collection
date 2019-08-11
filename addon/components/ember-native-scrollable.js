@@ -1,9 +1,9 @@
-import { join } from '@ember/runloop';
-import Component from '@ember/component';
-import { translate } from 'ember-collection/utils/translate';
-import { styleProperty } from 'ember-collection/utils/style-properties';
+import { join } from "@ember/runloop";
+import Component from "@ember/component";
+import { translate } from "ember-collection/utils/translate";
+import { styleProperty } from "ember-collection/utils/style-properties";
 
-const overflowScrollingProp = styleProperty('overflowScrolling');
+const overflowScrollingProp = styleProperty("overflowScrolling");
 
 export default Component.extend({
   init() {
@@ -15,9 +15,9 @@ export default Component.extend({
     this._super();
   },
   didReceiveAttrs() {
-    this._contentSize = this.getAttr('content-size');
-    this._scrollLeft = this.getAttr('scroll-left');
-    this._scrollTop = this.getAttr('scroll-top');
+    this._contentSize = this.getAttr("content-size");
+    this._scrollLeft = this.getAttr("scroll-left");
+    this._scrollTop = this.getAttr("scroll-top");
   },
   didInsertElement() {
     this.contentElement = this.element.firstElementChild;
@@ -36,25 +36,25 @@ export default Component.extend({
   },
   applyStyle() {
     if (overflowScrollingProp) {
-      this.element.style.overflow = 'scroll';
-      this.element.style[overflowScrollingProp] = 'touch';
+      this.element.style.overflow = "scroll";
+      this.element.style[overflowScrollingProp] = "touch";
     } else {
-      this.element.style.overflow = 'auto';
+      this.element.style.overflow = "auto";
     }
 
     // hack to force render buffer so outside doesn't repaint on scroll
     translate(this.element, 0, 0);
 
-    this.element.style.position = 'absolute';
+    this.element.style.position = "absolute";
     this.element.style.left = 0;
     this.element.style.top = 0;
     this.element.style.bottom = 0;
     this.element.style.right = 0;
   },
   applyContentSize() {
-    this.contentElement.style.position = 'relative';
-    this.contentElement.style.width = this._contentSize.width + 'px';
-    this.contentElement.style.height = this._contentSize.height + 'px';
+    this.contentElement.style.position = "relative";
+    this.contentElement.style.width = this._contentSize.width + "px";
+    this.contentElement.style.height = this._contentSize.height + "px";
   },
   syncScrollFromAttr() {
     if (this._appliedScrollTop !== this._scrollTop) {
@@ -116,7 +116,7 @@ export default Component.extend({
     }
 
     if (scrollChanged || clientSizeChanged) {
-      join(this, function sendActionsFromScrollCheck(){
+      join(this, function sendActionsFromScrollCheck() {
         if (scrollChanged) {
           // TODO: Migrate to closure actions...
           // eslint-disable-next-line

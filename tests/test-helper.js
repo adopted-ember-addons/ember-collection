@@ -1,12 +1,10 @@
-import Ember from 'ember';
+import Ember from "ember";
 
-import App from '../app';
-import config from '../config/environment';
-import { start } from 'ember-cli-qunit';
+import App from "../app";
+import config from "../config/environment";
+import { start } from "ember-cli-qunit";
 
-import {
-  setApplication
-} from '@ember/test-helpers';
+import { setApplication } from "@ember/test-helpers";
 
 setApplication(App.create(config.APP));
 start();

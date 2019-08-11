@@ -1,4 +1,4 @@
-import Controller from '@ember/controller';
+import Controller from "@ember/controller";
 
 export default Controller.extend({
   itemWidth: 100,
@@ -10,17 +10,17 @@ export default Controller.extend({
 
   actions: {
     updateContainerWidth: function(value) {
-      this.set('containerWidth', parseInt(value, 10));
+      this.set("containerWidth", parseInt(value, 10));
     },
 
     updateContainerHeight: function(value) {
-      this.set('containerHeight', parseInt(value, 10));
+      this.set("containerHeight", parseInt(value, 10));
     },
 
     makeSquare: function() {
       this.setProperties({
         itemWidth: 100,
-        itemHeight: 100,
+        itemHeight: 100
       });
     },
 
@@ -45,7 +45,7 @@ export default Controller.extend({
       });
     },
 
-    scrollChange: function(scrollLeft, scrollTop){
+    scrollChange: function(scrollLeft, scrollTop) {
       this.setProperties({
         scrollLeft: scrollLeft,
         scrollTop: scrollTop

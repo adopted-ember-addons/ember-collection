@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
+    "babel-eslint": "^10.0.2",
     "broccoli-asset-rev": "^2.7.0",
     "ember-cli": "~3.4.4",
     "ember-cli-dependency-checker": "^3.0.0",
@@ -35,9 +36,12 @@
     "ember-source": "~3.4.0",
     "ember-source-channel-url": "^1.1.0",
     "ember-try": "^1.0.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
     "loader.js": "^4.7.0",
+    "prettier": "^1.18.2",
     "qunit-dom": "^0.7.1"
   },
   "keywords": [

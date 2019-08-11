@@ -1,39 +1,37 @@
-import { run } from '@ember/runloop';
-import Ember from 'ember';
-import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
-import { module, skip } from 'qunit';
-import {
-  generateContent,
-  findItems,
-  findVisibleItems
-} from '../helpers/helpers';
+import { run } from "@ember/runloop";
+import Ember from "ember";
+import { setupRenderingTest } from "ember-qunit";
+import "@ember/test-helpers";
+import { module, skip } from "qunit";
+import { generateContent, findItems, findVisibleItems } from "../helpers/helpers";
 // import hbs from 'htmlbars-inline-precompile';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
 let compile, ListItemView, ReusableListItemView;
 
-module('View recycling', function(hooks) {
+module("View recycling", function(hooks) {
   setupRenderingTest(hooks);
 
-  skip("recycling complex views long list", function(assert){
+  skip("recycling complex views long list", function(assert) {
     var content = generateContent(100),
       height = 50,
       rowHeight = 50,
       itemViewClass = ListItemView.extend({
         innerViewClass: Ember.View.extend({
-          didInsertElement: function(){
+          didInsertElement: function() {
             innerViewInsertionCount++;
           },
-          willDestroyElement: function(){
+          willDestroyElement: function() {
             innerViewDestroyCount++;
           }
         }),
         template: compile("{{name}} {{#view view.innerViewClass}}{{/view}}")
       });
 
-    var listViewInsertionCount, listViewDestroyCount,
-      innerViewInsertionCount, innerViewDestroyCount;
+    var listViewInsertionCount,
+      listViewDestroyCount,
+      innerViewInsertionCount,
+      innerViewDestroyCount;
 
     listViewInsertionCount = 0;
     listViewDestroyCount = 0;
@@ -42,7 +40,7 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     var view;
-    run(this, function(){
+    run(this, function() {
       view = this.subject({
         content: content,
         height: height,
@@ -100,27 +98,28 @@ module('View recycling', function(hooks) {
 
     assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement");
     assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement");
-
   });
 
-  skip("recycling complex views short list", function(assert){
+  skip("recycling complex views short list", function(assert) {
     var content = generateContent(2),
       height = 50,
       rowHeight = 50,
       itemViewClass = ListItemView.extend({
         innerViewClass: Ember.View.extend({
-          didInsertElement: function(){
+          didInsertElement: function() {
             innerViewInsertionCount++;
           },
-          willDestroyElement: function(){
+          willDestroyElement: function() {
             innerViewDestroyCount++;
           }
         }),
         template: compile("{{name}} {{#view view.innerViewClass}}{{/view}}")
       });
 
-    var listViewInsertionCount, listViewDestroyCount,
-      innerViewInsertionCount, innerViewDestroyCount;
+    var listViewInsertionCount,
+      listViewDestroyCount,
+      innerViewInsertionCount,
+      innerViewDestroyCount;
 
     listViewInsertionCount = 0;
     listViewDestroyCount = 0;
@@ -129,7 +128,7 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     var view;
-    run(this, function(){
+    run(this, function() {
       view = this.subject({
         content: content,
         height: height,
@@ -145,16 +144,40 @@ module('View recycling', function(hooks) {
       });
     });
 
-    assert.equal(listViewInsertionCount, 0, "expected number of listView's didInsertElement (pre-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (pre-append)");
+    assert.equal(
+      listViewInsertionCount,
+      0,
+      "expected number of listView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (pre-append)"
+    );
 
     this.render();
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-append)");
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-append)"
+    );
 
-    assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
+    assert.equal(
+      innerViewInsertionCount,
+      2,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
 
     assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
@@ -163,56 +186,98 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(50);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 50)"
+    );
 
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 50)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 50)");
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 50)"
+    );
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-scroll to 50)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-scroll to 50)");
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-scroll to 50)"
+    );
 
     innerViewInsertionCount = 0;
     innerViewDestroyCount = 0;
 
     view.scrollTo(0);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 0)"
+    );
 
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 0)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 0)"
+    );
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-scroll to 0)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-scroll to 0)");
-
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-scroll to 0)"
+    );
   });
 
-  skip("recycling complex views long list, with ReusableListItemView", function(assert){
+  skip("recycling complex views long list, with ReusableListItemView", function(assert) {
     var content = generateContent(50),
       height = 50,
       rowHeight = 50,
       itemViewClass = Ember.ReusableListItemView.extend({
         innerViewClass: Ember.View.extend({
-          didInsertElement: function(){
+          didInsertElement: function() {
             innerViewInsertionCount++;
           },
-          willDestroyElement: function(){
+          willDestroyElement: function() {
             innerViewDestroyCount++;
           }
         }),
-        didInsertElement: function(){
+        didInsertElement: function() {
           this._super();
           listItemViewInsertionCount++;
         },
-        willDestroyElement: function(){
+        willDestroyElement: function() {
           this._super();
           listItemViewDestroyCount++;
         },
         template: compile("{{name}} {{#view view.innerViewClass}}{{/view}}")
       });
 
-    var listViewInsertionCount, listViewDestroyCount,
-      listItemViewInsertionCount, listItemViewDestroyCount,
-      innerViewInsertionCount, innerViewDestroyCount;
+    var listViewInsertionCount,
+      listViewDestroyCount,
+      listItemViewInsertionCount,
+      listItemViewDestroyCount,
+      innerViewInsertionCount,
+      innerViewDestroyCount;
 
     listViewInsertionCount = 0;
     listViewDestroyCount = 0;
@@ -224,7 +289,7 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     var view;
-    run(this, function(){
+    run(this, function() {
       view = this.subject({
         content: content,
         height: height,
@@ -240,23 +305,71 @@ module('View recycling', function(hooks) {
       });
     });
 
-    assert.equal(listViewInsertionCount, 0, "expected number of listView's didInsertElement (pre-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (pre-append)");
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (pre-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (pre-append)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (pre-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (pre-append)");
+    assert.equal(
+      listViewInsertionCount,
+      0,
+      "expected number of listView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (pre-append)"
+    );
 
     this.render();
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-append)");
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-append)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 2, "expected number of listItemView's didInsertElement (post-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's didInsertElement (post-append)");
+    assert.equal(
+      listItemViewInsertionCount,
+      2,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
 
-    assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
+    assert.equal(
+      innerViewInsertionCount,
+      2,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
 
     assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
@@ -267,12 +380,32 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(50);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 50)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 50)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 50)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 50)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 50)");
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-scroll to 50)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 50)"
+    );
 
     listItemViewInsertionCount = 0;
     listItemViewDestroyCount = 0;
@@ -281,41 +414,64 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(0);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 0)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 0)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 0)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 0)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-scroll to 0)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 0)"
+    );
   });
 
-  skip("recycling complex views short list, with ReusableListItemView", function(assert){
+  skip("recycling complex views short list, with ReusableListItemView", function(assert) {
     var content = generateContent(2),
       height = 50,
       rowHeight = 50,
       itemViewClass = ReusableListItemView.extend({
         innerViewClass: Ember.View.extend({
-          didInsertElement: function(){
+          didInsertElement: function() {
             innerViewInsertionCount++;
           },
-          willDestroyElement: function(){
+          willDestroyElement: function() {
             innerViewDestroyCount++;
           }
         }),
-        didInsertElement: function(){
+        didInsertElement: function() {
           this._super();
           listItemViewInsertionCount++;
         },
-        willDestroyElement: function(){
+        willDestroyElement: function() {
           this._super();
           listItemViewDestroyCount++;
         },
         template: compile("{{name}} {{#view view.innerViewClass}}{{/view}}")
       });
 
-    var listViewInsertionCount, listViewDestroyCount,
-      listItemViewInsertionCount, listItemViewDestroyCount,
-      innerViewInsertionCount, innerViewDestroyCount;
+    var listViewInsertionCount,
+      listViewDestroyCount,
+      listItemViewInsertionCount,
+      listItemViewDestroyCount,
+      innerViewInsertionCount,
+      innerViewDestroyCount;
 
     listViewInsertionCount = 0;
     listViewDestroyCount = 0;
@@ -327,7 +483,7 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     var view;
-    run(this, function(){
+    run(this, function() {
       view = this.subject({
         content: content,
         height: height,
@@ -343,23 +499,71 @@ module('View recycling', function(hooks) {
       });
     });
 
-    assert.equal(listViewInsertionCount, 0, "expected number of listView's didInsertElement (pre-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (pre-append)");
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (pre-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (pre-append)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (pre-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (pre-append)");
+    assert.equal(
+      listViewInsertionCount,
+      0,
+      "expected number of listView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (pre-append)"
+    );
 
     this.render();
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-append)");
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-append)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 2, "expected number of listItemView's didInsertElement (post-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's didInsertElement (post-append)");
+    assert.equal(
+      listItemViewInsertionCount,
+      2,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
 
-    assert.equal(innerViewInsertionCount, 2, "expected number of innerView's didInsertElement (post-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
+    assert.equal(
+      innerViewInsertionCount,
+      2,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
 
     assert.equal(findItems(this).length, 2, "The correct number of rows were rendered");
 
@@ -370,12 +574,32 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(50);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 50)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 50)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 50)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 50)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 50)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 50)");
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-scroll to 50)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 50)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 50)"
+    );
 
     listItemViewInsertionCount = 0;
     listItemViewDestroyCount = 0;
@@ -384,15 +608,35 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(0);
 
-    assert.equal(findItems(this).length, 2, "The correct number of rows were rendered (post-scroll to 0)");
+    assert.equal(
+      findItems(this).length,
+      2,
+      "The correct number of rows were rendered (post-scroll to 0)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 0)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 0)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 0)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 0)");
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-scroll to 0)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 0)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 0)"
+    );
   });
 
-  skip("recycling complex views with ReusableListItemView, handling empty slots at the end of the grid", function(assert){
+  skip("recycling complex views with ReusableListItemView, handling empty slots at the end of the grid", function(assert) {
     var content = generateContent(20),
       height = 150,
       rowHeight = 50,
@@ -400,27 +644,30 @@ module('View recycling', function(hooks) {
       elementWidth = 50,
       itemViewClass = ReusableListItemView.extend({
         innerViewClass: Ember.View.extend({
-          didInsertElement: function(){
+          didInsertElement: function() {
             innerViewInsertionCount++;
           },
-          willDestroyElement: function(){
+          willDestroyElement: function() {
             innerViewDestroyCount++;
           }
         }),
-        didInsertElement: function(){
+        didInsertElement: function() {
           this._super();
           listItemViewInsertionCount++;
         },
-        willDestroyElement: function(){
+        willDestroyElement: function() {
           this._super();
           listItemViewDestroyCount++;
         },
         template: compile("{{name}} {{#view view.innerViewClass}}{{/view}}")
       });
 
-    var listViewInsertionCount, listViewDestroyCount,
-      listItemViewInsertionCount, listItemViewDestroyCount,
-      innerViewInsertionCount, innerViewDestroyCount;
+    var listViewInsertionCount,
+      listViewDestroyCount,
+      listItemViewInsertionCount,
+      listItemViewDestroyCount,
+      innerViewInsertionCount,
+      innerViewDestroyCount;
 
     listViewInsertionCount = 0;
     listViewDestroyCount = 0;
@@ -432,7 +679,7 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     var view;
-    run(this, function(){
+    run(this, function() {
       view = this.subject({
         content: content,
         height: height,
@@ -450,26 +697,82 @@ module('View recycling', function(hooks) {
       });
     });
 
-    assert.equal(listViewInsertionCount, 0, "expected number of listView's didInsertElement (pre-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (pre-append)");
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (pre-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (pre-append)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (pre-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (pre-append)");
+    assert.equal(
+      listViewInsertionCount,
+      0,
+      "expected number of listView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (pre-append)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (pre-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (pre-append)"
+    );
 
     this.render();
 
-    assert.equal(listViewInsertionCount, 1, "expected number of listView's didInsertElement (post-append)");
-    assert.equal(listViewDestroyCount, 0, "expected number of listView's willDestroyElement (post-append)");
+    assert.equal(
+      listViewInsertionCount,
+      1,
+      "expected number of listView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listViewDestroyCount,
+      0,
+      "expected number of listView's willDestroyElement (post-append)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 8, "expected number of listItemView's didInsertElement (post-append)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's didInsertElement (post-append)");
+    assert.equal(
+      listItemViewInsertionCount,
+      8,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-append)"
+    );
 
-    assert.equal(innerViewInsertionCount, 8, "expected number of innerView's didInsertElement (post-append)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's didInsertElement (post-append)");
+    assert.equal(
+      innerViewInsertionCount,
+      8,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's didInsertElement (post-append)"
+    );
 
-    assert.equal(findItems(this).length, 8, "The correct number of items were rendered (post-append)");
-    assert.equal(findVisibleItems(this).length, 8, "The number of items that are not hidden with display:none (post-append)");
+    assert.equal(
+      findItems(this).length,
+      8,
+      "The correct number of items were rendered (post-append)"
+    );
+    assert.equal(
+      findVisibleItems(this).length,
+      8,
+      "The number of items that are not hidden with display:none (post-append)"
+    );
 
     listItemViewInsertionCount = 0;
     listItemViewDestroyCount = 0;
@@ -478,13 +781,37 @@ module('View recycling', function(hooks) {
 
     view.scrollTo(350);
 
-    assert.equal(findItems(this).length, 8, "The correct number of items were rendered (post-scroll to 350)");
-    assert.equal(findVisibleItems(this).length, 8, "The number of items that are not hidden with display:none (post-scroll to 350)");
+    assert.equal(
+      findItems(this).length,
+      8,
+      "The correct number of items were rendered (post-scroll to 350)"
+    );
+    assert.equal(
+      findVisibleItems(this).length,
+      8,
+      "The number of items that are not hidden with display:none (post-scroll to 350)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 0, "expected number of listItemView's didInsertElement (post-scroll to 350)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-scroll to 350)");
-    assert.equal(innerViewInsertionCount, 0, "expected number of innerView's didInsertElement (post-scroll to 350)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-scroll to 350)");
+    assert.equal(
+      listItemViewInsertionCount,
+      0,
+      "expected number of listItemView's didInsertElement (post-scroll to 350)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-scroll to 350)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      0,
+      "expected number of innerView's didInsertElement (post-scroll to 350)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-scroll to 350)"
+    );
 
     listItemViewInsertionCount = 0;
     listItemViewDestroyCount = 0;
@@ -492,16 +819,40 @@ module('View recycling', function(hooks) {
     innerViewDestroyCount = 0;
 
     run(function() {
-      view.set('width', 150);
+      view.set("width", 150);
     });
 
-    assert.equal(findItems(this).length, 12, "The correct number of items were rendered (post-expand to 3 columns)");
+    assert.equal(
+      findItems(this).length,
+      12,
+      "The correct number of items were rendered (post-expand to 3 columns)"
+    );
 
-    assert.equal(listItemViewInsertionCount, 4, "expected number of listItemView's didInsertElement (post-expand to 3 columns)");
-    assert.equal(listItemViewDestroyCount, 0, "expected number of listItemView's willDestroyElement (post-expand to 3 columns)");
-    assert.equal(innerViewInsertionCount, 4, "expected number of innerView's didInsertElement (post-expand to 3 columns)");
-    assert.equal(innerViewDestroyCount, 0, "expected number of innerView's willDestroyElement (post-expand to 3 columns)");
+    assert.equal(
+      listItemViewInsertionCount,
+      4,
+      "expected number of listItemView's didInsertElement (post-expand to 3 columns)"
+    );
+    assert.equal(
+      listItemViewDestroyCount,
+      0,
+      "expected number of listItemView's willDestroyElement (post-expand to 3 columns)"
+    );
+    assert.equal(
+      innerViewInsertionCount,
+      4,
+      "expected number of innerView's didInsertElement (post-expand to 3 columns)"
+    );
+    assert.equal(
+      innerViewDestroyCount,
+      0,
+      "expected number of innerView's willDestroyElement (post-expand to 3 columns)"
+    );
 
-    assert.equal(findVisibleItems(this).length, 12, "The number of items that are not hidden with display:none (post-expand to 3 columns)");
+    assert.equal(
+      findVisibleItems(this).length,
+      12,
+      "The number of items that are not hidden with display:none (post-expand to 3 columns)"
+    );
   });
 });

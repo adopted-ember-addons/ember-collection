@@ -1,12 +1,9 @@
-import $ from 'jquery';
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import {
-  generateContent,
-  sortItemsByPosition
-} from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import $ from "jquery";
+import { module, test } from "qunit";
+import { setupRenderingTest } from "ember-qunit";
+import { render } from "@ember/test-helpers";
+import { generateContent, sortItemsByPosition } from "../helpers/helpers";
+import hbs from "htmlbars-inline-precompile";
 
 let originalRaf = window.requestAnimationFrame;
 
@@ -27,7 +24,7 @@ let template = hbs`{{#if showComponent}}
 </div>
 {{/if}}`;
 
-module('raf', function(hooks) {
+module("raf", function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -40,22 +37,35 @@ module('raf', function(hooks) {
     };
   });
 
-  test('works without requestAnimationFrame', async function(assert) {
-      
-    var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
+  test("works without requestAnimationFrame", async function(assert) {
+    var width = 150,
+      height = 500,
+      itemWidth = 50,
+      itemHeight = 50;
     var offsetY = 100;
     var content = generateContent(5);
 
-    this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY, showComponent: true });
+    this.setProperties({
+      width,
+      height,
+      itemWidth,
+      itemHeight,
+      content,
+      offsetY,
+      showComponent: true
+    });
     await render(template);
     var positionSorted = sortItemsByPosition(this);
 
     assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "We rendered without requestAnimationFrame"
+      $(positionSorted[0])
+        .text()
+        .trim(),
+      "Item 1",
+      "We rendered without requestAnimationFrame"
     );
-    
+
     // Force the component to be torn down.
-    this.setProperties({showComponent: false});
+    this.setProperties({ showComponent: false });
   });
 });

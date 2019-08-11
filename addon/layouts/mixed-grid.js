@@ -1,14 +1,13 @@
-import ShelfFirst from 'layout-bin-packer/shelf-first';
-import { formatPixelStyle } from '../utils/style-generators';
+import ShelfFirst from "layout-bin-packer/shelf-first";
+import { formatPixelStyle } from "../utils/style-generators";
 
-export default class MixedGrid
-{
+export default class MixedGrid {
   constructor(content, width) {
     this.content = content;
     this.bin = new ShelfFirst(content, width);
   }
 
-  contentSize(clientWidth/*, clientHeight*/) {
+  contentSize(clientWidth /*, clientHeight*/) {
     return {
       width: clientWidth,
       height: this.bin.height(clientWidth)
@@ -34,7 +33,7 @@ export default class MixedGrid
   count(offsetX, offsetY, width, height) {
     return this.bin.numberVisibleWithin(offsetY, width, height, true);
   }
-  
+
   formatItemStyle(itemIndex, clientWidth, clientHeight) {
     let pos = this.positionAt(itemIndex, clientWidth, clientHeight);
     let width = this.widthAt(itemIndex, clientWidth, clientHeight);

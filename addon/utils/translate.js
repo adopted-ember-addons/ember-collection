@@ -1,13 +1,13 @@
-import { styleProperty, cssProperty } from './style-properties';
+import { styleProperty, cssProperty } from "./style-properties";
 
-const transformCSSProp   = cssProperty('transform');
-const transformStyleProp = styleProperty('transform');
-export const supports3D  = !!styleProperty('perspectiveOrigin');
-export const supports2D  = !!transformStyleProp;
+const transformCSSProp = cssProperty("transform");
+const transformStyleProp = styleProperty("transform");
+export const supports3D = !!styleProperty("perspectiveOrigin");
+export const supports2D = !!transformStyleProp;
 
 export function translatePosition(el, x, y) {
-  el.style.left = x+'px';
-  el.style.top  = y+'px';
+  el.style.left = x + "px";
+  el.style.top = y + "px";
 }
 
 export function translateTransform2D(el, x, y) {
@@ -38,14 +38,14 @@ function matrix3D(x, y) {
   return `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, ${x}, ${y}, 0, 1)`;
 }
 
-export const translate = (
-  supports3D ? translateTransform3D : (
-    supports2D ? translateTransform2D : translatePosition
-  )
-);
+export const translate = supports3D
+  ? translateTransform3D
+  : supports2D
+  ? translateTransform2D
+  : translatePosition;
 
-export const translateCSS = (
-  supports3D ? translateTransform3DCSS : (
-    supports2D ? translateTransform2DCSS : translatePositionCSS
-  )
-);
+export const translateCSS = supports3D
+  ? translateTransform3DCSS
+  : supports2D
+  ? translateTransform2DCSS
+  : translatePositionCSS;
