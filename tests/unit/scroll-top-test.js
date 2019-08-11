@@ -1,7 +1,9 @@
 import $ from 'jquery';
 import { run } from '@ember/runloop';
 import RSVP from 'rsvp';
-import { test, moduleForComponent } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import {
   findScrollable,
   generateContent,
@@ -40,143 +42,143 @@ function scrollbarSize() {
 
 var content = generateContent(5);
 
-moduleForComponent('ember-collection', 'scrollTop', {
-  integration: true
-});
+module('scrollTop', function(hooks) {
+  setupRenderingTest(hooks);
 
-test("base case", function(assert) {
-  var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
-  var offsetY = 0;
+  test("base case", function(assert) {
+    var width = 100, height = 500, itemWidth = 50, itemHeight = 50;
+    var offsetY = 0;
 
-  run(() => {
-    this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
-    this.render(template);
-  });
-
-  assert.equal(findScrollable(this).prop('scrollTop'), 0);
-
-  var positionSorted = sortItemsByPosition(this);
-
-  assert.equal(
-    $(positionSorted[0]).text().trim(),
-    "Item 1", "The first item has not been hidden");
-
-  run(() => {
-    this.set('width', 150);
-  });
-
-  assert.equal(findScrollable(this).prop('scrollTop'), 0);
-  checkContent(this, assert, 0, 5);
-});
-
-test("scroll but within content length", function(assert){
-  var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
-  var offsetY = 100;
-
-  run(() => {
-    this.setProperties({
-      width, height, itemWidth, itemHeight, content, offsetY });
-    this.render(template);
-  });
-  return new RSVP.Promise(function (resolve) {
-    raf(() => {
-      run(resolve);
-    });
-  }).then(() => {
-    assert.equal(
-      findScrollable(this).prop('scrollTop'), 50, 'Scrolled one row.');
-
-    run(()=>{
-      this.set('width', 150+scrollbarSize());
+    run(async () => {
+      this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+      await render(template);
     });
 
-  }).then(() => {
-    return new RSVP.Promise(function (resolve) {
-      raf(() => {
-        run(resolve);
-      });
-    });
-  }).then(() => {
-    assert.equal(
-      findScrollable(this).prop('scrollTop'), 0, 'No scroll with wider list.');
+    assert.equal(findScrollable(this).prop('scrollTop'), 0);
 
     var positionSorted = sortItemsByPosition(this);
 
     assert.equal(
       $(positionSorted[0]).text().trim(),
-      "Item 1", "The first item is not visible but in buffer.");
+      "Item 1", "The first item has not been hidden");
+
+    run(() => {
+      this.set('width', 150);
+    });
+
+    assert.equal(findScrollable(this).prop('scrollTop'), 0);
     checkContent(this, assert, 0, 5);
   });
 
-});
+  test("scroll but within content length", function(assert){
+    var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
+    var offsetY = 100;
 
-test("scroll within content length, beyond buffer", function(assert){
-  var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
-  var offsetY = 0;
-
-  run(() => {
-    this.setProperties({
-      width, height, itemWidth, itemHeight, offsetY,
-      buffer: 0,
-      content: generateContent(10) });
-    this.render(template);
-  });
-
-  let positionSorted = sortItemsByPosition(this);
-  assert.equal(
-    $(positionSorted[0]).text().trim(),
-    "Item 1", "The first cell should be the first item.");
-
-  findScrollable(this).prop('scrollTop', 150);
-  return new RSVP.Promise(function (resolve) {
-    raf(() => {
-      run(resolve);
-    });
-  }).then(() => {
-
-    assert.equal(
-      findScrollable(this).prop('scrollTop'), 150, 'scrolled to item 7');
-
-    let positionSorted = sortItemsByPosition(this, true);
-
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 7", "The items before what is on screen is not visible.");
-
-    run(()=>{
-      this.set('width', 200+scrollbarSize());
+    run(async () => {
+      this.setProperties({
+        width, height, itemWidth, itemHeight, content, offsetY });
+      await render(template);
     });
     return new RSVP.Promise(function (resolve) {
       raf(() => {
         run(resolve);
       });
+    }).then(() => {
+      assert.equal(
+        findScrollable(this).prop('scrollTop'), 50, 'Scrolled one row.');
+
+      run(()=>{
+        this.set('width', 150+scrollbarSize());
+      });
+
+    }).then(() => {
+      return new RSVP.Promise(function (resolve) {
+        raf(() => {
+          run(resolve);
+        });
+      });
+    }).then(() => {
+      assert.equal(
+        findScrollable(this).prop('scrollTop'), 0, 'No scroll with wider list.');
+
+      var positionSorted = sortItemsByPosition(this);
+
+      assert.equal(
+        $(positionSorted[0]).text().trim(),
+        "Item 1", "The first item is not visible but in buffer.");
+      checkContent(this, assert, 0, 5);
     });
-  }).then(() => {
-    assert.equal(
-      findScrollable(this).prop('scrollTop'), 50, 'Scrolled down one row.');
-    let positionSorted = sortItemsByPosition(this, true);
+
+  });
+
+  test("scroll within content length, beyond buffer", function(assert){
+    var width = 100+scrollbarSize(), height = 100, itemWidth = 50, itemHeight = 50;
+    var offsetY = 0;
+
+    run(async () => {
+      this.setProperties({
+        width, height, itemWidth, itemHeight, offsetY,
+        buffer: 0,
+        content: generateContent(10) });
+      await render(template);
+    });
+
+    let positionSorted = sortItemsByPosition(this);
     assert.equal(
       $(positionSorted[0]).text().trim(),
-      "Item 5", "The fifth item is first rendered.");
-    checkContent(this, assert, 4, 5);
+      "Item 1", "The first cell should be the first item.");
+
+    findScrollable(this).prop('scrollTop', 150);
+    return new RSVP.Promise(function (resolve) {
+      raf(() => {
+        run(resolve);
+      });
+    }).then(() => {
+
+      assert.equal(
+        findScrollable(this).prop('scrollTop'), 150, 'scrolled to item 7');
+
+      let positionSorted = sortItemsByPosition(this, true);
+
+      assert.equal(
+        $(positionSorted[0]).text().trim(),
+        "Item 7", "The items before what is on screen is not visible.");
+
+      run(()=>{
+        this.set('width', 200+scrollbarSize());
+      });
+      return new RSVP.Promise(function (resolve) {
+        raf(() => {
+          run(resolve);
+        });
+      });
+    }).then(() => {
+      assert.equal(
+        findScrollable(this).prop('scrollTop'), 50, 'Scrolled down one row.');
+      let positionSorted = sortItemsByPosition(this, true);
+      assert.equal(
+        $(positionSorted[0]).text().trim(),
+        "Item 5", "The fifth item is first rendered.");
+      checkContent(this, assert, 4, 5);
+    });
   });
-});
 
-test("scroll but beyond content length", function(assert) {
-  var width = 100+scrollbarSize(), height = 500, itemWidth = 50, itemHeight = 50;
-  var offsetY = 1000;
+  test("scroll but beyond content length", function(assert) {
+    var width = 100+scrollbarSize(), height = 500, itemWidth = 50, itemHeight = 50;
+    var offsetY = 1000;
 
-  run(() => {
-    this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
-    this.render(template);
+    run(async () => {
+      this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+      await render(template);
+    });
+
+    assert.equal(findScrollable(this).prop('scrollTop'), 0);
+
+    run(() => {
+      this.set('width', 150+scrollbarSize());
+    });
+
+    assert.equal(findScrollable(this).prop('scrollTop'), 0);
+    checkContent(this, assert, 0, 5);
   });
-
-  assert.equal(findScrollable(this).prop('scrollTop'), 0);
-
-  run(() => {
-    this.set('width', 150+scrollbarSize());
-  });
-
-  assert.equal(findScrollable(this).prop('scrollTop'), 0);
-  checkContent(this, assert, 0, 5);
 });

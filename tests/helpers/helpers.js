@@ -96,9 +96,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   for (let i = 0; i < count; i++) {
     let elt = elements[i];
     let item = content.objectAt(i + istart);
-    assert.equal(
-      elt.textContent.trim(), item.name,
-      'Item ' + (i + 1) + ' rendered');
+    assert.dom(elt).hasText(item.name, 'Item ' + (i + 1) + ' rendered');
   }
 }
 
