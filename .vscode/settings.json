@@ -23,8 +23,6 @@
     "**/.DS_Store": true,
     "**/tmp": true,
     "**/.watchmanconfig": true,
-    "**/.npmignore": true,
-    "**/.travis.yml": true,
     "**/LICENSE.md": true
   },
   "[html]": {

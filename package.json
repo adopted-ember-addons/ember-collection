@@ -11,7 +11,7 @@
     "test:all": "ember try:each"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "8.* || >= 10.*"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
