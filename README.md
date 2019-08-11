@@ -1,6 +1,6 @@
 # Ember Collection
 
-[![Build Status](https://travis-ci.org/emberjs/ember-collection.svg?branch=master)](https://travis-ci.org/emberjs/ember-collection)
+[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-collection.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-collection)
 
 [![Ember Observer Score](http://emberobserver.com/badges/ember-collection.svg)](http://emberobserver.com/addons/ember-collection)
 
@@ -198,21 +198,33 @@ export default Ember.Helper.helper(function(params, hash) {
 
 ## Build It
 
-1. `git clone https://github.com/emberjs/ember-collection.git`
+1. `git clone https://github.com/adopted-ember-addons/ember-collection.git`
 2. `cd ember-collection`
-3. `npm install` (implicitly runs `bower install` as a postinstall)
+3. `yarn install` (implicitly runs `bower install` as a postinstall)
 5. `ember build`
 
 ## How it works
 
 *EmberCollection* will create enough rows to fill the visible area. It reacts to scroll events and reuses/repositions the rows as scrolled.
 
-## Running unit tests
+### Linting
 
-```sh
-npm install
-npm test
-```
+* `yarn lint:hbs`
+* `yarn lint:js`
+* `yarn lint:js -- --fix`
+
+### Running tests
+
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `ember try:each` – Runs the test suite against multiple Ember versions
+
+### Running the dummy application
+
+* `ember serve`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
+
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 ## Thanks
 
