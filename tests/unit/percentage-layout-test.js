@@ -97,7 +97,7 @@ test("columns can use decimals", function(assert) {
 test("Asserts when columns are larger than 100", function(assert) {
   let columns = [100, 10];
   let content = generateContent(10);
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
     this.render(template);
   });
@@ -107,7 +107,7 @@ test("Asserts when columns do not equal 100", function(assert) {
   let columns = [10, 10];
   let content = generateContent(10);
   
-  assert.throws(() => {
+  assert.expectAssertion(() => {
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
     this.render(template);  
   });
