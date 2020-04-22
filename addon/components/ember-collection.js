@@ -29,6 +29,7 @@ export default Component.extend({
     this._items = undefined;
     this._scrollLeft = undefined;
     this._scrollTop = undefined;
+    this._scrollIndex = undefined;
     this._clientWidth = undefined;
     this._clientHeight = undefined;
     this._contentSize = undefined;
@@ -111,22 +112,64 @@ export default Component.extend({
     }
   },
 
+  useScrollIndex(scrollIndexAttr){
+    if (scrollIndexAttr === undefined) {
+      return false;
+    }
+    if (this._scrollIndex === scrollIndexAttr) {
+      return false;
+    }
+    return this._clientWidth || this._clientHeight;
+  },
+
   updateScrollPosition(){
     if (!this._scrollChange) { return; } // don't process bound scroll coords unless our action is being handled
-    let scrollLeftAttr = this.getAttr('scroll-left');
-    if (scrollLeftAttr !== undefined) {
-      scrollLeftAttr = parseInt(scrollLeftAttr, 10);
-      if (this._scrollLeft !== scrollLeftAttr) {
-        this.set('_scrollLeft', scrollLeftAttr);
-      }
+    let scrollIndexAttr = this.getAttr('scroll-index');
+    if (scrollIndexAttr !== undefined) {
+      scrollIndexAttr = parseInt(scrollIndexAttr, 10);
     }
+    if (this.useScrollIndex(scrollIndexAttr)) {
+      let cellLayout = this._cellLayout;
+      let position = cellLayout.positionAt(scrollIndexAttr, this._clientWidth, this._clientHeight);
+      let width = cellLayout.widthAt(scrollIndexAttr, this._clientWidth, this._clientHeight);
+      let height = cellLayout.heightAt(scrollIndexAttr, this._clientWidth, this._clientHeight);
 
-    let scrollTopAttr = this.getAttr('scroll-top');
-    if (scrollTopAttr !== undefined) {
-      scrollTopAttr = parseInt(scrollTopAttr, 10);
-      if (this._scrollTop !== scrollTopAttr) {
-        // console.log('updateScrollPosition', this._scrollTop, scrollTopAttr);
-        this.set('_scrollTop', scrollTopAttr);
+      let deltaLeft = position.x - this._scrollLeft;
+      let deltaRight = this._scrollLeft + this._clientWidth - position.x - width;
+      if (deltaLeft < 0 || deltaRight < 0) {
+        let scrollLeft = position.x;
+        if (deltaLeft >= deltaRight && this._clientWidth) {
+          scrollLeft +=  width - this._clientWidth;
+        }
+        this.set('_scrollLeft', scrollLeft);
+      }
+
+      let deltaTop = position.y - this._scrollTop;
+      let deltaBottom = this._scrollTop + this._clientHeight - position.y - height;
+      if (deltaTop < 0 || deltaBottom < 0) {
+        let scrollTop = position.y;
+        if (deltaTop >= deltaBottom && this._clientHeight) {
+          scrollTop +=  height - this._clientHeight;
+        }
+        this.set('_scrollTop', scrollTop);
+      }
+
+      this._scrollIndex = scrollIndexAttr;
+    } else {
+      let scrollLeftAttr = this.getAttr('scroll-left');
+      if (scrollLeftAttr !== undefined) {
+        scrollLeftAttr = parseInt(scrollLeftAttr, 10);
+        if (this._scrollLeft !== scrollLeftAttr) {
+          this.set('_scrollLeft', scrollLeftAttr);
+        }
+      }
+
+      let scrollTopAttr = this.getAttr('scroll-top');
+      if (scrollTopAttr !== undefined) {
+        scrollTopAttr = parseInt(scrollTopAttr, 10);
+        if (this._scrollTop !== scrollTopAttr) {
+          this.set('_scrollTop', scrollTopAttr);
+        }
       }
     }
   },
@@ -223,6 +266,17 @@ export default Component.extend({
   },
 
   actions: {
+    contentSizeUnknown(clientWidth, clientHeight){
+      set(this, '_clientWidth', clientWidth);
+      set(this, '_clientHeight', clientHeight);
+      this.updateContentSize();
+      this.updateScrollPosition();
+      return {
+        contentSize: this.get('_contentSize'),
+        scrollLeft: this.get('_scrollLeft'),
+        scrollTop: this.get('_scrollTop')
+      };
+    },
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);

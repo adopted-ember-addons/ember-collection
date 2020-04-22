@@ -77,6 +77,7 @@ Once the collection has been rendered, `estimated-width` and `estimated-height` 
 If you do not provide a `scroll-change` action name or closure action, scrolling will work normally.
 
 If you *do* specify `scroll-change`, ember-collection assumes that you want to handle the scroll-change action in a true data down, actions up manner. For this reason, ember-collection will not set `scroll-left` and `scroll-top` itself, but rather rely on you to update those properties based on action handling as you see fit.
+You can also specify a `scroll-index` if this is specified, then the corresponding item will be scrolled into view.
 
 An example of specifying an action and keeping scrolling working normally looks like this:
 
@@ -107,13 +108,14 @@ export default Ember.Controller.extend({
 
 The `fixed-grid-layout` will arrange the items in a grid to to fill the content area. The arguments for the layout are:
 
-| Argument     | Description                 |
-| ------------ | --------------------------- |
-| `itemWidth`  | The width of each item      |
-| `itemHeight` | The height of each item     |
+| Argument     | Description                                                                                                      |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `itemWidth`  | The width of each item                                                                                           |
+| `itemHeight` | The height of each item                                                                                          |
+| `itemCount`  | The number of items passed to the collection. This is usually the number of items in the model (`model.length`). |
 
 ```hbs
-{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight)
+{{#ember-collection items=model cell-layout=(fixed-grid-layout itemWidth itemHeight itemCount)
     scroll-left=scrollLeft scroll-top=scrollTop scroll-change=(action "scrollChange")
     as |item index| }}
   <div class="list-item">{{item.name}}</div>
@@ -186,6 +188,27 @@ export default Ember.Helper.helper(function(params, hash) {
         return Number;
     }
     
+    /**
+     * Returns the position of the item
+     */
+    positionAt(itemIndex, clientWidth, clientHeight) {
+        return {x, y};
+    }
+
+    /**
+     * Returns the width of the item
+     */
+    widthAt(itemIndex, clientWidth, clientHeight) {
+        return Number;
+    }
+
+    /**
+     * Returns the height of the item
+     */
+    heightAt(itemIndex, clientWidth, clientHeight) {
+        return Number;
+    }
+
     /**
      * Return the css that should be used to set the size and position of the item.
      */

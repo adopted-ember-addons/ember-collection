@@ -3,8 +3,8 @@ import { formatPixelStyle } from '../utils/style-generators';
 
 export default class Grid
 {
-  constructor(cellWidth, cellHeight) {
-    this.length = 0;
+  constructor(cellWidth, cellHeight, length) {
+    this.length = length || 0;
     this.bin = new FixedGrid(this, cellWidth, cellHeight);
   }
 
