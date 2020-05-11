@@ -65,7 +65,7 @@ function itemPositions(view) {
 
 function checkContent(view, assert, expectedFirstItem, expectedCount) {
   var elements = sortItemsByPosition(view, true);
-  var content = view.get('content') || [];
+  var content = A(view.get('content') || []);
   assert.ok(
     expectedFirstItem + expectedCount <= get(content, 'length'),
     'No more items than are in content are rendered.');
@@ -96,9 +96,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   for (let i = 0; i < count; i++) {
     let elt = elements[i];
     let item = content.objectAt(i + istart);
-    assert.equal(
-      elt.textContent.trim(), item.name,
-      'Item ' + (i + 1) + ' rendered');
+    assert.dom(elt).hasText(item.name, 'Item ' + (i + 1) + ' rendered');
   }
 }
 
