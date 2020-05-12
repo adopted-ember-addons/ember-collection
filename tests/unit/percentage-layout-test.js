@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -85,22 +86,31 @@ module('percentage layout', function(hooks) {
 
   });
 
-  test("Asserts when columns are larger than 100", function(assert) {
+  test("Asserts when columns are larger than 100", async function(assert) {
+    assert.expect(1);
     let columns = [100, 10];
     let content = generateContent(10);
-    assert.expectAssertion(async () => {
+    let errorFn = Ember.onerror;
+    try {
+      Ember.onerror = () => { assert.ok(true); };
       this.setProperties({height, width, itemHeight, itemWidth, content, columns});
       await render(template);
-    });
+    } finally {
+      Ember.onerror = errorFn;
+    }
   });
 
-  test("Asserts when columns do not equal 100", function(assert) {
+  test("Asserts when columns do not equal 100", async function(assert) {
+    assert.expect(1);
     let columns = [10, 10];
     let content = generateContent(10);
-
-    assert.expectAssertion(async () => {
+    let errorFn = Ember.onerror;
+    try {
+      Ember.onerror = () => { assert.ok(true); };
       this.setProperties({height, width, itemHeight, itemWidth, content, columns});
       await render(template);
-    });
+    } finally {
+      Ember.onerror = errorFn;
+    }
   });
 });
