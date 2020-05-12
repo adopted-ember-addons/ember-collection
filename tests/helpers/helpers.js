@@ -71,7 +71,7 @@ function sortByPosition(a, b) {
 }
 
 function itemPositions(view) {
-  return A(findItems(view).toArray()).map(function(e) {
+  return A(findItems(view)).toArray().map(function(e) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }

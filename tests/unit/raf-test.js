@@ -41,20 +41,20 @@ module('raf', function(hooks) {
   });
 
   test('works without requestAnimationFrame', async function(assert) {
-      
+
     var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
     var offsetY = 100;
     var content = generateContent(5);
 
     this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY, showComponent: true });
     await render(template);
-    var positionSorted = sortItemsByPosition(this);
+    var positionSorted = sortItemsByPosition(this.element);
 
     assert.equal(
       $(positionSorted[0]).text().trim(),
       "Item 1", "We rendered without requestAnimationFrame"
     );
-    
+
     // Force the component to be torn down.
     this.setProperties({showComponent: false});
   });

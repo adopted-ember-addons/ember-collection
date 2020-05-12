@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -12,16 +11,14 @@ import template from '../templates/fixed-grid';
 module('display in fixed grid', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('display 5 in 6', function(assert) {
+  test('display 5 in 6', async function(assert) {
     var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
     var offsetY = 100;
     var content = generateContent(5);
 
-    run(async () => {
-      this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
-      await render(template);
-    });
-    var positionSorted = sortItemsByPosition(this);
+    this.setProperties({ width, height, itemWidth, itemHeight, content, offsetY });
+    await render(template);
+    var positionSorted = sortItemsByPosition(this.element);
 
     assert.equal(
       $(positionSorted[0]).text().trim(),
