@@ -5,6 +5,7 @@ import { render } from '@ember/test-helpers';
 import {
   generateContent, sortItemsByPosition, itemPositions } from '../helpers/helpers';
 import template from '../templates/percentage';
+import { gte } from 'ember-compatibility-helpers';
 
 var itemWidth = 100;
 var itemHeight = 50;
@@ -86,31 +87,35 @@ module('percentage layout', function(hooks) {
 
   });
 
-  test("Asserts when columns are larger than 100", async function(assert) {
-    assert.expect(1);
-    let columns = [100, 10];
-    let content = generateContent(10);
-    let errorFn = Ember.onerror;
-    try {
-      Ember.onerror = () => { assert.ok(true); };
-      this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-      await render(template);
-    } finally {
-      Ember.onerror = errorFn;
-    }
-  });
+  if (gte('2.18.0')) {
+    test("Asserts when columns are larger than 100", async function(assert) {
+      assert.expect(1);
+      let columns = [100, 10];
+      let content = generateContent(10);
+      let errorFn = Ember.onerror;
+      try {
+        Ember.onerror = () => { assert.ok(true); };
+        this.setProperties({height, width, itemHeight, itemWidth, content, columns});
+        await render(template);
+      } finally {
+        Ember.onerror = errorFn;
+      }
+    });
 
-  test("Asserts when columns do not equal 100", async function(assert) {
-    assert.expect(1);
-    let columns = [10, 10];
-    let content = generateContent(10);
-    let errorFn = Ember.onerror;
-    try {
-      Ember.onerror = () => { assert.ok(true); };
-      this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-      await render(template);
-    } finally {
-      Ember.onerror = errorFn;
-    }
-  });
+    test("Asserts when columns do not equal 100", async function(assert) {
+      assert.expect(1);
+      let columns = [10, 10];
+      let content = generateContent(10);
+      let errorFn = Ember.onerror;
+      try {
+        Ember.onerror = () => { assert.ok(true); };
+        this.setProperties({height, width, itemHeight, itemWidth, content, columns});
+        await render(template);
+      } finally {
+        Ember.onerror = errorFn;
+      }
+    });
+  } else {
+    // TODO: write versions of these tests that work in 2.12 and 2.16
+  }
 });
