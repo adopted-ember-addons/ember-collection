@@ -1,8 +1,11 @@
-import { run } from '@ember/runloop';
-import { test, moduleForComponent } from 'ember-qunit';
+import Ember from 'ember';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import {
   generateContent, sortItemsByPosition, itemPositions } from '../helpers/helpers';
 import template from '../templates/percentage';
+import { gte } from 'ember-compatibility-helpers';
 
 var itemWidth = 100;
 var itemHeight = 50;
@@ -17,23 +20,19 @@ function extractTopLeft(items) {
     });
 }
 
-moduleForComponent('ember-collection', 'percentage layout', {
-  integration: true
-});
+module('percentage layout', function(hooks) {
+  setupRenderingTest(hooks);
 
-test("cells have correct width", function(assert) {
-  let columns = [25, 50, 15, 10];
-  let content = generateContent(8);
+  test("cells have correct width", async function(assert) {
+    let columns = [25, 50, 15, 10];
+    let content = generateContent(8);
 
-  run(()=>{
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-    this.render(template);
-  });
+    await render(template);
 
-  run(()=>{
-    let items = sortItemsByPosition(this);
-    let positions = extractTopLeft(itemPositions(this));
-    
+    let items = sortItemsByPosition(this.element);
+    let positions = extractTopLeft(itemPositions(this.element));
+
     // test the positioning done by the layout.
     assert.deepEqual(positions, [
         {top: 0, left: 0},
@@ -45,7 +44,7 @@ test("cells have correct width", function(assert) {
         {top: 50, left: 750},
         {top: 50, left: 900},
     ]);
-    
+
     // test that the widths match what was provided in `columns`
     assert.equal(items[0].style.width, '25%');
     assert.equal(items[1].style.width, '50%');
@@ -55,25 +54,20 @@ test("cells have correct width", function(assert) {
     assert.equal(items[5].style.width, '50%');
     assert.equal(items[6].style.width, '15%');
     assert.equal(items[7].style.width, '10%');
-    
-    assert.equal(items.height(), itemHeight);
-  });
-  
-});
 
-test("columns can use decimals", function(assert) {
-  let columns = [33.333, 66.666];
-  let content = generateContent(6);
-  
-  run(()=>{
+    assert.equal(items[0].getBoundingClientRect().height, itemHeight);
+  });
+
+  test("columns can use decimals", async function(assert) {
+    let columns = [33.333, 66.666];
+    let content = generateContent(6);
+
     this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-    this.render(template);
-  });
+    await render(template);
 
-  run(()=>{
-    let items = sortItemsByPosition(this);
-    let positions = extractTopLeft(itemPositions(this));
-    
+    let items = sortItemsByPosition(this.element);
+    let positions = extractTopLeft(itemPositions(this.element));
+
     // test the positioning done by the layout
     assert.deepEqual(positions, [
         {top: 0, left: 0},
@@ -83,32 +77,45 @@ test("columns can use decimals", function(assert) {
         {top: 100, left: 0},
         {top: 100, left: 333}
     ]);
-    
+
     // test that the widths match what was provided in `columns`
     assert.equal(items[0].style.width, '33.333%');
     assert.equal(items[1].style.width, '66.666%');
     assert.equal(items[2].style.width, '33.333%');
     assert.equal(items[3].style.width, '66.666%');
-    assert.equal(items.height(), itemHeight);
-  });
-  
-});
+    assert.equal(items[0].getBoundingClientRect().height, itemHeight);
 
-test("Asserts when columns are larger than 100", function(assert) {
-  let columns = [100, 10];
-  let content = generateContent(10);
-  assert.expectAssertion(() => {
-    this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-    this.render(template);
   });
-});
 
-test("Asserts when columns do not equal 100", function(assert) {
-  let columns = [10, 10];
-  let content = generateContent(10);
-  
-  assert.expectAssertion(() => {
-    this.setProperties({height, width, itemHeight, itemWidth, content, columns});
-    this.render(template);  
-  });
+  if (gte('2.18.0')) {
+    test("Asserts when columns are larger than 100", async function(assert) {
+      assert.expect(1);
+      let columns = [100, 10];
+      let content = generateContent(10);
+      let errorFn = Ember.onerror;
+      try {
+        Ember.onerror = () => { assert.ok(true); };
+        this.setProperties({height, width, itemHeight, itemWidth, content, columns});
+        await render(template);
+      } finally {
+        Ember.onerror = errorFn;
+      }
+    });
+
+    test("Asserts when columns do not equal 100", async function(assert) {
+      assert.expect(1);
+      let columns = [10, 10];
+      let content = generateContent(10);
+      let errorFn = Ember.onerror;
+      try {
+        Ember.onerror = () => { assert.ok(true); };
+        this.setProperties({height, width, itemHeight, itemWidth, content, columns});
+        await render(template);
+      } finally {
+        Ember.onerror = errorFn;
+      }
+    });
+  } else {
+    // TODO: write versions of these tests that work in 2.12 and 2.16
+  }
 });
