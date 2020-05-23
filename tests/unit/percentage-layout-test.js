@@ -1,7 +1,6 @@
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, setupOnerror, resetOnerror } from '@ember/test-helpers';
 import {
   generateContent, sortItemsByPosition, itemPositions } from '../helpers/helpers';
 import template from '../templates/percentage';
@@ -92,13 +91,12 @@ module('percentage layout', function(hooks) {
       assert.expect(1);
       let columns = [100, 10];
       let content = generateContent(10);
-      let errorFn = Ember.onerror;
       try {
-        Ember.onerror = () => { assert.ok(true); };
+        setupOnerror(() => { assert.ok(true); });
         this.setProperties({height, width, itemHeight, itemWidth, content, columns});
         await render(template);
       } finally {
-        Ember.onerror = errorFn;
+        resetOnerror();
       }
     });
 
@@ -106,13 +104,12 @@ module('percentage layout', function(hooks) {
       assert.expect(1);
       let columns = [10, 10];
       let content = generateContent(10);
-      let errorFn = Ember.onerror;
       try {
-        Ember.onerror = () => { assert.ok(true); };
+        setupOnerror(() => { assert.ok(true); });
         this.setProperties({height, width, itemHeight, itemWidth, content, columns});
         await render(template);
       } finally {
-        Ember.onerror = errorFn;
+        resetOnerror();
       }
     });
   } else {
