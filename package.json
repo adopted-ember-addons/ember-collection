@@ -21,7 +21,7 @@
   },
   "repository": "https://github.com/emberjs/ember-collection",
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": ">= 10.*"
   },
   "dependencies": {
     "ember-cli-babel": "^7.7.3",
