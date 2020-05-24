@@ -21,7 +21,7 @@ An efficient incremental rendering component with support for custom layouts and
 
 ## Submitting bugs
 
-**TODO** - Create a base ember twiddle with *EmberCollection* setup.
+Create a reproduction of the bug in https://ember-twiddle.com/
 
 It would help us greatly to help you and to improve ember collection.
 
@@ -198,9 +198,9 @@ export default Ember.Helper.helper(function(params, hash) {
 
 ## Build It
 
-1. `git clone https://github.com/emberjs/ember-collection.git`
+1. `git clone https://github.com/adopted-ember-addons/ember-collection.git`
 2. `cd ember-collection`
-3. `npm install` (implicitly runs `bower install` as a postinstall)
+3. `npm install`
 5. `ember build`
 
 ## How it works
