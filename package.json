@@ -5,6 +5,7 @@
   "keywords": [
     "ember-addon"
   ],
+  "repository": "https://github.com/adopted-ember-addons/ember-collection",
   "license": "MIT",
   "author": "Erik Bryn, Yapp Inc., and contributors.",
   "directories": {
@@ -13,15 +14,13 @@
   },
   "scripts": {
     "build": "ember build",
+    "changelog": "lerna-changelog",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
+    "release": "release-it",
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each"
-  },
-  "repository": "https://github.com/emberjs/ember-collection",
-  "engines": {
-    "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
@@ -57,10 +56,34 @@
     "ember-try": "^1.0.0",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
+    "lerna-changelog": "^1.0.1",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^0.7.1"
+    "qunit-dom": "^0.7.1",
+    "release-it": "^13.6.0",
+    "release-it-lerna-changelog": "^2.3.0"
+  },
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
