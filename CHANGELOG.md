@@ -1,3 +1,26 @@
+## v1.0.0-rc.0 (2020-05-25)
+
+#### :boom: Breaking Change
+* [#184](https://github.com/adopted-ember-addons/ember-collection/pull/184) Update to 3.12 ([@vasind](https://github.com/vasind))
+
+#### :rocket: Enhancement
+* [#182](https://github.com/adopted-ember-addons/ember-collection/pull/182) [CHORE] Update to ember 3.4 and fix tests ([@Gaurav0](https://github.com/Gaurav0))
+
+#### :bug: Bug Fix
+* [#180](https://github.com/adopted-ember-addons/ember-collection/pull/180) Check if destroyed before validating, update travis/lint ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#189](https://github.com/adopted-ember-addons/ember-collection/pull/189) [CHORE] Update Travis CI badge link ([@vasind](https://github.com/vasind))
+* [#188](https://github.com/adopted-ember-addons/ember-collection/pull/188) chore: Remove ember-cli-deploy and its plugins ([@Alonski](https://github.com/Alonski))
+* [#187](https://github.com/adopted-ember-addons/ember-collection/pull/187) [CHORE] release-it setup ([@vasind](https://github.com/vasind))
+* [#185](https://github.com/adopted-ember-addons/ember-collection/pull/185) Update addon URL in index.hbs ([@Alonski](https://github.com/Alonski))
+
+#### Committers: 4
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Gaurav Munjal ([@Gaurav0](https://github.com/Gaurav0))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Vasanth ([@vasind](https://github.com/vasind))
+
 # Change Log
 
 ## [1.0.0-alpha.9](https://github.com/emberjs/ember-collection/tree/1.0.0-alpha.9) (2018-08-02)
