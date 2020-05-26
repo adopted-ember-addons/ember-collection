@@ -1,9 +1,10 @@
+import { A } from '@ember/array';
+import { get } from '@ember/object';
 import Ember from 'ember';
-const { get } = Ember;
 var compile = Ember.Handlebars.compile;
 
 function generateContent(n) {
-  var content = [];
+  var content = A([]);
   for (var i = 0; i < n; i++) {
     content.push({name: "Item " + (i+1)});
   }
@@ -11,30 +12,41 @@ function generateContent(n) {
 }
 
 function findScrollable(context) {
-  return context.$('.ember-collection > div:first'); // scrollable's element
+  return context.querySelector('.ember-collection > div:first-child'); // scrollable's element
 }
 
 function findContainer(context) {
-  return context.$('.ember-collection > div:first > div:first'); // scrollable's content element
+  return context.querySelector('.ember-collection > div:first-child > div:first-child'); // scrollable's content element
 }
 
 function findItems(context) {
-  return context.$('.ember-collection > div:first > div:first > div');  // scrollable's content's children (cells)
+  return Array.prototype.slice.call(
+    context.querySelectorAll('.ember-collection > div:first-child > div:first-child > div')  // scrollable's content's children (cells)
+  );
 }
 
 function findVisibleItems(context) {
-  return context.$('.ember-collection > div:first > div:first > div:visible');
+  let items = Array.prototype.slice.call(
+    context.querySelectorAll('.ember-collection > div:first-child > div:first-child > div')
+  )
+  return items.filter(item => {
+    let style = getComputedStyle(item);
+    return style.display !== 'none' && style.visibility === 'visible';
+  });
 }
 
 function extractPosition(element) {
     let parentRect = element.parentElement.getBoundingClientRect();
     let elementRect = element.getBoundingClientRect();
-    return {
-        left: elementRect.left - parentRect.left,
-        top: elementRect.top - parentRect.top,
-        width: elementRect.width,
-        height: elementRect.height
-    };
+    if (elementRect.width > 0 && elementRect.height > 0) {
+      return {
+          left: elementRect.left - parentRect.left,
+          top: elementRect.top - parentRect.top,
+          width: elementRect.width,
+          height: elementRect.height
+      };
+    }
+    return null;
 }
 
 function sortItemsByPosition(view, visibleOnly) {
@@ -44,9 +56,11 @@ function sortItemsByPosition(view, visibleOnly) {
 }
 
 function sortElementsByPosition (elements) {
-  return elements.sort(function(a, b){
-    return sortByPosition(extractPosition(a), extractPosition(b));
-  });
+  return elements
+    .filter(elem => extractPosition(elem))
+    .sort(function(a, b) {
+      return sortByPosition(extractPosition(a), extractPosition(b));
+    });
 }
 
 function sortByPosition(a, b) {
@@ -57,14 +71,14 @@ function sortByPosition(a, b) {
 }
 
 function itemPositions(view) {
-  return Ember.A(findItems(view).toArray()).map(function(e) {
+  return A(findItems(view)).toArray().map(function(e) {
     return extractPosition(e);
   }).sort(sortByPosition);
 }
 
 function checkContent(view, assert, expectedFirstItem, expectedCount) {
-  var elements = sortItemsByPosition(view, true);
-  var content = view.get('content') || [];
+  var elements = sortItemsByPosition(view.element, true);
+  var content = A(view.get('content') || []);
   assert.ok(
     expectedFirstItem + expectedCount <= get(content, 'length'),
     'No more items than are in content are rendered.');
@@ -95,9 +109,7 @@ function checkContent(view, assert, expectedFirstItem, expectedCount) {
   for (let i = 0; i < count; i++) {
     let elt = elements[i];
     let item = content.objectAt(i + istart);
-    assert.equal(
-      $(elt).text().trim(), item.name,
-      'Item ' + (i + 1) + ' rendered');
+    assert.dom(elt).hasText(item.name, 'Item ' + (i + 1) + ' rendered');
   }
 }
 

@@ -1,7 +1,5 @@
-import Ember from 'ember';
-
-const { camelize, capitalize } = Ember.String;
-const stylePrefixes  = ['Webkit',  'ms',  'Moz',  'O'];
+import { capitalize, camelize } from '@ember/string';
+const stylePrefixes  = ['webkit', 'Webkit',  'ms',  'Moz',  'O'];
 const cssPrefixes    = ['-webkit-','-ms-','-moz-','-o-'];
 
 const style = typeof document !== 'undefined' && document.documentElement && document.documentElement.style;

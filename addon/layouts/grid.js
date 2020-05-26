@@ -1,5 +1,5 @@
 import FixedGrid from 'layout-bin-packer/fixed-grid';
-import {formatPixelStyle} from '../utils/style-generators';
+import { formatPixelStyle } from '../utils/style-generators';
 
 export default class Grid
 {

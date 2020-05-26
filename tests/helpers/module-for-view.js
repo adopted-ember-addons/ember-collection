@@ -1,3 +1,7 @@
+import { deprecate } from '@ember/application/deprecations';
+import { tryInvoke } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { merge } from '@ember/polyfills';
 import Ember from 'ember';
 import TestModule from 'ember-test-helpers/test-module';
 import { getResolver } from 'ember-test-helpers/test-resolver';
@@ -34,22 +38,22 @@ var TestModuleForView = TestModule.extend({
     context.dispatcher = Ember.EventDispatcher.create();
     context.dispatcher.setup({}, '#ember-testing');
     this.callbacks.render = function(options) {
-      var containerView = Ember.ContainerView.create(Ember.merge({container: container}, options));
-      var view = Ember.run(function(){
+      var containerView = Ember.ContainerView.create(merge({container: container}, options));
+      var view = run(function(){
         var subject = context.subject();
         containerView.pushObject(subject);
         containerView.appendTo('#ember-testing');
         return subject;
       });
       _this.teardownSteps.unshift(function() {
-        Ember.run(function() {
-          Ember.tryInvoke(containerView, 'destroy');
+        run(function() {
+          tryInvoke(containerView, 'destroy');
         });
       });
       return view.$();
     };
     this.callbacks.append = function() {
-      Ember.deprecate('this.append() is deprecated. Please use this.render() instead.');
+      deprecate('this.append() is deprecated. Please use this.render() instead.');
       return this.callbacks.render();
     };
     context.$ = function() {

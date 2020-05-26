@@ -1,6 +1,6 @@
 # Ember Collection
 
-[![Circle CI](https://circleci.com/gh/emberjs/ember-collection.svg?style=shield)](https://circleci.com/gh/emberjs/ember-collection)
+[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-collection.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-collection)
 
 [![Ember Observer Score](http://emberobserver.com/badges/ember-collection.svg)](http://emberobserver.com/addons/ember-collection)
 
@@ -19,13 +19,9 @@ An efficient incremental rendering component with support for custom layouts and
   
   * `ember install ember-collection`
 
-## Demo
-
-Visit [http://emberjs.com/ember-collection](http://emberjs.com/ember-collection/) to see the [tests/dummy](https://github.com/emberjs/ember-collection/tree/master/tests/dummy/app) application live.
-
 ## Submitting bugs
 
-**TODO** - Create a base ember twiddle with *EmberCollection* setup.
+Create a reproduction of the bug in https://ember-twiddle.com/
 
 It would help us greatly to help you and to improve ember collection.
 
@@ -80,7 +76,7 @@ Once the collection has been rendered, `estimated-width` and `estimated-height` 
 
 If you do not provide a `scroll-change` action name or closure action, scrolling will work normally.
 
-If you *do* specify `scroll-change`, ember-collection assumes that you want to handle the scroll-change action in a true data down, actions up manner. For this reason, ember-collection will not set `scroll-left` and `scroll-right` itself, but rather rely on you to update those properties based on action handling as you see fit.
+If you *do* specify `scroll-change`, ember-collection assumes that you want to handle the scroll-change action in a true data down, actions up manner. For this reason, ember-collection will not set `scroll-left` and `scroll-top` itself, but rather rely on you to update those properties based on action handling as you see fit.
 
 An example of specifying an action and keeping scrolling working normally looks like this:
 
@@ -202,9 +198,9 @@ export default Ember.Helper.helper(function(params, hash) {
 
 ## Build It
 
-1. `git clone https://github.com/emberjs/ember-collection.git`
+1. `git clone https://github.com/adopted-ember-addons/ember-collection.git`
 2. `cd ember-collection`
-3. `npm install` (implicitly runs `bower install` as a postinstall)
+3. `npm install`
 5. `ember build`
 
 ## How it works

@@ -1,40 +1,34 @@
-/* jshint node:true */
-
-var fs = require('fs');
-var path = require('path');
-var existsSync = require('exists-sync');
-var mkdirp = require('mkdirp');
-
-var isCI = !!process.env['CI'];
-
-var options = {
-  "framework": "qunit",
-  "test_page": "tests/index.html?hidepassed",
-  "disable_watching": true,
-  "xunit_intermediate_output": true,
-  "report_file": "test-results.xml",
-  "launch_in_ci": [
-    "Chrome",
-    "Firefox",
-    "PhantomJS"
+module.exports = {
+  test_page: 'tests/index.html?hidepassed',
+  disable_watching: true,
+  launch_in_ci: [
+    'Chrome',
+    'Firefox'
   ],
-  "launch_in_dev": [
-    "Chrome",
-    "Firefox",
-    "Safari",
-    "PhantomJS"
-  ]
-};
-
-if (isCI) {
-  var testReportsPath = path.join(process.env['CIRCLE_TEST_REPORTS'], process.env.SCENARIO_GROUP);
-
-  if (!existsSync(testReportsPath)) {
-    mkdirp.sync(testReportsPath);
+  launch_in_dev: [
+    'Chrome',
+    'Firefox',
+    'Safari'
+  ],
+  browser_args: {
+    Chrome: {
+      ci: [
+        // --no-sandbox is needed when running Chrome inside a container
+        process.env.CI ? '--no-sandbox' : null,
+        '--headless',
+        '--disable-dev-shm-usage',
+        '--disable-software-rasterizer',
+        '--mute-audio',
+        '--remote-debugging-port=0',
+        '--window-size=1440,900'
+      ].filter(Boolean)
+    },
+    Firefox: {
+      mode: 'ci',
+      args: [
+        '--headless',
+        '--window-size=1440,900'
+      ]
+    }
   }
-
-  options['reporter'] = 'xunit';
-  options['report_file'] = path.join(testReportsPath, process.env.EMBER_TRY_CURRENT_SCENARIO + '.xml');
-}
-
-module.exports = options;
+};

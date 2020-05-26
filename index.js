@@ -1,6 +1,5 @@
-/* jshint node: true */
 'use strict';
 
 module.exports = {
-  name: 'ember-collection'
+  name: require('./package').name
 };

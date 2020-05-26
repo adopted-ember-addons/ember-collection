@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { join } from '@ember/runloop';
+import Component from '@ember/component';
 import { translate } from 'ember-collection/utils/translate';
 import { styleProperty } from 'ember-collection/utils/style-properties';
 
 const overflowScrollingProp = styleProperty('overflowScrolling');
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNameBindings: ['collectionClassName'],
   collectionClassName: '',
 
@@ -118,12 +119,12 @@ export default Ember.Component.extend({
     }
 
     if (scrollChanged || clientSizeChanged) {
-      Ember.run.join(this, function sendActionsFromScrollCheck(){
+      join(this, function sendActionsFromScrollCheck(){
         if (scrollChanged) {
-          this.sendAction('scrollChange', scrollLeft, scrollTop);
+          this.scrollChange(scrollLeft, scrollTop);
         }
         if (clientSizeChanged) {
-          this.sendAction('clientSizeChange', clientWidth, clientHeight);
+          this.clientSizeChange(clientWidth, clientHeight);
         }
       });
     }

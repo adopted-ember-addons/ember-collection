@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import Component from '@ember/component';
+import { set, get } from '@ember/object';
 import layout from './ember-collection/template';
+import identity from '../utils/identity';
 import needsRevalidate from '../utils/needs-revalidate';
-var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
-const { get, set } = Ember;
 
 class Cell {
   constructor(key, item, index, style) {
@@ -14,7 +15,9 @@ class Cell {
   }
 }
 
-export default Ember.Component.extend({
+function noop() {}
+
+export default Component.extend({
   layout: layout,
   collectionClassName: 'ember-collection',
 
@@ -35,7 +38,7 @@ export default Ember.Component.extend({
     // this.lastCell = undefined;
     // this.cellCount = undefined;
     this.contentElement = undefined;
-    this._cells = Ember.A();
+    this._cells = A();
     this._cellMap = Object.create(null);
 
     // TODO: Super calls should always be at the top of the constructor.
@@ -47,9 +50,8 @@ export default Ember.Component.extend({
     //   2. Set a property on `this` that is both not in the
     //      initial attrs hash and not on the prototype.
     this._super();
-  },
 
-  didInitAttrs() {
+    // initialize from passed in attrs
     let buffer = this.getAttr('buffer'); // getIntAttr('buffer', 5)
     this._buffer = (typeof buffer === 'number') ? buffer : 5;
     this._scrollLeft = this.getAttr('scroll-left') | 0;
@@ -60,7 +62,12 @@ export default Ember.Component.extend({
   },
 
   _needsRevalidate(){
-    needsRevalidate(this);
+    if (this.isDestroyed || this.isDestroying) {return;}
+    if (this._isGlimmer2()) {
+      this.rerender();
+    } else {
+      needsRevalidate(this);
+    }
   },
 
   didReceiveAttrs() {
@@ -72,6 +79,15 @@ export default Ember.Component.extend({
     this.updateScrollPosition();
   },
 
+  willDestroyElement() {
+    if (this._items && this._items.removeArrayObserver) {
+      this._items.removeArrayObserver(this, {
+        willChange: noop,
+        didChange: '_needsRevalidate'
+      });
+    }
+  },
+
   updateItems(){
     this._cellLayout = this.getAttr('cell-layout');
     var rawItems = this.getAttr('items');
@@ -79,17 +95,17 @@ export default Ember.Component.extend({
     if (this._rawItems !== rawItems) {
       if (this._items && this._items.removeArrayObserver) {
         this._items.removeArrayObserver(this, {
-          willChange: Ember.K,
+          willChange: noop,
           didChange: '_needsRevalidate'
         });
       }
       this._rawItems = rawItems;
-      var items = Ember.A(rawItems);
+      var items = A(rawItems);
       this.set('_items', items);
 
       if (items && items.addArrayObserver) {
         items.addArrayObserver(this, {
-          willChange: Ember.K,
+          willChange: noop,
           didChange: '_needsRevalidate'
         });
       }
@@ -154,7 +170,7 @@ export default Ember.Component.extend({
 
     for (i=0; i<count; i++) {
       itemIndex = index+i;
-      itemKey = decodeEachKey(items.objectAt(itemIndex), '@identity');
+      itemKey = identity(items.objectAt(itemIndex));
       if (priorMap) {
         cell = priorMap[itemKey];
       }
@@ -163,6 +179,7 @@ export default Ember.Component.extend({
         set(cell, 'style', style);
         set(cell, 'hidden', false);
         set(cell, 'key', itemKey);
+        set(cell, 'index', itemIndex);
         cellMap[itemKey] = cell;
       } else {
         newItems.push(itemIndex);
@@ -175,7 +192,7 @@ export default Ember.Component.extend({
         if (newItems.length) {
           itemIndex = newItems.pop();
           let item = items.objectAt(itemIndex);
-          itemKey = decodeEachKey(item, '@identity');
+          itemKey = identity(item);
           style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
           set(cell, 'style', style);
           set(cell, 'key', itemKey);
@@ -193,7 +210,7 @@ export default Ember.Component.extend({
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
       let item = items.objectAt(itemIndex);
-      itemKey = decodeEachKey(item, '@identity');
+      itemKey = identity(item);
       style = this._cellLayout.formatItemStyle(itemIndex, this._clientWidth, this._clientHeight);
       cell = new Cell(itemKey, item, itemIndex, style);
       cellMap[itemKey] = cell;
@@ -201,17 +218,21 @@ export default Ember.Component.extend({
     }
     this._cellMap = cellMap;
   },
+
+  _isGlimmer2() {
+    return !this._renderNode;
+  },
+
   actions: {
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrollChange) {
-        // console.log('ember-collection sendAction scroll-change', scrollTop);
-        this.sendAction('scroll-change', scrollLeft, scrollTop);
+        this._scrollChange(scrollLeft, scrollTop);
       } else {
         if (scrollLeft !== this._scrollLeft ||
             scrollTop !== this._scrollTop) {
           set(this, '_scrollLeft', scrollLeft);
           set(this, '_scrollTop', scrollTop);
-          needsRevalidate(this);
+          this._needsRevalidate();
         }
       }
     },
@@ -220,7 +241,7 @@ export default Ember.Component.extend({
           this._clientHeight !== clientHeight) {
         set(this, '_clientWidth', clientWidth);
         set(this, '_clientHeight', clientHeight);
-        needsRevalidate(this);
+        this._needsRevalidate();
       }
     }
   }
