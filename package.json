@@ -1,6 +1,6 @@
 {
   "name": "ember-collection",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0",
   "description": "An efficient incremental rendering component with custom layouts and support for large lists.",
   "keywords": [
     "ember-addon"
