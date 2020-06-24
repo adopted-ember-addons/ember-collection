@@ -185,6 +185,7 @@ export default Component.extend({
       }
     }
 
+    var cellsToDelete = [];
     for (i=0; i<this._cells.length; i++) {
       cell = this._cells[i];
       if (!cellMap[cell.key]) {
@@ -200,11 +201,11 @@ export default Component.extend({
           set(cell, 'hidden', false);
           cellMap[itemKey] = cell;
         } else {
-          set(cell, 'hidden', true);
-          set(cell, 'style', 'height: 0; display: none;');
+          cellsToDelete.push(cell);
         }
       }
     }
+    this._cells.removeObjects(cellsToDelete);
 
     for (i=0; i<newItems.length; i++) {
       itemIndex = newItems[i];
