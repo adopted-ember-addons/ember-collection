@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -20,9 +19,7 @@ module('display in fixed grid', function(hooks) {
     await render(template);
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The first item has not been hidden"
-    );
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "The first item has not been hidden");
   });
 });

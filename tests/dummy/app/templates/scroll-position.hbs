@@ -4,29 +4,29 @@
 <button {{action 'makeLongRect'}}>Long Rectangle</button>
 <button {{action 'makeTallRect'}}>Tall Rectable</button>
 <p>
-  Container Width: <input type='range' min=200 max=1000 value={{containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{containerWidth}}
-  Container Height: <input type='range' min=200 max=1000 value={{containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{containerHeight}}
+  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{this.containerWidth}}
+  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{this.containerHeight}}
 </p>
 <p>
-Item Height: {{itemHeight}}
-Item Width: {{itemWidth}}
+Item Height: {{this.itemHeight}}
+Item Width: {{this.itemWidth}}
 </p>
 <p>
-Scroll Left: {{input value=scrollLeft}}
-Scroll Top: {{input value=scrollTop}}
+Scroll Left: {{input value=this.scrollLeft}}
+Scroll Top: {{input value=this.scrollTop}}
 </p>
 <p>Note: The usage of this component remembers its scroll position. Try it by navigating away from this route and then returning.</p>
 <hr />
 
-<div class="simple-list" style={{{concat 'position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>
+<div class="simple-list" style={{{concat 'position:relative;width:' this.containerWidth 'px;height:' this.containerHeight 'px;'}}}>
   {{#ember-collection
-      items=model
-      estimated-height=containerHeight
-      estimated-width=containerWidth
+      items=this.model
+      estimated-height=this.containerHeight
+      estimated-width=this.containerWidth
       buffer=10
-      cell-layout=(fixed-grid-layout itemWidth itemHeight)
-      scroll-left=scrollLeft
-      scroll-top=scrollTop
+      cell-layout=(fixed-grid-layout this.itemWidth this.itemHeight)
+      scroll-left=this.scrollLeft
+      scroll-top=this.scrollTop
       scroll-change=(action "scrollChange")
       as |item|}}
     <div class="list-item">

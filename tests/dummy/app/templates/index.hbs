@@ -7,22 +7,22 @@
     <div class="col-md-3">
         <h2>Fixed Grid Layout</h2>
         <p>Use the <code>fixed-grid-layout</code> when all items are the same size. The width and height of each item are bound as is the width and height of the container. Ember collection will re-layout items when any of these items change.</p>
-        <p>{{link-to 'Demo' 'simple' class="btn btn-default"}}</p>
+        <p><LinkTo @route="simple" class="btn btn-default">Demo</LinkTo></p>
     </div>
     <div class="col-md-3">
         <h2>Mixed Grid Layout</h2>
         <p>Use the <code>mixed-grid-layout</code> when items can be a different size. The collection being itterated over is passed to the <code>mixed-grid-layout</code> helper. Each item in the collection must provide a <code>width</code> and <code>height</code> property of the item.</p>
-        <p>{{link-to 'Demo' 'mixed' class="btn btn-default"}}</p>
+        <p><LinkTo @route="mixed" class="btn btn-default">Demo</LinkTo></p>
     </div>
     <div class="col-md-3">
         <h2>Scroll Position</h2>
         <p>Use the <code>scroll-top</code> and <code>scroll-left</code> attributes to programtically scroll to a specific location in the collection. This can also be used to set an initial scroll position.</p>
-        <p>{{link-to 'Demo' 'scroll-position' class="btn btn-default"}}</p>
+        <p><LinkTo @route="scroll-position" class="btn btn-default">Demo</LinkTo></p>
     </div>
     <div class="col-md-3">
         <h2>Percentage Columns</h2>
         <p>Use the <code>percentage-columns-layout</code> to render a fixed number of columns that are sized using percentages. The <code>columns</code> paramter should be an array of integers that add to 100.</p>
-        <p>{{link-to 'Demo' 'percentages' class="btn btn-default"}}</p>
+        <p><LinkTo @route="percentages" class="btn btn-default">Demo</LinkTo></p>
     </div>
 </div>
  

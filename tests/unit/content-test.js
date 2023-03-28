@@ -1,5 +1,4 @@
 import ArrayProxy from '@ember/array/proxy';
-import $ from 'jquery';
 import { A } from '@ember/array';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -51,9 +50,8 @@ module('manipulate content', function(hooks) {
 
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item -1", "The item has been inserted in the list");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item -1", "The item has been inserted in the list");
 
     var expectedRows = Math.ceil((nItems + 1) / (width / itemWidth));
 
@@ -74,13 +72,11 @@ module('manipulate content', function(hooks) {
     await settled();
 
     var positionSorted = sortItemsByPosition(this.element);
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The item has been inserted in the list");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "The item has been inserted in the list");
 
-    assert.equal(
-      $(positionSorted[2]).text().trim(),
-      "Item 2'", "The item has been inserted in the list");
+    assert.dom(positionSorted[2])
+      .hasTextContaining("Item 2'", "The item has been inserted in the list");
 
     checkContent(this, assert, 0, 50);
   });
@@ -107,18 +103,16 @@ module('manipulate content', function(hooks) {
 
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "Item 1 has not been removed from the list.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "Item 1 has not been removed from the list.");
 
     content.removeAt(0);
     await settled();
 
     positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 2", "Item 1 has been remove from the list.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 2", "Item 1 has been remove from the list.");
       checkContent(this, assert, 0, 50);
   });
 

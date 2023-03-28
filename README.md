@@ -1,6 +1,6 @@
 # Ember Collection
 
-[![Build Status](https://travis-ci.org/adopted-ember-addons/ember-collection.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-collection)
+[![Github Actions](https://github.com/adopted-ember-addons/ember-collection/workflows/CI/badge.svg)](https://github.com/adopted-ember-addons/ember-collection/actions?query=workflow%3ACI)
 
 [![Ember Observer Score](http://emberobserver.com/badges/ember-collection.svg)](http://emberobserver.com/addons/ember-collection)
 

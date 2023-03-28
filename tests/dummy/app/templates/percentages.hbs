@@ -5,7 +5,7 @@
 <button {{action 'changeColumn' 5}}>100</button>
 <hr />
 <div class="mixed" style="position:relative;height:500px;">
-  {{#ember-collection items=model estimated-height=800 estimated-width=1000 buffer=10 cell-layout=(percentage-columns-layout model.length columns 50) as |item|}}
+  {{#ember-collection items=this.model estimated-height=800 estimated-width=1000 buffer=10 cell-layout=(percentage-columns-layout this.model.length this.columns 50) as |item|}}
     <div class="list-item">
       {{item.name}}
     </div>

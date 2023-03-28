@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
@@ -21,16 +20,17 @@ var size;
 // lifted from antiscroll MIT license
 function scrollbarSize() {
   if (size === undefined) {
-    var div = $(
-      '<div class="antiscroll-inner" style="width:50px;height:50px;overflow-y:scroll;' +
-      'position:absolute;top:-200px;left:-200px;"><div style="height:100px;width:100%"/>' +
-      '</div>'
-    );
+    let div = document.createElement('div');
 
-    $('body').append(div);
-    var w1 = $(div)[0].offsetWidth;
-    var w2 = $('div', div)[0].offsetWidth;
-    $(div).remove();
+    div.classList.add('antiscroll-inner');
+    div.style = 'width:50px;height:50px;overflow-y:scroll;position:absolute;top:-200px;left:-200px;';
+    div.innerHTML = '<div style="height:100px;width:100%"/>';
+
+    document.body.appendChild(div);
+    
+    var w1 = div.offsetWidth;
+    var w2 = div.querySelector('div').offsetWidth;
+    div.remove();
 
     size = w1 - w2;
   }
@@ -58,9 +58,8 @@ module('scrollTop', function(hooks) {
 
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The first item has not been hidden");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "The first item has not been hidden");
 
     this.set('width', 150);
     await settled();
@@ -88,9 +87,8 @@ module('scrollTop', function(hooks) {
 
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The first item is not visible but in buffer.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "The first item is not visible but in buffer.");
     checkContent(this, assert, 0, 5);
   });
 
@@ -105,9 +103,8 @@ module('scrollTop', function(hooks) {
     await render(template);
 
     let positionSorted = sortItemsByPosition(this.element);
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "The first cell should be the first item.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "The first cell should be the first item.");
 
     findScrollable(this.element).scrollTop = 150;
     await resolveAfterRaf();
@@ -116,18 +113,16 @@ module('scrollTop', function(hooks) {
 
     positionSorted = sortItemsByPosition(this.element, true);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 7", "The items before what is on screen is not visible.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 7", "The items before what is on screen is not visible.");
 
     this.set('width', 200+scrollbarSize());
     await resolveAfterRaf();
 
     assert.equal(findScrollable(this.element).scrollTop, 50, 'Scrolled down one row.');
     positionSorted = sortItemsByPosition(this.element, true);
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 5", "The fifth item is first rendered.");
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 5", "The fifth item is first rendered.");
     checkContent(this, assert, 4, 5);
   });
 

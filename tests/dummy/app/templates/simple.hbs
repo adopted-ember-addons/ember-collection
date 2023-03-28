@@ -5,17 +5,17 @@
 <button {{action 'makeTallRect'}}>Tall Rectable</button>
 <button {{action 'shuffle'}}>Shuffle</button>
 <p>
-  Container Width: <input type='range' min=200 max=1000 value={{containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{containerWidth}}
-  Container Height: <input type='range' min=200 max=1000 value={{containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{containerHeight}}
+  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{this.containerWidth}}
+  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{this.containerHeight}}
 </p>
 <p>
-Item Height: {{itemHeight}}
-Item Width: {{itemWidth}}
+Item Height: {{this.itemHeight}}
+Item Width: {{this.itemWidth}}
 </p>
 <hr />
 
-<div class="simple-list" style={{{concat 'position:relative;width:' containerWidth 'px;height:' containerHeight 'px;'}}}>
-  {{#ember-collection items=model buffer=10 cell-layout=(fixed-grid-layout itemWidth itemHeight) as |item|}}
+<div class="simple-list" style={{{concat 'position:relative;width:' this.containerWidth 'px;height:' this.containerHeight 'px;'}}}>
+  {{#ember-collection items=this.model buffer=10 cell-layout=(fixed-grid-layout this.itemWidth this.itemHeight) as |item|}}
     <div class="list-item">
       {{item.name}}
     </div>

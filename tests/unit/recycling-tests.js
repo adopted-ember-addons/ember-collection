@@ -8,7 +8,7 @@ import {
   findItems,
   findVisibleItems
 } from '../helpers/helpers';
-// import hbs from 'htmlbars-inline-precompile';
+// import { hbs } from 'ember-cli-htmlbars';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
 let compile, ListItemView, ReusableListItemView;

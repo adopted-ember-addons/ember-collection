@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -6,20 +5,20 @@ import {
   generateContent,
   sortItemsByPosition
 } from '../helpers/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let originalRaf = window.requestAnimationFrame;
 
-let template = hbs`{{#if showComponent}}
-<div style={{size-to-style width height}}>
+let template = hbs`{{#if this.showComponent}}
+<div style={{size-to-style this.width this.height}}>
 {{#ember-collection
-    items=content
-    cell-layout=(fixed-grid-layout itemWidth itemHeight)
-    estimated-width=width
-    estimated-height=height
-    scroll-left=offsetX
-    scroll-top=offsetY
-    buffer=buffer
+    items=this.content
+    cell-layout=(fixed-grid-layout this.itemWidth this.itemHeight)
+    estimated-width=this.width
+    estimated-height=this.height
+    scroll-left=this.offsetX
+    scroll-top=this.offsetY
+    buffer=this.buffer
     class="ember-collection"
     as |item| ~}}
   <div class="list-item">{{item.name}}</div>
@@ -50,10 +49,8 @@ module('raf', function(hooks) {
     await render(template);
     var positionSorted = sortItemsByPosition(this.element);
 
-    assert.equal(
-      $(positionSorted[0]).text().trim(),
-      "Item 1", "We rendered without requestAnimationFrame"
-    );
+    assert.dom(positionSorted[0])
+      .hasTextContaining("Item 1", "We rendered without requestAnimationFrame");
 
     // Force the component to be torn down.
     this.setProperties({showComponent: false});
