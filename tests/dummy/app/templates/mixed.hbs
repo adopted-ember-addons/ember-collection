@@ -1,5 +1,5 @@
 <div class="mixed" style="position:relative;height:500px">
-  {{#ember-collection items=model estimated-height=800 estimated-width=500 buffer=10 cell-layout=(mixed-grid-layout model) as |item|}}
+  {{#ember-collection items=this.model estimated-height=800 estimated-width=500 buffer=10 cell-layout=(mixed-grid-layout this.model) as |item|}}
     <div class="list-item">
       {{item.name}}
     </div>

@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { get } from '@ember/object';
 import { A } from '@ember/array';
 import { run } from '@ember/runloop';
@@ -6,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import '@ember/test-helpers';
 import { module, skip } from 'qunit';
 import { sortItemsByPosition, findItems } from '../helpers/helpers';
-// import hbs from 'htmlbars-inline-precompile';
+// import { hbs } from 'ember-cli-htmlbars';
 
 // TODO: Remove these declarations. They're just there to keep JSHint happy.
 let compile, itemPositions, ListItemView, ReusableListItemView;
@@ -83,10 +82,10 @@ module('multi-height', function(hooks) {
     var positionSorted = sortItemsByPosition(this);
     assert.equal(findItems(this).length, 4);
 
-    assert.equal($(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
-    assert.equal($(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
-    assert.equal($(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
-    assert.equal($(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
+    assert.dom(positionSorted[0]).hasText("Meow says Andrew expected: cat === cat 1");
+    assert.dom(positionSorted[1]).hasText("Meow says Bruce expected: cat === cat 3");
+    assert.dom(positionSorted[2]).hasText("Potato says Xbar expected: other === other 4");
+    assert.dom(positionSorted[3]).hasText("Woof says Caroline expected: dog === dog 5");
 
     assert.deepEqual(itemPositions(view), [
       { x:0, y:    0 }, // <-- in view
@@ -98,10 +97,10 @@ module('multi-height', function(hooks) {
     run(view, 'scrollTo', 1000);
     positionSorted = sortItemsByPosition(this);
 
-    assert.equal($(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
-    assert.equal($(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
-    assert.equal($(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
-    assert.equal($(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
+    assert.dom(positionSorted[0]).hasText("Potato says Xbar expected: other === other 12");
+    assert.dom(positionSorted[1]).hasText("Woof says Harry expected: dog === dog 13");
+    assert.dom(positionSorted[2]).hasText("Meow says Ingrid expected: cat === cat 14");
+    assert.dom(positionSorted[3]).hasText("Potato says Xbar expected: other === other 15");
 
     assert.deepEqual(itemPositions(view), [
       { x:0, y: 950 }, // <-- partially in view
@@ -184,10 +183,10 @@ module('multi-height', function(hooks) {
     var positionSorted = sortItemsByPosition(this);
     assert.equal(findItems(this).length, 4);
 
-    assert.equal($(positionSorted[0]).text(), "Meow says Andrew expected: cat === cat 1");
-    assert.equal($(positionSorted[1]).text(), "Meow says Bruce expected: cat === cat 3");
-    assert.equal($(positionSorted[2]).text(), "Potato says Xbar expected: other === other 4");
-    assert.equal($(positionSorted[3]).text(), "Woof says Caroline expected: dog === dog 5");
+    assert.dom(positionSorted[0]).hasText("Meow says Andrew expected: cat === cat 1");
+    assert.dom(positionSorted[1]).hasText("Meow says Bruce expected: cat === cat 3");
+    assert.dom(positionSorted[2]).hasText("Potato says Xbar expected: other === other 4");
+    assert.dom(positionSorted[3]).hasText("Woof says Caroline expected: dog === dog 5");
 
     assert.deepEqual(itemPositions(view), [
       { x:0, y:    0 }, // <-- in view
@@ -199,10 +198,10 @@ module('multi-height', function(hooks) {
     run(view, 'scrollTo', 1000);
     positionSorted = sortItemsByPosition(this);
 
-    assert.equal($(positionSorted[0]).text(), "Potato says Xbar expected: other === other 12");
-    assert.equal($(positionSorted[1]).text(), "Woof says Harry expected: dog === dog 13");
-    assert.equal($(positionSorted[2]).text(), "Meow says Ingrid expected: cat === cat 14");
-    assert.equal($(positionSorted[3]).text(), "Potato says Xbar expected: other === other 15");
+    assert.dom(positionSorted[0]).hasText("Potato says Xbar expected: other === other 12");
+    assert.dom(positionSorted[1]).hasText("Woof says Harry expected: dog === dog 13");
+    assert.dom(positionSorted[2]).hasText("Meow says Ingrid expected: cat === cat 14");
+    assert.dom(positionSorted[3]).hasText("Potato says Xbar expected: other === other 15");
 
     assert.deepEqual(itemPositions(view), [
       { x:0, y:  950 }, // <-- partially in view

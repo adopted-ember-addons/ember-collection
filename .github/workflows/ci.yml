@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 14
+
+jobs:
+
+  lint:
+    name: Lint Addon
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out a copy of the repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint JS
+        run: yarn lint:js
+        continue-on-error: true
+
+      - name: Lint HBS
+        run: yarn lint:hbs
+        continue-on-error: true
+
+  test-addon:
+    name: Test Addon
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        try-scenario:
+          - 'ember-lts-3.28'
+          - 'ember-lts-4.8'
+          - 'ember-lts-4.12'
+          - 'ember-release'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: yarn
+
+    - name: Install dependencies
+      run: yarn install --no-lockfile
+
+    - name: Test
+      run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}

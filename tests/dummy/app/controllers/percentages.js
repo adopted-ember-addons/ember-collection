@@ -1,10 +1,11 @@
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  columns: computed(function() {
-    return [20, 60, 20];
-  }),
+  init() {
+    this._super(...arguments);
+    this.set('columns', [20, 60, 20]);
+  },
+
   actions: {
     changeColumn: function(col) {
       switch (col) {
