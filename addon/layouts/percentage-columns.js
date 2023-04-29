@@ -8,6 +8,12 @@ export default class PercentageColumns
   // Each item's width is set to be the size of the column. The ShelfFirst lays out everything according to this fake grid.
   // When ember-collection asks for the style in formatItemStyle we pull the percent property to use as the width.
   constructor(itemCount, columns, height) {
+    if (Ember.typeOf(columns) === 'string') {
+      columns = Ember.String.w(columns).map(function(column) {
+        return parseInt(column);
+      });
+    }
+    
     let total = columns.reduce(function(a, b) {
         return a+b;
     });
