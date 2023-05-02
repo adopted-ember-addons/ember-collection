@@ -1,3 +1,15 @@
+## v2.0.0 (2023-05-02)
+
+#### :boom: Breaking Change
+* [#220](https://github.com/adopted-ember-addons/ember-collection/pull/220) Upgrade to Ember v4.12 ([@mukilane](https://github.com/mukilane))
+
+#### :house: Internal
+* [#220](https://github.com/adopted-ember-addons/ember-collection/pull/220) Upgrade to Ember v4.12 ([@mukilane](https://github.com/mukilane))
+
+#### Committers: 1
+- Mukil Elango ([@mukilane](https://github.com/mukilane))
+
+
 ## v1.0.0 (2020-06-24)
 
 ## v1.0.0-rc.0 (2020-05-25)
