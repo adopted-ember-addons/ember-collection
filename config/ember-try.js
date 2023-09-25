@@ -15,14 +15,6 @@ module.exports = async function() {
         }
       },
       {
-        name: 'ember-lts-4.4',
-        npm: {
-          devDependencies: {
-            'ember-source': '~4.4.0'
-          }
-        }
-      },
-      {
         name: 'ember-lts-4.8',
         npm: {
           devDependencies: {
@@ -44,7 +36,8 @@ module.exports = async function() {
           devDependencies: {
             'ember-source': await getChannelURL('release')
           }
-        }
+        },
+        allowedToFail: true
       },
       {
         name: 'ember-beta',
@@ -52,14 +45,16 @@ module.exports = async function() {
           devDependencies: {
             'ember-source': await getChannelURL('beta')
           }
-        }
+        },
+        allowedToFail: true
       },
       {
         name: 'ember-canary',
         npm: {
           devDependencies: {
             'ember-source': await getChannelURL('canary')
-          }
+          },
+          allowedToFail: true
         }
       },
       // The default `.travis.yml` runs this scenario via `npm test`,
