@@ -1,55 +1,52 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  itemWidth: 100,
-  itemHeight: 100,
-  containerWidth: 315,
-  containerHeight: 600,
-  scrollLeft: 0,
-  scrollTop: 0,
+export default class ScrollPositionController extends Controller {
+  @tracked itemWidth = 100;
+  @tracked itemHeight = 100;
+  @tracked containerWidth = 315;
+  @tracked containerHeight = 600;
+  @tracked scrollLeft = 0;
+  @tracked scrollTop = 0;
 
-  actions: {
-    updateContainerWidth: function(value) {
-      this.set('containerWidth', parseInt(value, 10));
-    },
-
-    updateContainerHeight: function(value) {
-      this.set('containerHeight', parseInt(value, 10));
-    },
-
-    makeSquare: function() {
-      this.setProperties({
-        itemWidth: 100,
-        itemHeight: 100,
-      });
-    },
-
-    makeRow: function() {
-      this.setProperties({
-        itemWidth: 300,
-        itemHeight: 100
-      });
-    },
-
-    makeLongRect: function() {
-      this.setProperties({
-        itemWidth: 100,
-        itemHeight: 50
-      });
-    },
-
-    makeTallRect: function() {
-      this.setProperties({
-        itemWidth: 50,
-        itemHeight: 100
-      });
-    },
-
-    scrollChange: function(scrollLeft, scrollTop){
-      this.setProperties({
-        scrollLeft: scrollLeft,
-        scrollTop: scrollTop
-      });
-    }
+  @action
+  updateContainerWidth(ev) {
+    this.containerWidth = parseInt(ev.target.value, 10);
   }
-});
+
+  @action
+  updateContainerHeight(ev) {
+    this.containerHeight = parseInt(ev.target.value, 10);
+  }
+
+  @action
+  makeSquare() {
+    this.itemWidth = 100;
+    this.itemHeight = 100;
+  }
+
+  @action
+  makeRow() {
+    this.itemWidth = 300;
+    this.itemHeight = 100;
+  }
+
+  @action
+  makeLongRect() {
+    this.itemWidth = 100;
+    this.itemHeight = 50;
+  }
+
+  @action
+  makeTallRect() {
+    this.itemWidth = 50;
+    this.itemHeight = 100;
+  }
+
+  @action
+  scrollChange(scrollLeft, scrollTop){
+    this.scrollLeft = scrollLeft;
+    this.scrollTop = scrollTop;
+  }
+}

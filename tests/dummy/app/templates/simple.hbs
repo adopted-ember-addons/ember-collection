@@ -1,12 +1,13 @@
 <h3>Simple</h3>
-<button {{action 'makeSquare'}}>Square</button>
-<button {{action 'makeRow'}}>Row</button>
-<button {{action 'makeLongRect'}}>Long Rectangle</button>
-<button {{action 'makeTallRect'}}>Tall Rectable</button>
-<button {{action 'shuffle'}}>Shuffle</button>
+<button {{on 'click' this.makeSquare}}>Square</button>
+<button {{on 'click' this.makeRow}}>Row</button>
+<button {{on 'click' this.makeLongRect}}>Long Rectangle</button>
+<button {{on 'click' this.makeTallRect}}>Tall Rectable</button>
+<button {{on 'click' this.shuffle}}>Shuffle</button>
 <p>
-  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{this.containerWidth}}
-  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{this.containerHeight}}
+  {{!-- template-lint-disable require-input-label --}}
+  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{this.updateContainerWidth}}> {{this.containerWidth}}
+  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{this.updateContainerHeight}}> {{this.containerHeight}}
 </p>
 <p>
 Item Height: {{this.itemHeight}}
@@ -15,9 +16,9 @@ Item Width: {{this.itemWidth}}
 <hr />
 
 <div class="simple-list" style={{{concat 'position:relative;width:' this.containerWidth 'px;height:' this.containerHeight 'px;'}}}>
-  {{#ember-collection items=this.model buffer=10 cell-layout=(fixed-grid-layout this.itemWidth this.itemHeight) as |item|}}
+  <EmberCollection @items={{this.model}} @buffer={{10}} @cell-layout={{fixed-grid-layout this.itemWidth this.itemHeight}} as |item|>
     <div class="list-item">
       {{item.name}}
     </div>
-  {{/ember-collection}}
+  </EmberCollection>
 </div>
