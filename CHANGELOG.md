@@ -1,3 +1,14 @@
+## v3.0.0 (2023-11-01)
+
+[BREAKING] Require Node 16+
+
+#### :boom: Breaking Change
+* [#222](https://github.com/adopted-ember-addons/ember-collection/pull/222) Update to latest layout-bin-packer ([@lukemelia](https://github.com/lukemelia))
+
+#### Committers: 1
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+
+
 ## v2.0.0 (2023-05-02)
 
 #### :boom: Breaking Change
