@@ -1,36 +1,29 @@
 <h3>Scroll Position</h3>
-<button {{action 'makeSquare'}}>Square</button>
-<button {{action 'makeRow'}}>Row</button>
-<button {{action 'makeLongRect'}}>Long Rectangle</button>
-<button {{action 'makeTallRect'}}>Tall Rectable</button>
+<button {{on 'click' this.makeSquare}}>Square</button>
+<button {{on 'click' this.makeRow}}>Row</button>
+<button {{on 'click' this.makeLongRect}}>Long Rectangle</button>
+<button {{on 'click' this.makeTallRect}}>Tall Rectable</button>
+
+{{!-- template-lint-disable require-input-label --}}
 <p>
-  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{action 'updateContainerWidth' value='target.value'}}> {{this.containerWidth}}
-  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{action 'updateContainerHeight' value='target.value'}}> {{this.containerHeight}}
+  Container Width: <input type='range' min=200 max=1000 value={{this.containerWidth}} oninput={{this.updateContainerWidth}}> {{this.containerWidth}}
+  Container Height: <input type='range' min=200 max=1000 value={{this.containerHeight}} oninput={{this.updateContainerHeight}}> {{this.containerHeight}}
 </p>
 <p>
 Item Height: {{this.itemHeight}}
 Item Width: {{this.itemWidth}}
 </p>
 <p>
-Scroll Left: {{input value=this.scrollLeft}}
-Scroll Top: {{input value=this.scrollTop}}
+Scroll Left: <Input @value={{this.scrollLeft}} />
+Scroll Top: <Input @value={{this.scrollTop}} />
 </p>
 <p>Note: The usage of this component remembers its scroll position. Try it by navigating away from this route and then returning.</p>
 <hr />
 
 <div class="simple-list" style={{{concat 'position:relative;width:' this.containerWidth 'px;height:' this.containerHeight 'px;'}}}>
-  {{#ember-collection
-      items=this.model
-      estimated-height=this.containerHeight
-      estimated-width=this.containerWidth
-      buffer=10
-      cell-layout=(fixed-grid-layout this.itemWidth this.itemHeight)
-      scroll-left=this.scrollLeft
-      scroll-top=this.scrollTop
-      scroll-change=(action "scrollChange")
-      as |item|}}
+  <EmberCollection @items={{this.model}} @estimated-height={{this.containerHeight}} @estimated-width={{this.containerWidth}} @buffer={{10}} @cell-layout={{fixed-grid-layout this.itemWidth this.itemHeight}} @scroll-left={{this.scrollLeft}} @scroll-top={{this.scrollTop}} @scroll-change={{this.scrollChange}} as |item|>
     <div class="list-item">
       {{item.name}}
     </div>
-  {{/ember-collection}}
+  </EmberCollection>
 </div>

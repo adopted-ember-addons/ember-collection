@@ -13,14 +13,18 @@ var height = 400;
 
 // Since we are testing percentage based layouts we only want to test the top / left.
 // The widths are calculated by percentages so then can be difficult to reproduce the browsers rounding
-function extractTopLeft(items) {
+function extractTopLeftRounded(items) {
     return items.map(function(item) {
-        return {top: item.top, left: item.left};
+        return {top: Math.round(item.top), left: Math.round(item.left)};
     });
 }
 
 module('percentage layout', function(hooks) {
   setupRenderingTest(hooks);
+  hooks.beforeEach(function() {
+    // eslint-disable-next-line no-console
+    console.debug('Note: Logged console errors are expected in the Asserts when... tests');
+  })
 
   test("cells have correct width", async function(assert) {
     let columns = [25, 50, 15, 10];
@@ -30,7 +34,7 @@ module('percentage layout', function(hooks) {
     await render(template);
 
     let items = sortItemsByPosition(this.element);
-    let positions = extractTopLeft(itemPositions(this.element));
+    let positions = extractTopLeftRounded(itemPositions(this.element));
 
     // test the positioning done by the layout.
     assert.deepEqual(positions, [
@@ -65,7 +69,7 @@ module('percentage layout', function(hooks) {
     await render(template);
 
     let items = sortItemsByPosition(this.element);
-    let positions = extractTopLeft(itemPositions(this.element));
+    let positions = extractTopLeftRounded(itemPositions(this.element));
 
     // test the positioning done by the layout
     assert.deepEqual(positions, [

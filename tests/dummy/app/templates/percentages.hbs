@@ -1,13 +1,13 @@
-<button {{action 'changeColumn' 1}}>25-50-25</button>
-<button {{action 'changeColumn' 2}}>20-20-40-20</button>
-<button {{action 'changeColumn' 3}}>33-33-33</button>
-<button {{action 'changeColumn' 4}}>50-50</button>
-<button {{action 'changeColumn' 5}}>100</button>
+<button {{on 'click' (fn this.changeColumn 1)}}>25-50-25</button>
+<button {{on 'click' (fn this.changeColumn 2)}}>20-20-40-20</button>
+<button {{on 'click' (fn this.changeColumn 3)}}>33-33-33</button>
+<button {{on 'click' (fn this.changeColumn 4)}}>50-50</button>
+<button {{on 'click' (fn this.changeColumn 5)}}>100</button>
 <hr />
 <div class="mixed" style="position:relative;height:500px;">
-  {{#ember-collection items=this.model estimated-height=800 estimated-width=1000 buffer=10 cell-layout=(percentage-columns-layout this.model.length this.columns 50) as |item|}}
+  <EmberCollection @items={{this.model}} @estimated-height={{800}} @estimated-width={{1000}} @buffer={{10}} @cell-layout={{percentage-columns-layout this.model.length this.columns 50}} as |item|>
     <div class="list-item">
       {{item.name}}
     </div>
-  {{/ember-collection}}
+  </EmberCollection>
 </div>

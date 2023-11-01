@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { set, get } from '@ember/object';
+import { action, set, get } from '@ember/object';
 import layout from './ember-collection/template';
 import identity from '../utils/identity';
 import needsRevalidate from '../utils/needs-revalidate';
@@ -222,26 +222,27 @@ export default Component.extend({
     return !this._renderNode;
   },
 
-  actions: {
-    scrollChange(scrollLeft, scrollTop) {
-      if (this._scrollChange) {
-        this._scrollChange(scrollLeft, scrollTop);
-      } else {
-        if (scrollLeft !== this._scrollLeft ||
-            scrollTop !== this._scrollTop) {
-          set(this, '_scrollLeft', scrollLeft);
-          set(this, '_scrollTop', scrollTop);
-          this._needsRevalidate();
-        }
-      }
-    },
-    clientSizeChange(clientWidth, clientHeight) {
-      if (this._clientWidth !== clientWidth ||
-          this._clientHeight !== clientHeight) {
-        set(this, '_clientWidth', clientWidth);
-        set(this, '_clientHeight', clientHeight);
+  @action
+  scrollChange(scrollLeft, scrollTop) {
+    if (this._scrollChange) {
+      this._scrollChange(scrollLeft, scrollTop);
+    } else {
+      if (scrollLeft !== this._scrollLeft ||
+          scrollTop !== this._scrollTop) {
+        set(this, '_scrollLeft', scrollLeft);
+        set(this, '_scrollTop', scrollTop);
         this._needsRevalidate();
       }
+    }
+  },
+
+  @action
+  clientSizeChange(clientWidth, clientHeight) {
+    if (this._clientWidth !== clientWidth ||
+        this._clientHeight !== clientHeight) {
+      set(this, '_clientWidth', clientWidth);
+      set(this, '_clientHeight', clientHeight);
+      this._needsRevalidate();
     }
   }
 });

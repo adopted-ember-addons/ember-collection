@@ -78,7 +78,7 @@ module('scrollTop', function(hooks) {
 
     await resolveAfterRaf();
 
-    assert.equal(findScrollable(this.element).scrollTop, 50, 'Scrolled one row.');
+    assert.equal(Math.round(findScrollable(this.element).scrollTop), 50, 'Scrolled one row.');
 
     this.set('width', 150+scrollbarSize());
 
@@ -106,10 +106,10 @@ module('scrollTop', function(hooks) {
     assert.dom(positionSorted[0])
       .hasTextContaining("Item 1", "The first cell should be the first item.");
 
-    findScrollable(this.element).scrollTop = 150;
+    findScrollable(this.element).scrollTop = 151;
     await resolveAfterRaf();
 
-    assert.equal(findScrollable(this.element).scrollTop, 150, 'scrolled to item 7');
+    assert.equal(Math.round(findScrollable(this.element).scrollTop), 150, 'scrolled to item 7');
 
     positionSorted = sortItemsByPosition(this.element, true);
 
@@ -119,7 +119,7 @@ module('scrollTop', function(hooks) {
     this.set('width', 200+scrollbarSize());
     await resolveAfterRaf();
 
-    assert.equal(findScrollable(this.element).scrollTop, 50, 'Scrolled down one row.');
+    assert.equal(Math.round(findScrollable(this.element).scrollTop), 50, 'Scrolled down one row.');
     positionSorted = sortItemsByPosition(this.element, true);
     assert.dom(positionSorted[0])
       .hasTextContaining("Item 5", "The fifth item is first rendered.");

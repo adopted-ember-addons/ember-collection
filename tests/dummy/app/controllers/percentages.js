@@ -1,33 +1,31 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  init() {
-    this._super(...arguments);
-    this.set('columns', [20, 60, 20]);
-  },
+export default class PercentagesController extends Controller {
+  @tracked columns = [20, 60, 20];
 
-  actions: {
-    changeColumn: function(col) {
-      switch (col) {
-        case 1:
-          this.set('columns', [25, 50, 25]);
-          break;
-        case 2:
-          this.set('columns', [20, 20, 40, 20]);
-          break;
-        case 3:
-          this.set('columns', [33.33, 33.33, 33.33]);
-          break;
-        case 4:
-          this.set('columns', [50, 50]);
-          break;
-        case 5:
-          this.set('columns', [100]);
-          break;
-        default:
-          this.set('columns', [50, 50]);
-          break;
-        }
-    }
+  @action
+  changeColumn(col) {
+    switch (col) {
+      case 1:
+        this.columns = [25, 50, 25];
+        break;
+      case 2:
+        this.columns = [20, 20, 40, 20];
+        break;
+      case 3:
+        this.columns = [33.33, 33.33, 33.33];
+        break;
+      case 4:
+        this.columns = [50, 50];
+        break;
+      case 5:
+        this.columns = [100];
+        break;
+      default:
+        this.columns = [50, 50];
+        break;
+      }
   }
-});
+}

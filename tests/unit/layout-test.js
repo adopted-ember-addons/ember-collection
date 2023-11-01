@@ -30,18 +30,9 @@ module('Basic layout tests', function(hooks) {
 
     var template = hbs`
       <div style={{size-to-style this.width this.height}}>
-        {{#ember-collection
-            items=this.content
-            cell-layout=this.fakeLayout
-            estimated-width=this.width
-            estimated-height=this.height
-            scroll-left=this.offsetX
-            scroll-top=this.offsetY
-            buffer=this.buffer
-            class="ember-collection"
-            as |item| ~}}
+        <EmberCollection @items={{this.content}} @cell-layout={{this.fakeLayout}} @estimated-width={{this.width}} @estimated-height={{this.height}} @scroll-left={{this.offsetX}} @scroll-top={{this.offsetY}} @buffer={{this.buffer}} @class="ember-collection" as |item|>
           <div class="list-item">{{item.name}}</div>
-        {{~/ember-collection~}}
+        </EmberCollection>
       </div>`;
 
     this.setProperties({height, width, itemHeight, itemWidth, content, columns, fakeLayout});
